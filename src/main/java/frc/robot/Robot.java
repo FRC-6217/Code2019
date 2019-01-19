@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.PneumaticsGrabber;
+import frc.robot.subsystems.PneumaticsLift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,7 +25,8 @@ import frc.robot.subsystems.Pneumatics;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain m_driveTrain;
-	public static Pneumatics m_pneumatics;
+	public static PneumaticsGrabber m_pneumatics_grabber;
+	public static PneumaticsLift m_pneumatics_lift;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -37,7 +39,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_driveTrain = new DriveTrain();
-		m_pneumatics = new Pneumatics();
+		m_pneumatics_grabber = new PneumaticsGrabber();
+		m_pneumatics_lift = new PneumaticsLift();
     m_oi = new OI();
     
     // chooser.addOption("My Auto", new MyAutoCommand());

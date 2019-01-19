@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.Grabbers;
 
-public class Pneumatics extends Subsystem{
-    private DoubleSolenoid sol1 = new DoubleSolenoid(1, 2);
+public class PneumaticsLift extends Subsystem{
+    private DoubleSolenoid sol1 = new DoubleSolenoid(3, 4);
     
     
     

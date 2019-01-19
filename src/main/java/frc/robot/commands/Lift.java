@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-public class Grabbers extends Command{
+public class Lift extends Command{
     private boolean buttonOpenValue;
     private boolean buttonCloseValue;
     private DoubleSolenoid.Value direction;
 
-    public Grabbers() {
+    public Lift() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.m_pneumatics_grabber);
+        requires(Robot.m_pneumatics_lift);
     }
 
     // Called just before this Command runs the first time
@@ -20,8 +20,8 @@ public class Grabbers extends Command{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        buttonOpenValue = Robot.m_oi.joystick.getRawButton(1);
-        buttonCloseValue = Robot.m_oi.joystick.getRawButton(2);
+        buttonOpenValue = Robot.m_oi.joystick.getRawButton(3);
+        buttonCloseValue = Robot.m_oi.joystick.getRawButton(4);
 
         if(buttonOpenValue){
             direction = DoubleSolenoid.Value.kForward;
