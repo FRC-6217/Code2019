@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -42,6 +43,11 @@ public class Robot extends TimedRobot {
     
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+
+    //Start running VisionThread function in a separate thread
+    Vision vis = new Vision();
+    Thread visionThread = new Thread(vis);
+    visionThread.start();
   }
 
   /**
