@@ -32,7 +32,7 @@ public class Lift extends Command{
         else{
             direction = DoubleSolenoid.Value.kOff;
         }
-        Robot.m_pneumatics_grabber.runSolenoid(direction);
+        Robot.m_pneumatics_lift.runSolenoid(direction);
     }
 
     // Make this return true when this Command no longer needs to run execute()
