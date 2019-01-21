@@ -9,12 +9,14 @@ package frc.robot;
 
 import org.opencv.core.Point;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Core;
 
@@ -57,9 +59,8 @@ public void run() {
 
 	while(true) {
 		cvSink.grabFrame(src);
-//
 		if(src.empty()){
-		    continue;}
+			continue;}
 		else if(src.channels()>1){
 		    Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV);}
 		else {gray = src;}
@@ -78,21 +79,21 @@ public void run() {
 
 			//if the area of the contour is too small, it will not be drawn
 			double contourArea = Imgproc.contourArea(contours.get(i));
-			if(contourArea < 20){
+			if(contourArea < 40){
 				continue;
 			}
 			else {
 				contoursFound++;
 			}
-			Imgproc.drawContours(src, contours, i, new Scalar(255, 0, 255), 3, 8, hierarchy, 0, new Point() );
+			// Imgproc.drawContours(src, contours, i, new Scalar(255, 0, 255), 3, 8, hierarchy, 0, new Point() );
 		}
 
 		 //Create some lists for circles and stuff
 		 java.util.List<MatOfPoint> contours_poly = new java.util.ArrayList<>(contours.size());
-		 java.util.List<MatOfPoint2f> center = new java.util.ArrayList<>(contours.size());
-		 java.util.List<MatOfFloat> radius = new java.util.ArrayList<>(contours.size());
+		 Point center = new Point();
+		 float[] radius = new float[1];
 
-		 java.util.List<MatOfPoint2f> centerLarge = new java.util.ArrayList<>();
+		 Mat centerLarge = new Mat(new Size(100,10), 5);
 		 java.util.List<MatOfFloat> radiusLarge = new java.util.ArrayList<>();
 
 		 //Set up sme variable for finding the topmost circles. maxY and secY will contain the Y coordinates
@@ -103,11 +104,15 @@ public void run() {
 		 int secIndex = -1;
 		 //Create a circle around contours, by looping through each one.
 		 for( int i = 0; i < contours.size(); i++ ) {
-			 approxPolyDP(Mat(contours.get(i)), contours_poly.get(i), 3, true);
-			 minEnclosingCircle((Mat)contours_poly.get(i), center.get(i), radius.get(i));
+			MatOfPoint c = contours.get(i);
+			if (Imgproc.contourArea(c) > 40) {
+				MatOfPoint2f c2f = new MatOfPoint2f(c.toArray());
+				Imgproc.minEnclosingCircle(c2f, center, radius);
+			}
+			// Imgproc.circle(src, center, (int)radius[0], new Scalar(255, 0, 255), 2);
 
 			 //If they are big enough, draw them and find the top two.
-			 if (radius.get(i) > 10.0) {
+			 if (radius[i] > 10.0) {
 				 if (center.get(i).y < maxY) {
 					 secY = maxY;
 					 secIndex = maxIndex;
@@ -117,21 +122,46 @@ public void run() {
 					 secY = center.get(i).row(y);
 					 secIndex = i;
 				 }
-				 Scalar color = new Scalar(50, 100, 200);
+				//  Scalar color = new Scalar(50, 100, 200);
 				 //cv::drawContours(src, contours, i, color, 2, 8, hierarchy, 0, cv::Point());
-				 drawContours(src, contours_poly, i, color, 1, 8, hierarchy, 0, new Point());
+				//  Imgproc.drawContours(src, contours_poly, i, color, 1, 8, hierarchy, 0, new Point());
 				 //cv::rectangle(src, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
-			 }
+
 		 }
 
 		 //draw a line down the middle.
-		 line(src, new Point(src.cols/2,0), new Point(src.cols/2,src.rows), new Scalar(0,0,255), 1);
+		 Imgproc.line(src, new Point(src.cols()/2,0), new Point(src.cols()/2,src.rows()), new Scalar(0,0,255), 1);
+
+		 //draw the circles.
+		 Imgproc.circle(src, center, (int)radius[maxIndex], new Scalar(50, 100, 200), 2);
+		 Imgproc.circle(src, center, (int)radius[secIndex], new Scalar(50, 100, 200), 2);
+		  //Find the average of the x coordinates of the largest two circles.
+		//   Mat mean = new Mat();
+		//   int width = src.cols();
+		//   int pixelCenter = width / 2;
+
+		//   //only process if there are two circles found.
+		//   if (maxIndex > -1 && secIndex > -1) {
+		// 	  //draw the circles.
+		// 	  Imgproc.circle(src, center, (int)radius[maxIndex], new Scalar(50, 100, 200), 2, 8, 0);
+		// 	  Imgproc.circle(src, center, (int)radius[secIndex], new Scalar(50, 100, 200), 2, 8, 0);
+
+		// 	  //This function finds the average.
+		// 	  Core.reduce(centerLarge, mean, 1, Core.REDUCE_AVG);
+
+		// 	  //This creates converts the matrix to a point, and draws a dot.
+		// 	  List<MatOfPoint2f> meanPoint = new ArrayList<>(1);
+		// 	  Imgproc.circle(src, meanPoint, 3, new Scalar(0, 0, 255), -1, 8, 0);
+
+		// 	  //Set the input to the PID to the current offset.
+		// 	  visionSource.setInput((double)meanPoint.x - (double)pixelCenter);
 
 
 
 		outputStreamStd.putFrame(src);
 	}
 }
+
 
 public boolean GetSeeGreen() {
 	return seeGreen;
