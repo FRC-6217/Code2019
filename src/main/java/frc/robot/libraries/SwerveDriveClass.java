@@ -4,8 +4,8 @@ package frc.robot.libraries;
 public class SwerveDriveClass {
 
 	// creating constants for the width and length;
-	public final double L = 20.5;
-	public final double W = 14;
+	public final double L = 14;
+	public final double W = 20.5;
 
 	private WheelDrive backRight;
 	private WheelDrive backLeft;
@@ -28,7 +28,6 @@ public class SwerveDriveClass {
 		 */
 		double r = Math.sqrt((L * L) + (W * W));
 		y *= -1;
-
 		// The next thing we do is assign the value a to the equation. a makes the robot
 		// go backwards
 		// Note: The L/r part makes the code in radians not degrees
@@ -58,8 +57,8 @@ public class SwerveDriveClass {
 		 * (radius,angle) to find the angle that applies to our robot. Then it's divided
 		 * by pi to turn from radians into degrees.
 		 */
-		double backRightAngle = Math.atan2(a, d) / Math.PI;
 		double backLeftAngle = Math.atan2(a, c) / Math.PI;
+		double backRightAngle = Math.atan2(a, d) / Math.PI;
 		double frontRightAngle = Math.atan2(b, d) / Math.PI;
 		double frontLeftAngle = Math.atan2(b, c) / Math.PI;
 
@@ -67,9 +66,9 @@ public class SwerveDriveClass {
 		 * Lastly the results of the above code are all plugged back in to be used
 		 * later.
 		 */
-		backRight.drive(-backRightSpeed * .4, backRightAngle);
-		backLeft.drive(backLeftSpeed * .4 , backLeftAngle);
-		frontRight.drive(-frontRightSpeed * .4, frontRightAngle);
-		frontLeft.drive(frontLeftSpeed * .4, frontLeftAngle);
+		backRight.drive(backRightSpeed , backRightAngle);
+		backLeft.drive(backLeftSpeed , backLeftAngle);
+		frontRight.drive(-frontRightSpeed , frontRightAngle);
+		frontLeft.drive(-frontLeftSpeed , frontLeftAngle);
 	}
 }
