@@ -20,6 +20,7 @@ public class WheelDrive {
 	private double rAngle;
 	private double shortest;
 	private boolean isF;
+	private boolean specialPID;
 
 	public WheelDrive(int angleMotor, int speedMotor, int encoder) {
 		this.angleMotor = new VictorSPX(angleMotor);
@@ -85,20 +86,36 @@ public class WheelDrive {
 			angle = rAngle;
 			speed *= -1;
 		}
+		
+		if((enc.getVoltage() * 72 / 99) > 90 || (enc.getVoltage()* 72 / 99) < 270){
+			if(angle + shortest > 360 || angle - shortest < 0){
+				specialPID = true;
+			}
+			else{
+				specialPID = false;
+			}
+		}
+
 		angle -= 180;
 		angle /= 180;
 		
 		speedMotor.set(ControlMode.PercentOutput, speed);
 		
-		double setpoint = (angle * (MAX_VOLTS * 0.5)) + (MAX_VOLTS * 0.5); // Optimization offset can be calculated																// here.
-		if (setpoint < 0) {
-			setpoint = MAX_VOLTS + setpoint;
-		}
-		if (setpoint > MAX_VOLTS) {
-			setpoint = setpoint - MAX_VOLTS;
+		if(specialPID){
+			//insert special PID for crossing 0 here
+			angleMotor.set(ControlMode.PercentOutput, ((shortest-180)/180));
 		}
 
-		pidController.setSetpoint(setpoint);
+		else{
+			double setpoint = (angle * (MAX_VOLTS * 0.5)) + (MAX_VOLTS * 0.5); // Optimization offset can be calculated																// here.
+			if (setpoint < 0) {
+				setpoint = MAX_VOLTS + setpoint;
+			}
+			if (setpoint > MAX_VOLTS) {
+				setpoint = setpoint - MAX_VOLTS;
+			}
+			pidController.setSetpoint(setpoint);
+		}
 	}
-
 }
+

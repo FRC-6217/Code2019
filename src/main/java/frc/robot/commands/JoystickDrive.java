@@ -11,6 +11,7 @@ public class JoystickDrive extends Command {
     private double x;
     private double y;
     private double z;
+    private boolean gyroButton;
     private double governer;
 
     private double x1;
@@ -23,7 +24,7 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        
+        Robot.m_driveTrain.ResetGryo();   
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,8 +32,13 @@ public class JoystickDrive extends Command {
         x = Robot.m_oi.joystick.getRawAxis(0);
         y = Robot.m_oi.joystick.getRawAxis(1);
         z = Robot.m_oi.joystick.getRawAxis(2);
+        gyroButton = Robot.m_oi.joystick.getRawButton(7);
         governer = Robot.m_oi.joystick.getRawAxis(3);
     
+        if(gyroButton){
+            Robot.m_driveTrain.ResetGryo();
+        }
+        
         x = (Math.abs(x) > .2 ? x : 0.0);
         y = (Math.abs(y) > .2 ? y : 0.0);
         z = (Math.abs(z) > .2 ? z : 0.0);
@@ -44,6 +50,7 @@ public class JoystickDrive extends Command {
 
 
         Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
+        gyroButton = false;
     }
 
     // Make this return true when this Command no longer needs to run execute()
