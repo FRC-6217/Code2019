@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1024;
+package frc.robot.libraries;
 /**
  * 
  * @author 2B || !2B from https://www.chiefdelphi.com/forums/showpost.php?p=1443536&postcount=7
