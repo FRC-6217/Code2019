@@ -34,10 +34,10 @@ public class BallPickupJoystick extends Command {
     spinButton = Robot.m_oi.joystick.getRawButton(5);
 
     if(upButton){
-      Robot.m_ballPickup.pickupDrive(.2);
+      Robot.m_ballPickup.pickupDrive(1);
     }
     if(downButton){
-      Robot.m_ballPickup.pickupDrive(-.2);
+      Robot.m_ballPickup.pickupDrive(-1);
     }
     if(spinButton){
       Robot.m_ballPickup.wheelDrive(.2);
