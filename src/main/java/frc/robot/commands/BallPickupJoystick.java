@@ -35,12 +35,14 @@ public class BallPickupJoystick extends Command {
 
     if(upButton){
       Robot.m_ballPickup.pickupDrive(1);
+      //isFinished();
     }
     if(downButton){
       Robot.m_ballPickup.pickupDrive(-1);
+      //isFinished();
     }
     if(spinButton){
-      Robot.m_ballPickup.wheelDrive(.2);
+      Robot.m_ballPickup.wheelDrive(-1);
     }
   }
 
@@ -53,6 +55,7 @@ public class BallPickupJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    isFinished();
   }
 
   // Called when another command which requires one or more of the same
