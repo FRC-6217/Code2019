@@ -29,10 +29,11 @@ public class Align extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    y = Robot.m_oi.joystick.getRawAxis(1);
-    y = (Math.abs(y) > .15 ? y : 0.0);
-    error = Robot.m_pixycam.getError();
-    Robot.m_driveTrain.Drive (error/160, y, 0);
+    Robot.m_pixycam.getError();
+    //y = Robot.m_oi.joystick.getRawAxis(1);
+    //y = (Math.abs(y) > .15 ? y : 0.0);
+    //error = Robot.m_pixycam.getError();
+    //Robot.m_driveTrain.Drive (error/160, y, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
