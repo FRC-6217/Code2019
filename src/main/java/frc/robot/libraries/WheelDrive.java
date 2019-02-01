@@ -11,7 +11,7 @@ public class WheelDrive {
 	private VictorSPX speedMotor;
 	private VictorSPX_PIDOutput motorPID;
 	private PIDController pidController;
-	private final double MAX_VOLTS = 4.95;
+	private final double MAX_VOLTS = 4.987;
 	private AnalogInput enc;
 	private double f1;
 	private double f2;
@@ -20,7 +20,6 @@ public class WheelDrive {
 	private double rAngle;
 	private double shortest;
 	private boolean isF;
-	private boolean specialPID;
 
 	public WheelDrive(int angleMotor, int speedMotor, int encoder) {
 		this.angleMotor = new VictorSPX(angleMotor);
@@ -28,9 +27,9 @@ public class WheelDrive {
 		this.motorPID = new VictorSPX_PIDOutput(this.angleMotor);
 		this.enc = new AnalogInput(encoder);
 		// VictorSPX is not a subclass of PIDOutput;
-		pidController = new PIDController(1, 0, 0, enc, this.motorPID);
+		pidController = new PIDController(1, 0, 0.5, enc, this.motorPID);
 
-		pidController.setInputRange(0, MAX_VOLTS);
+		pidController.setInputRange(0.015, MAX_VOLTS);
 		pidController.setOutputRange(-1, 1);
 		pidController.setContinuous();
 		pidController.enable();
@@ -86,36 +85,19 @@ public class WheelDrive {
 			angle = rAngle;
 			speed *= -1;
 		}
-		
-		if((enc.getVoltage() * 72 / 99) > 90 || (enc.getVoltage()* 72 / 99) < 270){
-			if(angle + shortest > 360 || angle - shortest < 0){
-				specialPID = true;
-			}
-			else{
-				specialPID = false;
-			}
-		}
 
 		angle -= 180;
 		angle /= 180;
 		
 		speedMotor.set(ControlMode.PercentOutput, speed);
-		
-		if(specialPID){
-			//insert special PID for crossing 0 here
-			angleMotor.set(ControlMode.PercentOutput, ((shortest-180)/180));
-		}
-
-		else{
-			double setpoint = (angle * (MAX_VOLTS * 0.5)) + (MAX_VOLTS * 0.5); // Optimization offset can be calculated																// here.
-			if (setpoint < 0) {
+			double setpoint = (angle * (MAX_VOLTS * 0.5)) + (MAX_VOLTS * 0.5); // Optimization offset can be calculated	here.
+			if (setpoint < 0.015) {
 				setpoint = MAX_VOLTS + setpoint;
 			}
 			if (setpoint > MAX_VOLTS) {
 				setpoint = setpoint - MAX_VOLTS;
 			}
 			pidController.setSetpoint(setpoint);
-		}
 	}
 }
 
