@@ -27,7 +27,9 @@ public class Pixycam extends Subsystem {
   private double average;
   private double center;
 
-  public double getError() throws PixyException {
+  public double getError() {
+    try{
+      
     packet = pixy.readPacket(0);
     x1 = 0;
     
@@ -46,6 +48,10 @@ public class Pixycam extends Subsystem {
         i++;
       }
     }
+  }
+  
+  catch(PixyException e){
+  }
 
     center = 160;
     average = (x1 + x2)/2;

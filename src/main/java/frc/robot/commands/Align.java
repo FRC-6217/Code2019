@@ -12,6 +12,7 @@ import frc.robot.Robot;
 
 public class Align extends Command {
   private double y;
+  private double error;
 
   public Align() {
     requires(Robot.m_pixycam);
@@ -30,6 +31,8 @@ public class Align extends Command {
   protected void execute() {
     y = Robot.m_oi.joystick.getRawAxis(1);
     y = (Math.abs(y) > .15 ? y : 0.0);
+    error = Robot.m_pixycam.getError();
+    Robot.m_driveTrain.Drive (error/160, y, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()
