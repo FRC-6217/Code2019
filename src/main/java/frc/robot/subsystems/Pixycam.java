@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.libraries.PixyException;
 import frc.robot.libraries.PixyI2C;
 import frc.robot.libraries.PixyPacket;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Add your docs here.
@@ -32,16 +32,13 @@ public class Pixycam extends Subsystem {
 
   public double getError() {
     try{
-      
-    packet = pixy.readPacket(1);
-    x1 = packet.X;
-    SmartDashboard.putNumber("x", x1);
-
-  }
+      packet = pixy.readPacket(1);
+      x1 = packet.X;
+      SmartDashboard.putNumber("x", x1);
+    }
   
   catch(PixyException e){
   }
-
     center = 160;
     average = (x1 + x2)/2;
     return center - average;
