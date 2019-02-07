@@ -127,12 +127,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    
     Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
     pixy.init();
     pixy.getCCC().getBlocks(false, 2, 2);
-    ArrayList<Block> data = new ArrayList<>();
-    data = pixy.getCCC().getBlocks();
-    Block block = new Block();  
+    //SmartDashboard.PutNumber("X1", pixy.GetCCC().getBlock().get(0).getX());
+    
+    //ArrayList<Block> data = new ArrayList<>();
+    //data = pixy.getCCC().getBlocks();
+    //Block block = new Block
   }
 
   /**

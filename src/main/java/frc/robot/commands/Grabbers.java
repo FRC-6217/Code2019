@@ -2,12 +2,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Victor;
 
 public class Grabbers extends Command{
     private boolean buttonOpenValue;
     private boolean buttonCloseValue;
+    private boolean buttonMotorOn;
+    private boolean buttonMotorOff;
     private DoubleSolenoid.Value direction;
+    private VictorSPX rightMotor;
+    private VictorSPX leftMotor;
 
     public Grabbers() {
         // Use requires() here to declare subsystem dependencies
@@ -20,6 +28,8 @@ public class Grabbers extends Command{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        
+        
         buttonOpenValue = Robot.m_oi.joystick.getRawButton(1);
         buttonCloseValue = Robot.m_oi.joystick.getRawButton(2);
 
