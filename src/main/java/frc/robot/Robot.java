@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,8 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
-import frc.robot.subsystems.Pixycam;
-
+import frc.robot.libraries.Pixy.*;
+import frc.robot.libraries.Pixy.Pixy2CCC.Block;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,7 +29,6 @@ import frc.robot.subsystems.Pixycam;
 public class Robot extends TimedRobot {
   public static DriveTrain m_driveTrain;
   public static Pneumatics m_pneumatics;
-  public static Pixycam m_pixycam;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -126,6 +127,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
+    Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
+    pixy.init();
+    pixy.getCCC().getBlocks(false, 2, 2);
+    ArrayList<Block> data = new ArrayList<>();
+    data = pixy.getCCC().getBlocks();
+    Block block = new Block();  
   }
 
   /**
