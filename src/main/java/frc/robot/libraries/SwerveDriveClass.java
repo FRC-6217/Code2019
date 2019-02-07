@@ -4,8 +4,8 @@ package frc.robot.libraries;
 public class SwerveDriveClass {
 
 	// creating constants for the width and length;
-	public final double L = 14;
-	public final double W = 20.5;
+	public final double L = 19;
+	public final double W = 24;
 
 	private WheelDrive backRight;
 	private WheelDrive backLeft;
