@@ -130,9 +130,9 @@ public class Robot extends TimedRobot {
     
     Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
     pixy.init();
-    pixy.getCCC().getBlocks(false, 2, 2);
-    //SmartDashboard.PutNumber("X1", pixy.GetCCC().getBlock().get(0).getX());
-    
+    pixy.getCCC().getBlocks(false, 1, 2);
+    SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks().get(0).getX());
+  
     //ArrayList<Block> data = new ArrayList<>();
     //data = pixy.getCCC().getBlocks();
     //Block block = new Block
