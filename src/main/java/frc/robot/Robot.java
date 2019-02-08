@@ -43,7 +43,8 @@ public class Robot extends TimedRobot {
     m_driveTrain = new DriveTrain();
 		m_pneumatics = new Pneumatics();
     m_oi = new OI();
-    
+    m_pixycam = new Pixycam();
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
