@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.BallPickupJoystick;
@@ -15,8 +16,8 @@ import frc.robot.commands.BallPickupJoystick;
  * Add your docs here.
  */
 public class BallPickup extends Subsystem {
-  private VictorSP wheel = new VictorSP(1);
-  private VictorSP pickup = new VictorSP(0);
+  private Spark wheel = new Spark(0);
+  private VictorSP pickup = new VictorSP(1);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
