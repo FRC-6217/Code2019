@@ -38,7 +38,7 @@ public class BallPickupJoystick extends Command {
   protected void execute() {
     upButton = Robot.m_oi.joystick.getRawButton(12);
     downButton = Robot.m_oi.joystick.getRawButton(11);
-    spinButton = Robot.m_oi.joystick.getRawButton(5);
+    spinButton = Robot.m_oi.joystick.getRawButton(7);
     liftUpButton = Robot.m_oi.joystick.getRawButton(6);
     liftDownButton = Robot.m_oi.joystick.getRawButton(4);
     liftAmountButtonUp = Robot.m_oi.joystick.getRawButton(5);
@@ -49,9 +49,13 @@ public class BallPickupJoystick extends Command {
     }
     else if(liftAmountButtonUp && liftAmount < 1) {
       Robot.m_Elevator.increaseSpeedBy(liftSpeedDelta);
+      liftAmount += liftSpeedDelta;
+      System.out.println("Speed is set up to: " + liftAmount);
     }
     else if(liftAmountButtonDown && liftAmount > -1) {
       Robot.m_Elevator.decreaseSpeedBy(liftSpeedDelta);
+      liftAmount -= liftSpeedDelta;
+      System.out.println("Speed is set to: " + liftAmount);
     }
 
 
@@ -65,23 +69,25 @@ public class BallPickupJoystick extends Command {
       Robot.m_Elevator.goDown();
     }
 
-    if(!upButton && !downButton){
-      Robot.m_ballPickup.pickupDrive(0);
+    if((!upButton && !downButton) || (upButton && downButton)){
+      Robot.m_ballPickup.stopArm();
     }
     if(upButton){
-      Robot.m_ballPickup.pickupDrive(1);
+      Robot.m_ballPickup.armUp();
+      System.out.println("going up");
       //isFinished();
     }
     if(downButton){
-      Robot.m_ballPickup.pickupDrive(-1);
+      Robot.m_ballPickup.armDown();
+      System.out.println("going down");
       //isFinished();
     }
 
     if(spinButton){
-      Robot.m_ballPickup.wheelDrive(.5);
+      Robot.m_ballPickup.grabberOn();
     }
     else{
-      Robot.m_ballPickup.wheelDrive(0);
+      Robot.m_ballPickup.grabberOff();
     }
   }
 

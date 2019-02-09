@@ -34,7 +34,7 @@ public class Elevator extends Subsystem {
     
     public Elevator(int motorChannel, int encoderChannelA, int encoderChannelB) {
         motor = new Spark(motorChannel);
-        encoder = new Encoder(encoderChannelA, encoderChannelB);
+        //encoder = new Encoder(encoderChannelA, encoderChannelB);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Elevator extends Subsystem {
     public double increaseSpeedBy(double amount) {
         speed += amount;
         if(debugEnable) {
-            System.out.println("Speed is set to " + speed);
+        //    System.out.println("Speed is set to " + speed);
         }
         return speed;
     }
@@ -82,7 +82,7 @@ public class Elevator extends Subsystem {
     public double decreaseSpeedBy(double amount) {
         speed -= amount;
         if(debugEnable) {
-            System.out.println("Speed is set to: " + speed);
+         //   System.out.println("Speed is set to: " + speed);
         }
         return speed;
     }
