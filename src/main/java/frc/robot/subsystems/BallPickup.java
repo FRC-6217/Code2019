@@ -16,8 +16,10 @@ import frc.robot.commands.BallPickupJoystick;
  * Add your docs here.
  */
 public class BallPickup extends Subsystem {
-  private Spark wheel = new Spark(0);
-  private VictorSP pickup = new VictorSP(1);
+  //private Spark wheel = new Spark(0);
+  private VictorSP wheel = new VictorSP(1);
+  private VictorSP pickup1 = new VictorSP(2);
+  private VictorSP pickup2 = new VictorSP(3);
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -33,6 +35,7 @@ public class BallPickup extends Subsystem {
   }
 
   public void pickupDrive(double speed){
-    pickup.set(speed);
+    pickup1.set(speed);
+    pickup2.set(speed);
   }
 }
