@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.BallPickup;
+import frc.robot.subsystems.Elevator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
   public static DriveTrain m_driveTrain;
   public static Pneumatics m_pneumatics;
   public static BallPickup m_ballPickup;
+  public static Elevator m_Elevator;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -41,6 +43,7 @@ public class Robot extends TimedRobot {
     m_driveTrain = new DriveTrain();
     m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup();
+    m_Elevator = new Elevator(0, 0, 0);
     m_oi = new OI();
     
     // chooser.addOption("My Auto", new MyAutoCommand());

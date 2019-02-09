@@ -14,9 +14,16 @@ public class BallPickupJoystick extends Command {
   private boolean upButton;
   private boolean downButton;
   private boolean spinButton;
+  private boolean liftUpButton;
+  private boolean liftDownButton;
+  private boolean liftAmountButtonUp;
+  private boolean liftAmountButtonDown;
+  private double liftAmount = 0.1;
+  private static final double liftSpeedDelta = 0.1;
 
   public BallPickupJoystick() {
     requires(Robot.m_ballPickup);
+    requires(Robot.m_Elevator);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -32,6 +39,31 @@ public class BallPickupJoystick extends Command {
     upButton = Robot.m_oi.joystick.getRawButton(12);
     downButton = Robot.m_oi.joystick.getRawButton(11);
     spinButton = Robot.m_oi.joystick.getRawButton(5);
+    liftUpButton = Robot.m_oi.joystick.getRawButton(6);
+    liftDownButton = Robot.m_oi.joystick.getRawButton(4);
+    liftAmountButtonUp = Robot.m_oi.joystick.getRawButton(5);
+    liftAmountButtonDown = Robot.m_oi.joystick.getRawButton(3);
+
+    if ((!liftAmountButtonUp && !liftAmountButtonDown) || (liftAmountButtonUp && liftAmountButtonDown)) {
+    
+    }
+    else if(liftAmountButtonUp && liftAmount < 1) {
+      Robot.m_Elevator.increaseSpeedBy(liftSpeedDelta);
+    }
+    else if(liftAmountButtonDown && liftAmount > -1) {
+      Robot.m_Elevator.decreaseSpeedBy(liftSpeedDelta);
+    }
+
+
+    if((!liftUpButton && !liftDownButton) || (liftUpButton && liftDownButton)) {
+      Robot.m_Elevator.stop();
+    }
+    if(liftUpButton && !liftDownButton) {
+      Robot.m_Elevator.goUp();
+    }
+    if(!liftUpButton && liftDownButton) {
+      Robot.m_Elevator.goDown();
+    }
 
     if(!upButton && !downButton){
       Robot.m_ballPickup.pickupDrive(0);
@@ -47,7 +79,8 @@ public class BallPickupJoystick extends Command {
 
     if(spinButton){
       Robot.m_ballPickup.wheelDrive(.5);
-    }else{
+    }
+    else{
       Robot.m_ballPickup.wheelDrive(0);
     }
   }
