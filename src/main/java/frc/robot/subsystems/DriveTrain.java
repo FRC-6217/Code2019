@@ -47,4 +47,20 @@ public class DriveTrain extends Subsystem {
 	public void Drive(double x, double y, double z, double governer) {
 		swerveDrive.drive(x*governer, y*governer, z*governer);
 	}
+
+	public void UseFL(double speed, double angle) {
+		frontLeft.drive(speed, angle);
+	}
+	
+	public void UseFR(double speed, double angle) {
+		frontRight.drive(speed, angle);
+	}
+
+	public void UseBL(double speed, double angle) {
+		backLeft.drive(speed, angle);
+	}
+
+	public void UseBR(double speed, double angle) {
+		backRight.drive(speed, angle);
+	}
 }
