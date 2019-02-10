@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Waypoint;
+import frc.robot.commands.AutoWithPathfinder;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
@@ -105,8 +108,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
-
+ //   m_autonomousCommand = m_chooser.getSelected();
+    Waypoint[] args = {new Waypoint(-5, 0, 0), new Waypoint(-3, 0, Pathfinder.d2r(30)), new Waypoint(0, 2, 0)};
+    m_autonomousCommand = new AutoWithPathfinder(args);
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
