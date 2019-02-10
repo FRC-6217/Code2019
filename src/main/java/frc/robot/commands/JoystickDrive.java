@@ -29,11 +29,11 @@ public class JoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        x = Robot.m_oi.joystick.getRawAxis(0);
-        y = Robot.m_oi.joystick.getRawAxis(1);
-        z = Robot.m_oi.joystick.getRawAxis(2);
-        gyroButton = Robot.m_oi.joystick.getRawButton(7);
-        governer = Robot.m_oi.joystick.getRawAxis(3);
+        x = Robot.m_oi_pilot.joystick.getRawAxis(0);
+        y = Robot.m_oi_pilot.joystick.getRawAxis(1);
+        z = Robot.m_oi_pilot.joystick.getRawAxis(2);
+        gyroButton = Robot.m_oi_pilot.joystick.getRawButton(7);
+        governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
         if(gyroButton){
             Robot.m_driveTrain.ResetGryo();

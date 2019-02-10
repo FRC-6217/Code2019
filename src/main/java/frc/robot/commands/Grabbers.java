@@ -20,8 +20,8 @@ public class Grabbers extends Command{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        buttonOpenValue = Robot.m_oi.joystick.getRawButton(1);
-        buttonCloseValue = Robot.m_oi.joystick.getRawButton(2);
+        buttonOpenValue = Robot.m_oi_pilot.joystick.getRawButton(1);
+        buttonCloseValue = Robot.m_oi_pilot.joystick.getRawButton(2);
 
         if(buttonOpenValue){
             direction = DoubleSolenoid.Value.kForward;

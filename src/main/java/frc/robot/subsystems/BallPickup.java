@@ -65,11 +65,11 @@ public class BallPickup extends Subsystem {
       leftArm.set(armSpeed);
     }
     else {
-      stopArm();
+      armStop();
     }
   }
 
-  public void stopArm() {
+  public void armStop() {
     rightArm.set(0);
     leftArm.set(0);
   }
@@ -80,7 +80,7 @@ public class BallPickup extends Subsystem {
       leftArm.set(-armSpeed);
     }
     else {
-      stopArm();
+      armStop();
     }
   }
 
@@ -92,6 +92,10 @@ public class BallPickup extends Subsystem {
       speed = 0;
     } 
     armSpeed = speed;
+  }
+
+  public double getArmSpeed() {
+    return armSpeed;
   }
 
   public void setWheelSpeed(double speed) {

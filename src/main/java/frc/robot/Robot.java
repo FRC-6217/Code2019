@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
+import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
@@ -29,8 +30,11 @@ public class Robot extends TimedRobot {
   public static Pneumatics m_pneumatics;
   public static BallPickup m_ballPickup;
   public static Elevator m_Elevator;
-  public static OI m_oi;
+  public static OI m_oi_pilot;
+  public static XboxController m_oi_copilot;
   //to-do
+  public static final int USB_PILOT_PORT = 0;
+  public static final int USB_COPILOT_PORT = 1;
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 3;
   public static final int LEFT_ARM_MOTOR_CHANNEL = 2;
   public static final int BALL_GRABBER_WHEEL_MOTOR = 1;
@@ -55,7 +59,8 @@ public class Robot extends TimedRobot {
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
-    m_oi = new OI();
+    m_oi_pilot = new OI(USB_PILOT_PORT);
+    m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
