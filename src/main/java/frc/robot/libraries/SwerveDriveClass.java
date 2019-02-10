@@ -68,7 +68,7 @@ public class SwerveDriveClass {
 		 */
 		backRight.drive(backRightSpeed , backRightAngle);
 		backLeft.drive(backLeftSpeed , backLeftAngle);
-		frontRight.drive(-frontRightSpeed , frontRightAngle);
-		frontLeft.drive(-frontLeftSpeed , frontLeftAngle);
+		frontRight.drive(frontRightSpeed , frontRightAngle);
+		frontLeft.drive(frontLeftSpeed , frontLeftAngle);
 	}
 }

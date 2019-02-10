@@ -53,8 +53,8 @@ public class BallPickup extends Subsystem {
   }
 
   private boolean checkLimits() {
-    upperLimit = limitSwitchUp.get();
-    lowerLimit = limitSwitchDown.get();
+    upperLimit = false; //limitSwitchUp.get();
+    lowerLimit = false;// limitSwitchDown.get();
     return upperLimit || lowerLimit;
   }
 

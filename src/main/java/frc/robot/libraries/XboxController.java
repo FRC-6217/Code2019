@@ -23,43 +23,43 @@ public class XboxController {
     }
 
     public boolean getButtonA() {
-        return joystick.getRawButton(0);
+        return joystick.getRawButton(0+1);
     }
 
     public boolean getButtonB() {
-        return joystick.getRawButton(1);
+        return joystick.getRawButton(1+1);
     }
 
     public boolean getButtonX() {
-        return joystick.getRawButton(2);
+        return joystick.getRawButton(2+1);
     }
     
     public boolean getButtonY() {
-        return joystick.getRawButton(3);
+        return joystick.getRawButton(3+1);
     }
 
     public boolean getButtonLB() {
-        return joystick.getRawButton(4);
+        return joystick.getRawButton(4+1);
     }
 
     public boolean getButtonRB() {
-        return joystick.getRawButton(5);
+        return joystick.getRawButton(5+1);
     }
 
     public boolean getButtonBACK() {
-        return joystick.getRawButton(6);
+        return joystick.getRawButton(6+1);
     }
 
     public boolean getButtonSTART() {
-        return joystick.getRawButton(7);
+        return joystick.getRawButton(7+1);
     }
 
     public boolean getButtonL3() {
-        return joystick.getRawButton(8);
+        return joystick.getRawButton(8+1);
     }
 
     public boolean getButtonR3() {
-        return joystick.getRawButton(9);
+        return joystick.getRawButton(9+1);
     }
 
     public double getLeftXAxis() {
