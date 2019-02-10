@@ -1,0 +1,38 @@
+{
+    "DriveTrain": [
+    {
+        "backRightWheel": [
+            {
+                "angleMotorVictorAddress": 40,
+                "wheelMotorVictorAddress": 43,
+                "EncoderPort": 3                
+            }
+        ],
+
+        "backLeftWheel": [
+            {
+                "angleMotorVictorAddress": 45,
+                "wheelMotorVictorAddress": 46,
+                "EncoderPort": 2
+            }
+        ],
+
+        "frontRightWheel": [
+            {
+                "angleMotorVictorAddress": 42,
+                "wheelMotorVictorAddress": 41,
+                "EncoderPort": 1
+            }
+        ],
+
+        "frontLeftWheel": [
+            {
+                "angleMotorVictorAddress": 47,
+                "wheelMotorVictorAddress": 44,
+                "EncoderPort": 0
+            }
+        ]
+    }
+]
+
+}

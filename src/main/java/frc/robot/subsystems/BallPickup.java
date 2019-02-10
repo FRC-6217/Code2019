@@ -75,6 +75,7 @@ public class BallPickup extends Subsystem {
   }
 
   public void armDown() {
+    checkLimits();
     if(!lowerLimit) {
       rightArm.set(-armSpeed);
       leftArm.set(-armSpeed);

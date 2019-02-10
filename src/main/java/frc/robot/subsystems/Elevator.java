@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.BallPickupJoystick;
 
 /**
@@ -17,9 +18,11 @@ import frc.robot.commands.BallPickupJoystick;
  */
 
 public class Elevator extends Subsystem {
+    //Measures in Inches
     private static final double MIN_HEIGHT = 0;
-    private static final double MAX_HEIGHT = 100;
-    private static final double SCALAR = 1;
+    private static final double MAX_HEIGHT = 1000;
+    public double SCALAR = 1;
+    private static final double bOffset = 20.25;
     private double speed = 1;
     private double position = 0;
     private boolean debugEnable = true;
@@ -30,11 +33,11 @@ public class Elevator extends Subsystem {
     
     private Direction direction = Direction.NONE;
     private Spark motor;
-    private Encoder encoder;
+    public Encoder encoder;
     
     public Elevator(int motorChannel, int encoderChannelA, int encoderChannelB) {
         motor = new Spark(motorChannel);
-        //encoder = new Encoder(encoderChannelA, encoderChannelB);
+        encoder = new Encoder(encoderChannelA, encoderChannelB);
     }
 
     @Override
@@ -129,6 +132,10 @@ public class Elevator extends Subsystem {
     private double updatePosition() {
         double pos = encoder.getDistance();
         position = pos * SCALAR;
+
+        SmartDashboard.putNumber("Raw Encoder", pos);
+        SmartDashboard.putNumber("Encoder Position cm", position);
+
         return position;
     }
 }

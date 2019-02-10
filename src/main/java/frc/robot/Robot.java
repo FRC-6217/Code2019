@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +19,7 @@ import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -27,7 +29,7 @@ import frc.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain m_driveTrain;
-  public static Pneumatics m_pneumatics;
+  //public static Pneumatics m_pneumatics;
   public static BallPickup m_ballPickup;
   public static Elevator m_Elevator;
   public static OI m_oi_pilot;
@@ -42,7 +44,7 @@ public class Robot extends TimedRobot {
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 0;
   public static final int ELEVATOR_MOTOR_CHANNEL = 0;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
-  public static final int ELEVATOR_ENCODER_CHANNEL_B = 0;
+  public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
 
 
   Command m_autonomousCommand;
@@ -54,8 +56,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
     m_driveTrain = new DriveTrain();
-    m_pneumatics = new Pneumatics();
+    //m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
@@ -64,6 +67,9 @@ public class Robot extends TimedRobot {
     
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+
+    Preferences pref = Preferences.getInstance();
+    m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
   }
 
   /**
@@ -144,6 +150,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+
+    if(m_oi_copilot.getButtonBACK()){
+      m_Elevator.encoder.reset();
+    }
+
     Scheduler.getInstance().run();
   }
 

@@ -24,7 +24,7 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.m_driveTrain.ResetGryo();   
+        Robot.m_driveTrain.ResetGyro();   
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -36,7 +36,7 @@ public class JoystickDrive extends Command {
         governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
         if(gyroButton){
-            Robot.m_driveTrain.ResetGryo();
+            Robot.m_driveTrain.ResetGyro();
         }
         
         x = (Math.abs(x) > .2 ? x : 0.0);

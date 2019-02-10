@@ -11,7 +11,7 @@ public class Grabbers extends Command{
 
     public Grabbers() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.m_pneumatics);
+        //requires(Robot.m_pneumatics);
     }
 
     // Called just before this Command runs the first time
@@ -32,7 +32,7 @@ public class Grabbers extends Command{
         else{
             direction = DoubleSolenoid.Value.kOff;
         }
-        Robot.m_pneumatics.runSolenoid(direction);
+        //Robot.m_pneumatics.runSolenoid(direction);
     }
 
     // Make this return true when this Command no longer needs to run execute()
