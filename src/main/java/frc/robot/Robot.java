@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.GrabberArm;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.BallPickup;
 
@@ -24,9 +25,14 @@ import frc.robot.subsystems.BallPickup;
  * project.
  */
 public class Robot extends TimedRobot {
+  private static final int port_grabber_motor = 48;
+  private static final int port_grabber_enc_A = 2;
+  private static final int port_grabber_enc_B = 3;
+  
   public static DriveTrain m_driveTrain;
   public static Pneumatics m_pneumatics;
   public static BallPickup m_ballPickup;
+  public static GrabberArm m_grabberArm;
   public static OI m_oi;
 
   Command m_autonomousCommand;
@@ -41,6 +47,7 @@ public class Robot extends TimedRobot {
     m_driveTrain = new DriveTrain();
     m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup();
+    m_grabberArm = new GrabberArm(port_grabber_motor, port_grabber_enc_A, port_grabber_enc_B);
     m_oi = new OI();
     
     // chooser.addOption("My Auto", new MyAutoCommand());
