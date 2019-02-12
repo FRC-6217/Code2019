@@ -7,14 +7,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.GrabberArm;
 import frc.robot.subsystems.Vacuum;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
@@ -33,14 +32,19 @@ import org.json.simple.parser.JSONParser;
  * project.
  */
 public class Robot extends TimedRobot {
+  
+  
   public static DriveTrain m_driveTrain;
-  //public static Pneumatics m_pneumatics;
+  public static GrabberArm m_grabberArm;
   public static BallPickup m_ballPickup;
   public static Elevator m_Elevator;
   public static Vacuum m_Vacuum;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
   //to-do
+  public static final int PORT_GRABBER_MOTOR = 48;
+  public static final int PORT_GRABBER_ENC_A = 2;
+  public static final int PORT_GRABBER_ENC_B = 3;
   public static final int USB_PILOT_PORT = 0;
   public static final int USB_COPILOT_PORT = 1;
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 3;
@@ -72,6 +76,7 @@ public class Robot extends TimedRobot {
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_A, VACUUM_CHANNEL_B);
     m_oi_pilot = new OI(USB_PILOT_PORT);
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
+    m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
     
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
