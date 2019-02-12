@@ -15,10 +15,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
+import frc.robot.subsystems.Vacuum;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
+import java.io.FileReader;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,6 +37,7 @@ public class Robot extends TimedRobot {
   //public static Pneumatics m_pneumatics;
   public static BallPickup m_ballPickup;
   public static Elevator m_Elevator;
+  public static Vacuum m_Vacuum;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
   //to-do
@@ -45,7 +51,8 @@ public class Robot extends TimedRobot {
   public static final int ELEVATOR_MOTOR_CHANNEL = 0;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
   public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
-
+  public static final int VACUUM_CHANNEL_A = 0;
+  public static final int VACUUM_CHANNEL_B = 1;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -56,20 +63,21 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
+    
     m_driveTrain = new DriveTrain();
     //m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
+    m_Vacuum = new Vacuum(VACUUM_CHANNEL_A, VACUUM_CHANNEL_B);
     m_oi_pilot = new OI(USB_PILOT_PORT);
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    Preferences pref = Preferences.getInstance();
-    m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
+    //Preferences pref = Preferences.getInstance();
+    //m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
   }
 
   /**
@@ -150,7 +158,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-
+    
     if(m_oi_copilot.getButtonBACK()){
       m_Elevator.encoder.reset();
     }

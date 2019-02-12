@@ -4,6 +4,10 @@ import frc.robot.commands.JoystickDrive;
 import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.SwerveDriveClass;
 
+import org.json.simple.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -39,6 +43,14 @@ public class DriveTrain extends Subsystem { //angle, speed
 		frontLeft = new WheelDrive(47, 44, 0);
 
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
+	}
+
+	public DriveTrain(JSONObject obj){
+		JSONArray driveTrain = (JSONArray)(obj.get("DriveTrain"));
+		SmartDashboard.putString("Json Array of DriveTrain", (String)(driveTrain.get(0)));
+
+	}
+	public void putJson(){
 	}
 	public void initDefaultCommand() {
 		setDefaultCommand(new JoystickDrive());
