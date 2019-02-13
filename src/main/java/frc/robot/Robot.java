@@ -44,6 +44,9 @@ public class Robot extends TimedRobot {
 		m_pneumatics = new Pneumatics();
     m_oi = new OI();
 
+    //Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
+    //pixy.init();
+    //pixy.setLED(0, 255, 0);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
   }
@@ -126,12 +129,20 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
     
     Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
     pixy.init();
-    pixy.getCCC().getBlocks(false, 1, 2);
-    SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks().get(0).getX());
+   // pixy.getCCC().getBlocks(true, 1, 1);
+    
+    SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks(true, 1, 1));
+    
+    //pixy.setLED(0, 255, 0);
+
+    Scheduler.getInstance().run();
+    
+    
+    // pixy.getCCC().getBlocks(false, 1, 2);
+    // SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks().get(0).getX());
   
     //ArrayList<Block> data = new ArrayList<>();
     //data = pixy.getCCC().getBlocks();
