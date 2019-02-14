@@ -23,6 +23,8 @@ public class Elevator extends Subsystem {
     private static final double MAX_HEIGHT = 1000;
     public double SCALAR = 1;
     private static final double bOffset = 20.25;
+    private double upSpeed = .8;
+    private double downSpeed = .4;
     private double speed = 1;
     private double position = 0;
     private boolean debugEnable = true;
@@ -60,12 +62,12 @@ public class Elevator extends Subsystem {
     }
 
     public void goUp() {
-        motor.setSpeed(speed);
+        motor.setSpeed(upSpeed);
         direction = Direction.UP;
     }
 
     public void goDown() {
-        motor.setSpeed(-speed);
+        motor.setSpeed(-downSpeed);
         direction = Direction.DOWN;
     }
 

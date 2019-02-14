@@ -37,10 +37,10 @@ public class DriveTrain extends Subsystem { //angle, speed
 	}
 
 	public DriveTrain(){
-		backRight = new WheelDrive(40, 43, 3);
-		backLeft = new WheelDrive(45, 46, 2);
-		frontRight = new WheelDrive(42, 41, 1);
-		frontLeft = new WheelDrive(47, 44, 0);
+		backRight = new WheelDrive(45, 43, 3);
+		backLeft = new WheelDrive(42, 47, 2);
+		frontRight = new WheelDrive(46, 40, 1);
+		frontLeft = new WheelDrive(41, 44, 0);
 
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 	}

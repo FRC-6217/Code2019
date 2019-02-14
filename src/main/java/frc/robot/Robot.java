@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
   public static final int BALL_GRABBER_WHEEL_MOTOR = 1;
   public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 0;
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 0;
-  public static final int ELEVATOR_MOTOR_CHANNEL = 0;
+  public static final int ELEVATOR_MOTOR_CHANNEL = 9;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
   public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
   public static final int VACUUM_CHANNEL_A = 0;
