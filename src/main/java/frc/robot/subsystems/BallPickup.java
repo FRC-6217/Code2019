@@ -27,7 +27,7 @@ public class BallPickup extends Subsystem {
   private DigitalInput limitSwitchUp;
   private DigitalInput limitSwitchDown;
   private double armSpeed = 1;
-  private double wheelSpeed = 1;
+  private double wheelSpeed `= 1;
   private boolean upperLimit;
   private boolean lowerLimit;
   
