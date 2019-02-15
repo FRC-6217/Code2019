@@ -54,8 +54,8 @@ public class BallPickupJoystick extends Command {
   public boolean updateGrabber() {
     // boolean spinButton = (Robot.m_oi_copilot.getRightTrigger() < 0 ? true : false);
     // boolean reverseSpinButton = (Robot.m_oi_copilot.getLeftTrigger() < 0 ? true : false);
-    boolean spinButton = Robot.m_oi_copilot.getButtonY();
-    boolean reverseSpinButton = Robot.m_oi_copilot.getButtonA();
+    boolean spinButton = Robot.m_oi_copilot.getButtonX();
+    boolean reverseSpinButton = Robot.m_oi_copilot.getButtonY();
 
     if(spinButton && !reverseSpinButton){
       Robot.m_ballPickup.grabberOn();
@@ -73,7 +73,7 @@ public class BallPickupJoystick extends Command {
 
   public boolean updateArm() {
     boolean up = Robot.m_oi_copilot.getButtonB();
-    boolean down = Robot.m_oi_copilot.getButtonX();   
+    boolean down = Robot.m_oi_copilot.getButtonA();   
     boolean slowMotor = Robot.m_oi_copilot.getButtonL3();
 
     if(slowMotor) {

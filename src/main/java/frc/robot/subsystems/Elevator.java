@@ -25,7 +25,6 @@ public class Elevator extends Subsystem {
     private static final double bOffset = 20.25;
     private double upSpeed = .8;
     private double downSpeed = .4;
-    private double speed = 1;
     private double position = 0;
     private boolean debugEnable = true;
 
@@ -49,15 +48,27 @@ public class Elevator extends Subsystem {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-    public void setSpeed(double speed) {
-        if(speed < 0) {
-            speed = speed * -1;
+    public void setUpSpeed(double upSpeed) {
+        if(upSpeed < 0) {
+            upSpeed = upSpeed * -1;
         }
-        else if(speed > 1) {
-            speed = 1;
+        else if(upSpeed > 1) {
+            upSpeed = 1;
         }
 
-        this.speed = speed;    
+        this.upSpeed = upSpeed;    
+
+    }
+
+    public void setDownSpeed(double downSpeed) {
+        if(downSpeed < 0) {
+            downSpeed = downSpeed * -1;
+        }
+        else if(downSpeed > 1) {
+            downSpeed = 1;
+        }
+
+        this.downSpeed = downSpeed;    
 
     }
 
@@ -76,20 +87,36 @@ public class Elevator extends Subsystem {
         direction = Direction.NONE;
     }
 
-    public double increaseSpeedBy(double amount) {
-        speed += amount;
+    public double increaseUpSpeedBy(double amount) {
+        upSpeed += amount;
         if(debugEnable) {
         //    System.out.println("Speed is set to " + speed);
         }
-        return speed;
+        return upSpeed;
     }
 
-    public double decreaseSpeedBy(double amount) {
-        speed -= amount;
+    public double increaseDownSpeedBy(double amount) {
+        downSpeed += amount;
+        if(debugEnable) {
+        //    System.out.println("Speed is set to " + speed);
+        }
+        return downSpeed;
+    }
+
+    public double decreaseUpSpeedBy(double amount) {
+        upSpeed -= amount;
         if(debugEnable) {
          //   System.out.println("Speed is set to: " + speed);
         }
-        return speed;
+        return upSpeed;
+    }
+
+    public double decreaseDownSpeedBy(double amount) {
+        downSpeed -= amount;
+        if(debugEnable) {
+         //   System.out.println("Speed is set to: " + speed);
+        }
+        return downSpeed;
     }
 
     public double getHeight() {

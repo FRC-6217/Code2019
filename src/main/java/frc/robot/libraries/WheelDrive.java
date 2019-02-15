@@ -20,7 +20,7 @@ public class WheelDrive {
 	// private double rAngle;
 	// private double shortest;
 	// private boolean isF;
-
+	
 	public WheelDrive(int angleMotor, int speedMotor, int encoder) {
 		this.angleMotor = new VictorSPX(angleMotor);
 		this.speedMotor = new VictorSPX(speedMotor);

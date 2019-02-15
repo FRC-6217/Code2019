@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class VacuumJoystick extends Command {
-  private boolean isOn = false;
+  //private boolean isOn = false;
 
   public VacuumJoystick() {
     requires(Robot.m_Vacuum);
@@ -29,11 +29,11 @@ public class VacuumJoystick extends Command {
   protected void execute() {
     if(Robot.m_oi_pilot.joystick.getRawButton(1)){
       Robot.m_Vacuum.activateVacuum();
-      isOn = true;
+      //isOn = true;
     }
     else if(Robot.m_oi_pilot.joystick.getRawButton(2)){
       Robot.m_Vacuum.deactivateVacuum();
-      isOn = false;  
+      //isOn = false;  
     }
     
   }

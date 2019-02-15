@@ -18,7 +18,7 @@ public class DriveTrain extends Subsystem { //angle, speed
 	private WheelDrive backLeft;
 	private WheelDrive frontRight;
 	private WheelDrive frontLeft;
-	private Gyro gyro = new ADXRS450_Gyro();
+	private Gyro gyro;
 	private double x1;
 	private double y1;
 
@@ -43,6 +43,8 @@ public class DriveTrain extends Subsystem { //angle, speed
 		frontLeft = new WheelDrive(41, 44, 0);
 
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
+
+		gyro = new ADXRS450_Gyro();
 	}
 
 	public DriveTrain(JSONObject obj){
@@ -61,13 +63,23 @@ public class DriveTrain extends Subsystem { //angle, speed
 		gyro.reset();
 	}
 
-	public double TransformX(double x, double y){
-		x1 = (x * Math.cos(GetAngle() * (Math.PI / 180))) - (y * Math.sin(GetAngle() * (Math.PI / 180)));
+	public double TransformX(double x, double y, boolean isReversed){
+		if(isReversed){
+			x1 = (x * Math.cos((GetAngle() + 180) * (Math.PI / 180))) - (y * Math.sin((GetAngle() + 180) * (Math.PI / 180)));	
+		}
+		else{
+			x1 = (x * Math.cos(GetAngle() * (Math.PI / 180))) - (y * Math.sin(GetAngle() * (Math.PI / 180)));
+		}
 		return x1;
 	}
 
-	public double TransformY(double x, double y){
-		y1 = (x * Math.sin(GetAngle() * (Math.PI / 180))) + (y * Math.cos(GetAngle() * (Math.PI / 180)));
+	public double TransformY(double x, double y, boolean isReversed){
+		if(isReversed){
+			y1 = (x * Math.sin((GetAngle() + 180) * (Math.PI / 180))) + (y * Math.cos((GetAngle() + 180) * (Math.PI / 180)));
+		}
+		else{
+			y1 = (x * Math.sin(GetAngle() * (Math.PI / 180))) + (y * Math.cos(GetAngle() * (Math.PI / 180)));
+		}
 		return y1;
 	}
 

@@ -47,9 +47,9 @@ public class Robot extends TimedRobot {
   public static final int PORT_GRABBER_ENC_B = 3;
   public static final int USB_PILOT_PORT = 0;
   public static final int USB_COPILOT_PORT = 1;
-  public static final int RIGHT_ARM_MOTOR_CHANNEL = 3;
-  public static final int LEFT_ARM_MOTOR_CHANNEL = 2;
-  public static final int BALL_GRABBER_WHEEL_MOTOR = 1;
+  public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
+  public static final int LEFT_ARM_MOTOR_CHANNEL = 8;
+  public static final int BALL_GRABBER_WHEEL_MOTOR = 6;
   public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 0;
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 0;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
@@ -69,6 +69,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     
     m_driveTrain = new DriveTrain();
+    m_driveTrain.GetAngle();
     //m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
