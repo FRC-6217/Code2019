@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -18,6 +19,8 @@ import frc.robot.subsystems.Vacuum;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
+import frc.robot.Vision;
+
 
 import java.io.FileReader;
 
@@ -32,7 +35,7 @@ import org.json.simple.parser.JSONParser;
  * project.
  */
 public class Robot extends TimedRobot {
-  
+  public static boolean cameraToggle;
   
   public static DriveTrain m_driveTrain;
   public static GrabberArm m_grabberArm;
@@ -50,13 +53,13 @@ public class Robot extends TimedRobot {
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
   public static final int LEFT_ARM_MOTOR_CHANNEL = 8;
   public static final int BALL_GRABBER_WHEEL_MOTOR = 6;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 0;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 1;
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 0;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
-  public static final int ELEVATOR_ENCODER_CHANNEL_A = 0;
-  public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
-  public static final int VACUUM_CHANNEL_A = 0;
-  public static final int VACUUM_CHANNEL_B = 1;
+  public static final int ELEVATOR_ENCODER_CHANNEL_A = 4;
+  public static final int ELEVATOR_ENCODER_CHANNEL_B = 5;
+  public static final int VACUUM_CHANNEL_60_PSI = 0;
+  public static final int VACUUM_CHANNEL_20_PSI = 1;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -74,16 +77,24 @@ public class Robot extends TimedRobot {
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
-    m_Vacuum = new Vacuum(VACUUM_CHANNEL_A, VACUUM_CHANNEL_B);
+    m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
     m_oi_pilot = new OI(USB_PILOT_PORT);
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
     
+    cameraToggle = true;
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
     //Preferences pref = Preferences.getInstance();
     //m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
+
+    //camera thread
+    // Vision vis = new Vision();
+    // Thread visionthread = new Thread(vis);
+    // visionthread.start();
+
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   /**
@@ -164,11 +175,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
-    if(m_oi_copilot.getButtonBACK()){
-      m_Elevator.encoder.reset();
+    if(m_oi_pilot.joystick.getRawButton(1)){
+      cameraToggle = true;
     }
-
+    else if(m_oi_pilot.joystick.getRawButton(2)){
+      cameraToggle = false;
+    }
     Scheduler.getInstance().run();
   }
 

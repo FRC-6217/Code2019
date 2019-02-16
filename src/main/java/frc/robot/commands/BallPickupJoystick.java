@@ -35,8 +35,8 @@ public class BallPickupJoystick extends Command {
   }
 
   public boolean updateElevator() {
-    boolean liftUpButton = Robot.m_oi_copilot.getButtonRB();
-    boolean liftDownButton = Robot.m_oi_copilot.getButtonLB();
+    boolean liftUpButton = Robot.m_oi_copilot.getButtonLB();
+    boolean liftDownButton = Robot.m_oi_copilot.getLeftTrigger() > 0.0;
 
     if(liftUpButton && !liftDownButton) {
       Robot.m_Elevator.goUp();

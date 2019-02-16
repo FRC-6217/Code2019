@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.VacuumJoystick;
 
@@ -16,12 +16,14 @@ import frc.robot.commands.VacuumJoystick;
  * Add your docs here.
  */
 public class Vacuum extends Subsystem {
-  private DoubleSolenoid vac;
+  private Solenoid vac60;
+  private Solenoid vac20;
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public Vacuum(int vacuumChannelA, int vacuumChannelB){
-    vac = new DoubleSolenoid(vacuumChannelA, vacuumChannelB);
+  public Vacuum(int vacuumChannel60PSI, int vacuumChannel20PSI){
+    vac60 = new Solenoid(vacuumChannel60PSI);
+    vac20 = new Solenoid(vacuumChannel20PSI);
   }
 
   @Override
@@ -30,11 +32,19 @@ public class Vacuum extends Subsystem {
     setDefaultCommand(new VacuumJoystick());
   }
 
-  public void activateVacuum(){
-    vac.set(Value.kForward);
+  public void activateVacuum60PSI(){
+    vac60.set(true);
   }
 
-  public void deactivateVacuum(){
-    vac.set(Value.kReverse);
+  public void deactivateVacuum60PSI(){
+    vac60.set(false);
+  }
+
+  public void activateVacuum20PSI(){
+    vac20.set(true);
+  }
+
+  public void deactivateVacuum20PSI(){
+    vac20.set(false);
   }
 }

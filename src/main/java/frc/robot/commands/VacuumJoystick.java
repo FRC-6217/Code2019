@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class VacuumJoystick extends Command {
-  //private boolean isOn = false;
+  private boolean isOn = false;
 
   public VacuumJoystick() {
     requires(Robot.m_Vacuum);
@@ -22,18 +22,29 @@ public class VacuumJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_Vacuum.deactivateVacuum60PSI();
+    Robot.m_Vacuum.deactivateVacuum20PSI();
+    isOn = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(Robot.m_oi_pilot.joystick.getRawButton(1)){
-      Robot.m_Vacuum.activateVacuum();
-      //isOn = true;
+    if((Robot.m_oi_copilot.getRightYAxis() < (-0.15)) && (!isOn)){
+      Robot.m_Vacuum.activateVacuum60PSI();
+      isOn = true;
     }
-    else if(Robot.m_oi_pilot.joystick.getRawButton(2)){
-      Robot.m_Vacuum.deactivateVacuum();
-      //isOn = false;  
+    if((Robot.m_oi_copilot.getRightYAxis() > (0.15)) && (isOn)){
+      Robot.m_Vacuum.deactivateVacuum60PSI();
+      isOn = false;
+    }
+    if((Robot.m_oi_copilot.getLeftYAxis() < (-0.15)) && (!isOn)){
+      Robot.m_Vacuum.activateVacuum20PSI();
+      isOn = true;
+    }
+    if((Robot.m_oi_copilot.getLeftYAxis() > (0.15)) && (isOn)){
+      Robot.m_Vacuum.deactivateVacuum20PSI();
+      isOn = false;
     }
     
   }
@@ -53,5 +64,6 @@ public class VacuumJoystick extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

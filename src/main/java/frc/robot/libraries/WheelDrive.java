@@ -45,7 +45,6 @@ public class WheelDrive {
 		if (f1 < 0){
 			f1 += 360;
 		}
-		
 		if (f2 < 0){
 			f2 += 360;
 		}

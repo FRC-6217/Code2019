@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
@@ -41,8 +39,8 @@ public class BallPickup extends Subsystem {
     wheel = new VictorSP(wheelChannel);
     rightArm = new VictorSP(rightArmChannel);
     leftArm = new VictorSP(leftArmChannel);
-    //PlimitSwitchDown = new DigitalInput(limitSwitchDownChannel);
-    //limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
+    limitSwitchDown = new DigitalInput(limitSwitchDownChannel);
+    limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
   }
 
   @Override
@@ -53,7 +51,7 @@ public class BallPickup extends Subsystem {
   }
 
   private boolean checkLimits() {
-    // limitSwitchUp.get();
+    //upperLimit = limitSwitchUp.get();
     // limitSwitchDown.get();
     upperLimit = false;
     lowerLimit = false;
@@ -61,8 +59,8 @@ public class BallPickup extends Subsystem {
   }
 
   public void armUp() {
-    checkLimits();
-    if(!upperLimit) {
+    //checkLimits();
+    if(limitSwitchUp.get()) {
       rightArm.set(armSpeed);
       leftArm.set(armSpeed);
     }
@@ -77,8 +75,8 @@ public class BallPickup extends Subsystem {
   }
 
   public void armDown() {
-    checkLimits();
-    if(!lowerLimit) {
+    //checkLimits();
+    if(limitSwitchDown.get()) {
       rightArm.set(-armSpeed);
       leftArm.set(-armSpeed);
     }

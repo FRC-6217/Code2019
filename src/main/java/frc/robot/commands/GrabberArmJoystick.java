@@ -26,8 +26,8 @@ public class GrabberArmJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean Up = Robot.m_oi_pilot.joystick.getRawButton(3);
-    boolean Down = Robot.m_oi_pilot.joystick.getRawButton(4);
+    boolean Up = Robot.m_oi_copilot.getButtonRB();
+    boolean Down = Robot.m_oi_copilot.getRightTrigger() > 0.0;
 
     if((Up) && (! Down)) {
       Robot.m_grabberArm.Up(.5);
