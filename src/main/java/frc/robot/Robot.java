@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -19,8 +23,6 @@ import frc.robot.subsystems.Vacuum;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
-import frc.robot.Vision;
-
 
 import java.io.FileReader;
 
@@ -35,7 +37,6 @@ import org.json.simple.parser.JSONParser;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static boolean cameraToggle;
   
   public static DriveTrain m_driveTrain;
   public static GrabberArm m_grabberArm;
@@ -53,24 +54,41 @@ public class Robot extends TimedRobot {
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
   public static final int LEFT_ARM_MOTOR_CHANNEL = 8;
   public static final int BALL_GRABBER_WHEEL_MOTOR = 6;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 1;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 0;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 11;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 10;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
-  public static final int ELEVATOR_ENCODER_CHANNEL_A = 4;
-  public static final int ELEVATOR_ENCODER_CHANNEL_B = 5;
+  public static final int ELEVATOR_ENCODER_CHANNEL_A = 9;
+  public static final int ELEVATOR_ENCODER_CHANNEL_B = 8;
   public static final int VACUUM_CHANNEL_60_PSI = 0;
   public static final int VACUUM_CHANNEL_20_PSI = 1;
+
+  public static DigitalInput a = new DigitalInput(4);
+  public static DigitalInput b = new DigitalInput(5);
+
+  public static int aCount;
+  public static int bCount;
+
+  public static boolean lasta, lastb;
+
+  public static Encoder enc;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  //camera objects
+  UsbCamera cam1;
+  UsbCamera cam2;
+  // VideoSink server;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
-    
+    enc = new Encoder(0, 1);
+    enc.setDistancePerPulse(19748);
+
+
     m_driveTrain = new DriveTrain();
     m_driveTrain.GetAngle();
     //m_pneumatics = new Pneumatics();
@@ -82,7 +100,6 @@ public class Robot extends TimedRobot {
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
     
-    cameraToggle = true;
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
@@ -94,7 +111,17 @@ public class Robot extends TimedRobot {
     // Thread visionthread = new Thread(vis);
     // visionthread.start();
 
-    CameraServer.getInstance().startAutomaticCapture();
+    //camera
+
+    cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+    cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+
+    cam1.setBrightness(30);
+    cam2.setBrightness(30);
+
+    cam1.setResolution(320, 240);
+    cam2.setResolution(320, 240);
+    // server = CameraServer.getInstance().getServer();
   }
 
   /**
@@ -175,12 +202,25 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(m_oi_pilot.joystick.getRawButton(1)){
-      cameraToggle = true;
+    if(a.get() != lasta){
+      aCount++;
+      lasta = a.get();
     }
-    else if(m_oi_pilot.joystick.getRawButton(2)){
-      cameraToggle = false;
+    if(b.get() != lastb){
+      bCount++;
+      lastb = b.get();
     }
+    SmartDashboard.putNumber("a", aCount);
+    SmartDashboard.putNumber("b", bCount);
+
+    SmartDashboard.putNumber("enc", enc.getDistance());
+    // m_Elevator.updatePosition();
+    // if(m_oi_pilot.joystick.getRawButton(1)) {
+    //   server.setSource(cam1);
+    // }
+    // else if(m_oi_pilot.joystick.getRawButton(2)) {
+    //   server.setSource(cam2);
+    // }
     Scheduler.getInstance().run();
   }
 

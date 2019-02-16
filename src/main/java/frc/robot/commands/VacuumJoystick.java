@@ -12,6 +12,10 @@ import frc.robot.Robot;
 
 public class VacuumJoystick extends Command {
   private boolean isOn = false;
+  private boolean forward60 = false;
+  private boolean reverse60 = false;
+  private boolean forward20 = false;
+  private boolean reverse20 = false;
 
   public VacuumJoystick() {
     requires(Robot.m_Vacuum);
@@ -22,31 +26,26 @@ public class VacuumJoystick extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_Vacuum.deactivateVacuum60PSI();
-    Robot.m_Vacuum.deactivateVacuum20PSI();
-    isOn = false;
+    Robot.m_Vacuum.deactivateVacuum();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if((Robot.m_oi_copilot.getRightYAxis() < (-0.15)) && (!isOn)){
-      Robot.m_Vacuum.activateVacuum60PSI();
-      isOn = true;
-    }
-    if((Robot.m_oi_copilot.getRightYAxis() > (0.15)) && (isOn)){
-      Robot.m_Vacuum.deactivateVacuum60PSI();
-      isOn = false;
-    }
-    if((Robot.m_oi_copilot.getLeftYAxis() < (-0.15)) && (!isOn)){
-      Robot.m_Vacuum.activateVacuum20PSI();
-      isOn = true;
-    }
-    if((Robot.m_oi_copilot.getLeftYAxis() > (0.15)) && (isOn)){
-      Robot.m_Vacuum.deactivateVacuum20PSI();
-      isOn = false;
-    }
+    forward60 = (Robot.m_oi_copilot.getRightYAxis()) < (-0.15);
+    reverse60 = (Robot.m_oi_copilot.getRightYAxis()) > (0.15);
+    forward20 = (Robot.m_oi_copilot.getLeftYAxis()) < (-0.15);
+    reverse20 = (Robot.m_oi_copilot.getLeftYAxis()) > (0.15);
     
+    if(forward60){
+      Robot.m_Vacuum.activateVacuum60PSI();
+    }
+    else if(forward20){
+      Robot.m_Vacuum.activateVacuum20PSI();
+    }
+    else if((reverse20) || (reverse60)) {
+      Robot.m_Vacuum.deactivateVacuum();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

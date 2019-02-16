@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,6 +40,7 @@ public class Elevator extends Subsystem {
     public Elevator(int motorChannel, int encoderChannelA, int encoderChannelB) {
         motor = new Spark(motorChannel);
         encoder = new Encoder(encoderChannelA, encoderChannelB);
+        encoder.setDistancePerPulse(1);
     }
 
     @Override
@@ -135,6 +137,8 @@ public class Elevator extends Subsystem {
         goToHeight(position + amount);
     }
 
+
+
     public void goToHeight(double height) {
         if(height > MAX_HEIGHT) {
             height = MAX_HEIGHT;
@@ -158,7 +162,7 @@ public class Elevator extends Subsystem {
         }
         stop();
     }
-    private double updatePosition() {
+    public double updatePosition() {
         double pos = encoder.getDistance();
         position = pos * SCALAR;
 

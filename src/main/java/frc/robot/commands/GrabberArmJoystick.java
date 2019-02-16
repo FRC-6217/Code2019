@@ -30,10 +30,10 @@ public class GrabberArmJoystick extends Command {
     boolean Down = Robot.m_oi_copilot.getRightTrigger() > 0.0;
 
     if((Up) && (! Down)) {
-      Robot.m_grabberArm.Up(.5);
+      Robot.m_grabberArm.Up(.7);
     }
     else if((Down) && (! Up)) {
-      Robot.m_grabberArm.Down(.5);
+      Robot.m_grabberArm.Down(.7);
     }
     else {
       Robot.m_grabberArm.Stop();

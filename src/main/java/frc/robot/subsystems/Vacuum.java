@@ -33,18 +33,17 @@ public class Vacuum extends Subsystem {
   }
 
   public void activateVacuum60PSI(){
+    deactivateVacuum();
     vac60.set(true);
   }
 
-  public void deactivateVacuum60PSI(){
+  public void deactivateVacuum(){
+    vac20.set(false);
     vac60.set(false);
   }
 
   public void activateVacuum20PSI(){
+    deactivateVacuum();
     vac20.set(true);
-  }
-
-  public void deactivateVacuum20PSI(){
-    vac20.set(false);
   }
 }
