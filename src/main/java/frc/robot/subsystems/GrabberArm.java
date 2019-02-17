@@ -26,7 +26,7 @@ public class GrabberArm extends Subsystem {
 
   public GrabberArm(int motorPort, int encPortA, int encPortB){
     arm = new VictorSPX(motorPort);
-    enc = new Encoder(encPortA, encPortB);
+    //enc = new Encoder(encPortA, encPortB);
   }
   @Override
   public void initDefaultCommand() {

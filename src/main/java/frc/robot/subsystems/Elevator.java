@@ -20,10 +20,10 @@ import frc.robot.commands.BallPickupJoystick;
 
 public class Elevator extends Subsystem {
     //Measures in Inches
-    private static final double MIN_HEIGHT = 0;
-    private static final double MAX_HEIGHT = 1000;
-    public double SCALAR = 1;
-    private static final double bOffset = 20.25;
+    private static final double MIN_HEIGHT = 16.75;
+    private static final double MAX_HEIGHT = 41.5;
+    public double SCALAR = 0.000671;
+    private static final double bOffset = 16.75;
     private double upSpeed = .8;
     private double downSpeed = .4;
     private double position = 0;
@@ -151,8 +151,9 @@ public class Elevator extends Subsystem {
             direction = Direction.NONE;
             return;
         }
-        
-        while(updatePosition() != height) {
+        double currentPosition = updatePosition();
+
+        while(Math.abs(currentPosition - height) > 1) {
             if(position < height) { //it needs to go up
                 goUp();
             }
@@ -163,12 +164,15 @@ public class Elevator extends Subsystem {
         stop();
     }
     public double updatePosition() {
-        double pos = encoder.getDistance();
-        position = pos * SCALAR;
+        double pos = encoder.get();
+        position = pos * SCALAR + bOffset;
 
         SmartDashboard.putNumber("Raw Encoder", pos);
-        SmartDashboard.putNumber("Encoder Position cm", position);
+        SmartDashboard.putNumber("Encoder Position in", position);
 
         return position;
+    }
+    public void resetEnc(){
+        encoder.reset();
     }
 }

@@ -29,9 +29,13 @@ public class BallPickupJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    Robot.m_Elevator.updatePosition();
     updateElevator();
     updateGrabber();
     updateArm();
+    if (Robot.m_oi_pilot.joystick.getRawButton(9)){
+      Robot.m_Elevator.resetEnc();
+    }
   }
 
   public boolean updateElevator() {

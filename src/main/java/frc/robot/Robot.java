@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GrabberArm;
 import frc.robot.subsystems.Vacuum;
+import frc.robot.commands.GoToHeightAuto;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
@@ -57,20 +58,10 @@ public class Robot extends TimedRobot {
   public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 11;
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 10;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
-  public static final int ELEVATOR_ENCODER_CHANNEL_A = 9;
-  public static final int ELEVATOR_ENCODER_CHANNEL_B = 8;
+  public static final int ELEVATOR_ENCODER_CHANNEL_A = 2;
+  public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
   public static final int VACUUM_CHANNEL_60_PSI = 0;
   public static final int VACUUM_CHANNEL_20_PSI = 1;
-
-  public static DigitalInput a = new DigitalInput(4);
-  public static DigitalInput b = new DigitalInput(5);
-
-  public static int aCount;
-  public static int bCount;
-
-  public static boolean lasta, lastb;
-
-  public static Encoder enc;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -85,9 +76,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    enc = new Encoder(0, 1);
-    enc.setDistancePerPulse(19748);
-
 
     m_driveTrain = new DriveTrain();
     m_driveTrain.GetAngle();
@@ -202,19 +190,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(a.get() != lasta){
-      aCount++;
-      lasta = a.get();
+    double h = 26.75;
+    GoToHeightAuto gtha = new GoToHeightAuto(h);
+    if (m_oi_pilot.joystick.getRawButton(10)) {
+      gtha.run();
     }
-    if(b.get() != lastb){
-      bCount++;
-      lastb = b.get();
-    }
-    SmartDashboard.putNumber("a", aCount);
-    SmartDashboard.putNumber("b", bCount);
 
-    SmartDashboard.putNumber("enc", enc.getDistance());
-    // m_Elevator.updatePosition();
+    m_Elevator.updatePosition();
     // if(m_oi_pilot.joystick.getRawButton(1)) {
     //   server.setSource(cam1);
     // }
