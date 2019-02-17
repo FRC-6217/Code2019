@@ -29,6 +29,9 @@ public class BallPickupJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if (Robot.m_oi_pilot.joystick.getRawButton(9)){
+      Robot.m_Elevator.resetEnc();
+    }
     updateElevator();
     updateGrabber();
     updateArm();
@@ -37,6 +40,7 @@ public class BallPickupJoystick extends Command {
   public boolean updateElevator() {
     boolean liftUpButton = Robot.m_oi_copilot.getButtonLB();
     boolean liftDownButton = Robot.m_oi_copilot.getLeftTrigger() > 0.0;
+    Robot.m_Elevator.updatePosition();
 
     if(liftUpButton && !liftDownButton) {
       Robot.m_Elevator.goUp();
