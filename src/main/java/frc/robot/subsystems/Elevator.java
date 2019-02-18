@@ -20,12 +20,12 @@ import frc.robot.commands.BallPickupJoystick;
 
 public class Elevator extends Subsystem {
     //Measures in Inches
-    private static final double MIN_HEIGHT = 0;
-    private static final double MAX_HEIGHT = 1000;
-    public double SCALAR = 0.0013790733942556592330823762591;
+    private static final double MIN_HEIGHT = 16.75;
+    private static final double MAX_HEIGHT = 41.5;
+    public double SCALAR = 0.000671;
     private static final double bOffset = 16.75;
     private double upSpeed = .8;
-    private double downSpeed = .4;
+    private double downSpeed = .8;
     private double position = 0;
     private boolean debugEnable = true;
 
@@ -150,8 +150,9 @@ public class Elevator extends Subsystem {
             direction = Direction.NONE;
             return;
         }
-        
-        while(updatePosition() != height) {
+        double currentPosition = updatePosition();
+
+        while(Math.abs(currentPosition - height) > 1) {
             if(position < height) { //it needs to go up
                 goUp();
             }
@@ -170,7 +171,7 @@ public class Elevator extends Subsystem {
 
         return position;
     }
-    public void resetEnc() {
+    public void resetEnc(){
         encoder.reset();
     }
 }

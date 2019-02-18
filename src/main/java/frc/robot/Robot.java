@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GrabberArm;
 import frc.robot.subsystems.Vacuum;
+import frc.robot.commands.GoToHeightAuto;
 import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
@@ -71,7 +72,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
 
     m_driveTrain = new DriveTrain();
     m_driveTrain.GetAngle();
@@ -186,6 +186,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    // double h = 26.75;
+    // GoToHeightAuto gtha = new GoToHeightAuto(h);
+    // if (m_oi_pilot.joystick.getRawButton(10)) {
+    //   gtha.run();
+    // }
 
     // m_Elevator.updatePosition();
     // if(m_oi_pilot.joystick.getRawButton(1)) {
