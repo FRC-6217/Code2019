@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 /**
@@ -53,7 +54,6 @@ public class JoystickDrive extends Command {
 
         x1 = Robot.m_driveTrain.TransformX(x, y, isReversed);
         y1 = Robot.m_driveTrain.TransformY(x, y, isReversed);
-
 
         Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
         gyroButtonForward = false;

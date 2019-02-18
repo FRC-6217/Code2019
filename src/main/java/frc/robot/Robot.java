@@ -26,10 +26,6 @@ import frc.robot.libraries.XboxController;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
-import java.io.FileReader;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -49,8 +45,8 @@ public class Robot extends TimedRobot {
   public static XboxController m_oi_copilot;
   //to-do
   public static final int PORT_GRABBER_MOTOR = 48;
-  public static final int PORT_GRABBER_ENC_A = 2;
-  public static final int PORT_GRABBER_ENC_B = 3;
+  public static final int PORT_GRABBER_ENC_A = 5;
+  public static final int PORT_GRABBER_ENC_B = 6;
   public static final int USB_PILOT_PORT = 0;
   public static final int USB_COPILOT_PORT = 1;
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
@@ -68,8 +64,8 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   //camera objects
-  UsbCamera cam1;
-  UsbCamera cam2;
+  //UsbCamera cam1;
+  //UsbCamera cam2;
   // VideoSink server;
   /**
    * This function is run when the robot is first started up and should be
@@ -102,14 +98,14 @@ public class Robot extends TimedRobot {
 
     //camera
 
-    cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-    cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+  //  cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+    //cam2 = CameraServer.getInstance().startAutomaticCapture(1);
 
-    cam1.setBrightness(30);
-    cam2.setBrightness(30);
+   // cam1.setBrightness(30);
+    //cam2.setBrightness(30);
 
-    cam1.setResolution(320, 240);
-    cam2.setResolution(320, 240);
+    //cam1.setResolution(320, 240);
+    //cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
   }
 

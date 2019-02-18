@@ -40,7 +40,6 @@ public class Elevator extends Subsystem {
     public Elevator(int motorChannel, int encoderChannelA, int encoderChannelB) {
         motor = new Spark(motorChannel);
         encoder = new Encoder(encoderChannelA, encoderChannelB);
-        encoder.setDistancePerPulse(1);
     }
 
     @Override
