@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class VacuumJoystick extends Command {
-  private boolean isOn = false;
   private boolean forward60 = false;
-  private boolean reverse60 = false;
   private boolean forward20 = false;
-  private boolean reverse20 = false;
+  private boolean button = false;
 
   public VacuumJoystick() {
     requires(Robot.m_Vacuum);
@@ -33,9 +31,8 @@ public class VacuumJoystick extends Command {
   @Override
   protected void execute() {
     forward60 = (Robot.m_oi_copilot.getRightYAxis()) < (-0.15);
-    reverse60 = (Robot.m_oi_copilot.getRightYAxis()) > (0.15);
     forward20 = (Robot.m_oi_copilot.getLeftYAxis()) < (-0.15);
-    reverse20 = (Robot.m_oi_copilot.getLeftYAxis()) > (0.15);
+    button = (Robot.m_oi_copilot.getButtonR3() || Robot.m_oi_copilot.getButtonL3());
     
     if(forward60){
       Robot.m_Vacuum.activateVacuum60PSI();
@@ -43,7 +40,7 @@ public class VacuumJoystick extends Command {
     else if(forward20){
       Robot.m_Vacuum.activateVacuum20PSI();
     }
-    else if((reverse20) || (reverse60)) {
+    else if(button) {
       Robot.m_Vacuum.deactivateVacuum();
     }
   }
