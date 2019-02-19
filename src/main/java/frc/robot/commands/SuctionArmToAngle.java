@@ -8,57 +8,67 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.libraries.PID;
+import frc.robot.subsystems.GrabberArm;
 
-public class GrabberArmJoystick extends Command {
+public class SuctionArmToAngle extends Command {
+  private double angle;
+  private GrabberArm suctionArm;
+  private PID pid;
+  private double p = .1, i = 0, d = 0;
+  private double deadband = 1;
   
-  public GrabberArmJoystick() {
-    // Use requires() here to declare subsystem dependencies
+  public SuctionArmToAngle(double angle) {
     requires(Robot.m_grabberArm);
+    this.angle = angle;
+    suctionArm = Robot.m_grabberArm;
+    pid = new PID(p, i, d);
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
-
+  
+  public void setAngle(double angle){
+    pid.setSetpoint(angle);
+  }
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_grabberArm.Stop();
+    setAngle(angle);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean Up = Robot.m_oi_copilot.getButtonRB();
-    boolean Down = Robot.m_oi_copilot.getRightTrigger() > 0.0;
-
     if(Robot.m_oi_pilot.joystick.getRawButton(6)){
-      Robot.m_grabberArm.resetEncoder();
+      suctionArm.resetEncoder();
     }
-    Robot.m_grabberArm.GetAngle();
+    //Robot.m_grabberArm.GetAngle();
 
-    if((Up) && (! Down)) {
-      Robot.m_grabberArm.Up(.7);
-    }
-    else if((Down) && (! Up)) {
-      Robot.m_grabberArm.Down(.7);
-    }
-    else {
-      Robot.m_grabberArm.Stop();
-    }
+    // pid.p = SmartDashboard.getNumber("pkey SuctionArm", 0);
+    // pid.i = SmartDashboard.getNumber("ikey SuctionArm", 0);
+    // pid.d = SmartDashboard.getNumber("dkey SuctionArm", 0);
+
+    suctionArm.Move(pid.update(suctionArm.GetAngle()));
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return false;//((suctionArm.GetAngle() < (angle + deadband)) && (suctionArm.GetAngle() > (angle - deadband)));
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    suctionArm.Stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    setAngle(suctionArm.GetWantedAngle());
   }
 }

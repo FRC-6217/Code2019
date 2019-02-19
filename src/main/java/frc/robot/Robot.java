@@ -45,8 +45,8 @@ public class Robot extends TimedRobot {
   public static XboxController m_oi_copilot;
   //to-do
   public static final int PORT_GRABBER_MOTOR = 48;
-  public static final int PORT_GRABBER_ENC_A = 5;
-  public static final int PORT_GRABBER_ENC_B = 6;
+  public static final int PORT_GRABBER_ENC_A = 3;
+  public static final int PORT_GRABBER_ENC_B = 4;
   public static final int USB_PILOT_PORT = 0;
   public static final int USB_COPILOT_PORT = 1;
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
@@ -81,9 +81,9 @@ public class Robot extends TimedRobot {
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
-    m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
-    m_oi_pilot = new OI();
+    m_oi_pilot = new OI(USB_PILOT_PORT,USB_COPILOT_PORT);
+    m_oi_copilot = m_oi_pilot.xboxCon;
 
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);

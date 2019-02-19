@@ -31,8 +31,8 @@ public class BallPickupJoystick extends Command {
   protected void execute() {
     Robot.m_Elevator.updatePosition();
     updateElevator();
-    updateGrabber();
-    updateArm();
+   // updateGrabber();
+   //  updateArm();
     if (Robot.m_oi_pilot.joystick.getRawButton(9)){
       Robot.m_Elevator.resetEnc();
     }

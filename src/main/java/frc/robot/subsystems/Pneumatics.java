@@ -12,7 +12,7 @@ public class Pneumatics extends Subsystem{
     
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new Grabbers());
+        //setDefaultCommand(new Grabbers());
     }
 
     public void runSolenoid(DoubleSolenoid.Value direction){

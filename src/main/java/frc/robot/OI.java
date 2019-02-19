@@ -10,20 +10,42 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ElevatorToHeight;
 import frc.robot.commands.GoToHeightAuto;
-import frc.robot.commands.Turn;
+import frc.robot.commands.SuctionArmToAngle;
+import frc.robot.libraries.XboxController;
+import frc.robot.subsystems.Elevator;
+import frc.robot.commands.OrientRobot;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  public Joystick joystick = new Joystick(0);
-  private Button button10 = new JoystickButton(joystick, 10);
-  public OI(/*int port*/) {
+  public Joystick joystick;
+  public XboxController xboxCon;
+  
+  public OI(int portJoy, int portXbox) {
+    xboxCon = new XboxController(portXbox);
+    joystick = new Joystick(portJoy);
+    // Button GoDownElev = xboxCon.getButton(XboxController.buttonID.A);
+    // Button GoUpElev = xboxCon.getButton(XboxController.buttonID.B);
+    // Button GoHalfElev = xboxCon.getButton(XboxController.buttonID.X);
+    
+    Button GoDownGrabber = xboxCon.getButton(XboxController.buttonID.A);
+    Button GoUpGrabber = xboxCon.getButton(XboxController.buttonID.B);
+    Button GoHalfGrabber = xboxCon.getButton(XboxController.buttonID.X);
+    Button Orient = xboxCon.getButton(XboxController.buttonID.Y);
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);
-    button10.whenPressed(new Turn());
+    // GoDownElev.whenActive(new ElevatorToHeight(Elevator.MIN_HEIGHT));
+    // GoUpElev.whenActive(new ElevatorToHeight(Elevator.MAX_HEIGHT));
+    // GoHalfElev.whenActive(new ElevatorToHeight((Elevator.MAX_HEIGHT+Elevator.MIN_HEIGHT)/2));
+
+    GoDownGrabber.whenActive(new SuctionArmToAngle(45));
+    GoUpGrabber.whenActive(new SuctionArmToAngle(0));
+    GoHalfGrabber.whenActive(new SuctionArmToAngle(90));
+    Orient.whenActive(new OrientRobot(45));
   }
 
   //// CREATING BUTTONS

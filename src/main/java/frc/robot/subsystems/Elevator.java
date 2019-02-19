@@ -20,9 +20,9 @@ import frc.robot.commands.BallPickupJoystick;
 
 public class Elevator extends Subsystem {
     //Measures in Inches
-    private static final double MIN_HEIGHT = 16.75;
-    private static final double MAX_HEIGHT = 41.5;
-    public double SCALAR = 0.000671;
+    public static final double MIN_HEIGHT = 16.75;
+    public static final double MAX_HEIGHT = 40.25;
+    public double SCALAR = 0.000648;
     private static final double bOffset = 16.75;
     private double upSpeed = 1;
     private double downSpeed = .8;
@@ -81,6 +81,11 @@ public class Elevator extends Subsystem {
     public void goDown() {
         motor.setSpeed(-downSpeed);
         direction = Direction.DOWN;
+    }
+
+    public void pidControlMovement(double velocity){
+        updatePosition();
+        motor.set(velocity);
     }
 
     public void stop() {

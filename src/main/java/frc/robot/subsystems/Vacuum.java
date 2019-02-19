@@ -29,7 +29,7 @@ public class Vacuum extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new VacuumJoystick());
+    //setDefaultCommand(new VacuumJoystick());
   }
 
   public void activateVacuum60PSI(){
