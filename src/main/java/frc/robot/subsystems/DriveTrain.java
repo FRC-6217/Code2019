@@ -29,6 +29,9 @@ public class DriveTrain extends Subsystem {
 		gyro.reset();
 	}
 
+	public Gyro returnGyro(){
+		return gyro;
+	}
 	public double TransformX(double x, double y){
 		x1 = (x * Math.cos((GetAngle() * (Math.PI / 180)))) - (y * Math.sin((GetAngle() * (Math.PI / 180))));
 		return x1;

@@ -8,25 +8,26 @@ import frc.robot.Robot;
 
 public class AutoWithPathfinder extends Command {
 
-    private Waypoint[] args;
+    private String PathName;
     private Pathfinder_Follow follow;
     private double[] speed;
     private double[] angle;
 
-    public AutoWithPathfinder(Waypoint[] args) {
-        this.args = args;
+    public AutoWithPathfinder(String PathName) {
+        this.PathName = PathName;
         // Use requires() here to declare subsystem dependencies
         requires(Robot.m_driveTrain);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        follow = new Pathfinder_Follow(args);
+        follow = new Pathfinder_Follow(PathName, Robot.m_driveTrain.returnGyro());
+
+        // Called repeatedly when this Command is scheduled to run
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        follow.setupFollow(args);
+        follow.setupFollow();
         speed = follow.returnOutput();
         angle = follow.returnHeading();
 

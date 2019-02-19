@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
  //   m_autonomousCommand = m_chooser.getSelected();
     Waypoint[] args = {new Waypoint(-5, 0, 0), new Waypoint(-3, 0, Pathfinder.d2r(30)), new Waypoint(0, 2, 0)};
-    m_autonomousCommand = new AutoWithPathfinder(args);
+    m_autonomousCommand = new AutoWithPathfinder("/home/lvuser/deploy/paths/Test.pf1.csv");
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

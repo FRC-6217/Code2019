@@ -1,5 +1,7 @@
 package frc.robot.libraries;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.PathfinderFRC;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.SwerveModifier;
@@ -15,25 +17,28 @@ public class Pathfinder_Trajectory {
     //Format of wheels is {front left, front right, back left, back right}
     private Trajectory[] Wheels = new Trajectory[4];
     
-    public Pathfinder_Trajectory (Waypoint[] args){
-        StartPath(args);
+    public Pathfinder_Trajectory(String PathName) {
+        StartPath(PathName);
     }
-
-    public void StartPath(Waypoint[] args) {
-        config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC,
-                Trajectory.Config.SAMPLES_HIGH, 0.05, 1.7, 2.0, 60.0);
-        Waypoint[] points = args;
-
-        trajectory = Pathfinder.generate(points, config);
+    public void StartPath(String PathName) {
+        try{
+        trajectory = PathfinderFRC.getTrajectory(PathName);
 
         // Wheelbase Width = 0.5m, Wheelbase Depth = 0.6m, Swerve Mode = Default
-        SwerveModifier modifier = new SwerveModifier(trajectory).modify(width, length, SwerveModifier.Mode.SWERVE_DEFAULT);
+        SwerveModifier modifier = new SwerveModifier(trajectory).modify(width, length,
+                SwerveModifier.Mode.SWERVE_DEFAULT);
 
         // Do something with the new Trajectories...
         Wheels[0] = modifier.getFrontLeftTrajectory();
         Wheels[1] = modifier.getFrontRightTrajectory();
         Wheels[2] = modifier.getBackLeftTrajectory();
         Wheels[3] = modifier.getBackRightTrajectory();
+        
+        }
+        catch(Exception e){
+            SmartDashboard.putString("Error In pathfinder", e.getMessage() + " (Mostly likely wrong file name)");
+
+        }
     }
 
     public Trajectory[] GetTraj(){
