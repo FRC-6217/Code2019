@@ -1,1 +1,0 @@
-The file create in this folder are create by pathweaver and are certain path for pathfinder to use.

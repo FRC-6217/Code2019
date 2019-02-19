@@ -1,0 +1,3 @@
+The files create in paths are create by pathweaver and are certain path for pathfinder to use.
+If you build these paths, Please keep the folder clean and delete any ".left." or ".right." because we are only used the
+type "*name of path*.pf1.csv not the other file because we have SwerveDrive not TankDrive as left and right imply

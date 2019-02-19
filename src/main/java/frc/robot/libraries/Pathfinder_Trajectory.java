@@ -1,18 +1,15 @@
 package frc.robot.libraries;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.PathfinderFRC;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.SwerveModifier;
 
 public class Pathfinder_Trajectory {
 
-    private Trajectory.Config config;
     private Trajectory trajectory;
     private double length = SwerveDriveClass.L * 0.0254;
     private double width = SwerveDriveClass.W * 0.0254;
-    private SwerveModifier modifier;
+
 
     //Format of wheels is {front left, front right, back left, back right}
     private Trajectory[] Wheels = new Trajectory[4];
