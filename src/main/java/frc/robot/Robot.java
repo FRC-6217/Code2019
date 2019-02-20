@@ -12,6 +12,7 @@ import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -74,21 +75,21 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     m_driveTrain = new DriveTrain();
-    m_driveTrain.GetAngle();
+    //m_driveTrain.GetAngle();
     //m_pneumatics = new Pneumatics();
     m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
         LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
     m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
-    m_oi_pilot = new OI(USB_PILOT_PORT);
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
     m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
-    
+    m_oi_pilot = new OI();
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    //Preferences pref = Preferences.getInstance();
-    //m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
+    // Preferences pref = Preferences.getInstance();
+    // m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
 
     //camera thread
     // Vision vis = new Vision();
@@ -192,7 +193,7 @@ public class Robot extends TimedRobot {
     //   gtha.run();
     // }
 
-    // m_Elevator.updatePosition();
+    //m_Elevator.updatePosition();
     // if(m_oi_pilot.joystick.getRawButton(1)) {
     //   server.setSource(cam1);
     // }

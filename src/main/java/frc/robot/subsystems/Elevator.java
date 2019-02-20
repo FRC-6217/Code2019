@@ -24,7 +24,7 @@ public class Elevator extends Subsystem {
     private static final double MAX_HEIGHT = 41.5;
     public double SCALAR = 0.000671;
     private static final double bOffset = 16.75;
-    private double upSpeed = .8;
+    private double upSpeed = 1;
     private double downSpeed = .8;
     private double position = 0;
     private boolean debugEnable = true;
