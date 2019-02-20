@@ -25,12 +25,11 @@ public class XboxController{
     }
 
     public JoystickButton getButton(buttonID button){
-        if(button.ordinal() > buttonID.R3.ordinal()){
-            return new JoystickAxis(joystick, button.ordinal() - buttonID.R3.ordinal() - 1);
-        }
-        else{
-            return new JoystickButton(joystick, (button.ordinal() + 1));
-        }
+        return new JoystickButton(joystick, (button.ordinal() + 1));
+    }
+
+    public JoystickButton getButton(buttonID button, boolean direction){
+        return new JoystickAxis(joystick, button.ordinal() - buttonID.R3.ordinal() - 1, direction);
     }
 
     public XboxController(int port) {
@@ -117,6 +116,7 @@ public class XboxController{
 class JoystickAxis extends JoystickButton {
   private final GenericHID m_joystick;
   private final int m_AxisNumber;
+  private final boolean m_direction;
 
   /**
    * Create a joystick Axis for triggering commands.
@@ -125,10 +125,11 @@ class JoystickAxis extends JoystickButton {
    *                     etc)
    * @param AxisNumber The Axis number (see {@link GenericHID#getRawAxis(int) }
    */
-  public JoystickAxis(GenericHID joystick, int AxisNumber) {
+  public JoystickAxis(GenericHID joystick, int AxisNumber, boolean direction) {
     super(joystick, 0);
     m_joystick = joystick;
     m_AxisNumber = AxisNumber;
+    m_direction = direction;
   }
 
   /**
@@ -138,6 +139,7 @@ class JoystickAxis extends JoystickButton {
    */
   @Override
   public boolean get() {
-    return (Math.abs(m_joystick.getRawAxis(m_AxisNumber)) > .15);
+    return ((m_joystick.getRawAxis(m_AxisNumber) > 0.15) && (m_direction))
+        || ((m_joystick.getRawAxis(m_AxisNumber) < -0.15) && (!m_direction));
   }
 }

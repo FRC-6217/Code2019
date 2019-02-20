@@ -28,9 +28,15 @@ public class BallPickup extends Subsystem {
   private double wheelSpeed = 1;
   private boolean upperLimit;
   private boolean lowerLimit;
+  private Direction d;
+  private WheelDirection wd;
   
-  enum Direction {
-    UP, DOWN;
+  public static enum Direction {
+    UP, DOWN, OFF;
+  }
+
+  public static enum WheelDirection {
+    FORWARD, REVERSE, OFF;
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -84,6 +90,29 @@ public class BallPickup extends Subsystem {
       armStop();
     }
   }
+  public void operateArm(Direction d){
+    if(d.equals(Direction.UP)){
+      armUp();
+    }
+    else if(d.equals(Direction.DOWN)){
+      armDown();
+    }
+    else{
+      armStop();
+    }
+  }
+
+  public void changeArmState(Direction d){
+    if(((this.d.equals(Direction.UP)) && (d.equals(Direction.DOWN)))
+        || ((this.d.equals(Direction.DOWN)) && (d.equals(Direction.UP)))){
+      
+    }
+    else{
+      this.d = d;
+      operateArm(d);
+      operateWheel(wd);
+    }
+  }
 
   public void setArmSpeed(double speed) {
     if(speed > 1) {
@@ -119,5 +148,28 @@ public class BallPickup extends Subsystem {
 
   public void reverseGrabber() {
     wheel.set(wheelSpeed);
+  }
+
+  public void operateWheel(WheelDirection d){
+    if(d.equals(WheelDirection.FORWARD)){
+      grabberOn();
+    }
+    else if(d.equals(WheelDirection.REVERSE)){
+      reverseGrabber();
+    }
+    else{
+      grabberOff();
+    }
+  }
+  
+  public void changeWheelState(WheelDirection wd){
+    if(((this.wd.equals(WheelDirection.FORWARD)) && (wd.equals(WheelDirection.REVERSE))) || ((this.wd.equals(WheelDirection.REVERSE)) && (wd.equals(WheelDirection.FORWARD)))){
+      
+    }
+    else{
+      this.wd = wd;
+      operateArm(d);
+      operateWheel(wd);
+    }
   }
 }

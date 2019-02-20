@@ -36,7 +36,7 @@ public class GrabberArm extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     //setDefaultCommand(new SuctionArmToAngle(0));
-    setDefaultCommand(new GrabberArmJoystick());
+    //setDefaultCommand(new GrabberArmJoystick());
   }
 
   public void SetWantedAngle(double angle){

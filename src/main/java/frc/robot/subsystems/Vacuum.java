@@ -18,6 +18,9 @@ import frc.robot.commands.VacuumJoystick;
 public class Vacuum extends Subsystem {
   private Solenoid vac60;
   private Solenoid vac20;
+  public static enum PsiNeed{
+    OFF, PSI_20, PSI_60;
+  }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -45,5 +48,10 @@ public class Vacuum extends Subsystem {
   public void activateVacuum20PSI(){
     deactivateVacuum();
     vac20.set(true);
+  }
+  public void onToDesiredPSI(PsiNeed psi){
+    deactivateVacuum();
+    vac20.set(psi.equals(PsiNeed.PSI_20));
+    vac60.set(psi.equals(PsiNeed.PSI_60));
   }
 }

@@ -10,11 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.BallGobber;
+import frc.robot.commands.BallGobberWheels;
 import frc.robot.commands.ElevatorToHeight;
 import frc.robot.commands.GoToHeightAuto;
 import frc.robot.commands.SuctionArmToAngle;
+import frc.robot.commands.VacuumJoystick;
+import frc.robot.commands.VacuumToPSI;
 import frc.robot.libraries.XboxController;
+import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Vacuum;
 import frc.robot.commands.OrientRobot;
 
 /**
@@ -28,24 +34,55 @@ public class OI {
   public OI(int portJoy, int portXbox) {
     xboxCon = new XboxController(portXbox);
     joystick = new Joystick(portJoy);
-    // Button GoDownElev = xboxCon.getButton(XboxController.buttonID.A);
-    // Button GoUpElev = xboxCon.getButton(XboxController.buttonID.B);
-    // Button GoHalfElev = xboxCon.getButton(XboxController.buttonID.X);
-    
-    Button GoDownGrabber = xboxCon.getButton(XboxController.buttonID.A);
-    Button GoUpGrabber = xboxCon.getButton(XboxController.buttonID.B);
-    Button GoHalfGrabber = xboxCon.getButton(XboxController.buttonID.X);
-    Button Orient = xboxCon.getButton(XboxController.buttonID.Y);
-    // joystick = new Joystick(port);
-    // button10 = new JoystickButton(joystick, 10);
-    // GoDownElev.whenActive(new ElevatorToHeight(Elevator.MIN_HEIGHT));
-    // GoUpElev.whenActive(new ElevatorToHeight(Elevator.MAX_HEIGHT));
-    // GoHalfElev.whenActive(new ElevatorToHeight((Elevator.MAX_HEIGHT+Elevator.MIN_HEIGHT)/2));
+    Button GoDownElev = new JoystickButton(joystick, 11);
+    Button GoUpElev = new JoystickButton(joystick, 12);
+    Button GoHalfElev = new JoystickButton(joystick, 10);
 
-    GoDownGrabber.whenActive(new SuctionArmToAngle(45));
-    GoUpGrabber.whenActive(new SuctionArmToAngle(0));
-    GoHalfGrabber.whenActive(new SuctionArmToAngle(90));
-    Orient.whenActive(new OrientRobot(45));
+    Button ElevUp = xboxCon.getButton(XboxController.buttonID.LB);
+    Button ElevDown = xboxCon.getButton(XboxController.buttonID.LeftTrigger, true);
+
+    Button SuctionArmUp = xboxCon.getButton(XboxController.buttonID.RB);
+    Button SuctionArmDown = xboxCon.getButton(XboxController.buttonID.RightTrigger, true);
+
+//    Button Orient = xboxCon.getButton(XboxController.buttonID.Y);
+    
+    Button SuctionCup20PsiOn = xboxCon.getButton(XboxController.buttonID.LeftYAxis, true);
+    Button SuctionCup20PsiOff = xboxCon.getButton(XboxController.buttonID.LeftYAxis, false);
+    Button SuctionCup60PsiOn = xboxCon.getButton(XboxController.buttonID.RightYAxis, true);
+    Button SuctionCup60PsiOff = xboxCon.getButton(XboxController.buttonID.RightYAxis, false);
+    
+    Button BallGobberUp = xboxCon.getButton(XboxController.buttonID.A);
+    Button BallGobberDown = xboxCon.getButton(XboxController.buttonID.B);
+    Button BallGobberIn = xboxCon.getButton(XboxController.buttonID.X);
+    Button BallGobberOut = xboxCon.getButton(XboxController.buttonID.Y);
+
+    GoDownElev.whenActive(new ElevatorToHeight(Elevator.MIN_HEIGHT));
+    GoUpElev.whenActive(new ElevatorToHeight(Elevator.MAX_HEIGHT));
+    GoHalfElev.whenActive(new ElevatorToHeight((Elevator.MAX_HEIGHT+Elevator.MIN_HEIGHT)/2));
+    
+    ElevUp.whileActive(new ElevatorToHeight(Elevator.MIN_HEIGHT));
+    ElevDown.whileActive(new ElevatorToHeight(Elevator.MAX_HEIGHT));
+
+//  Orient.whenActive(new OrientRobot(45));
+
+    SuctionArmUp.whileActive(new SuctionArmToAngle(0));
+    SuctionArmDown.whileActive(new SuctionArmToAngle(90));
+
+    SuctionCup20PsiOn.whenActive(new VacuumToPSI(Vacuum.PsiNeed.PSI_20));
+    SuctionCup20PsiOff.whenActive(new VacuumToPSI(Vacuum.PsiNeed.OFF));
+    SuctionCup60PsiOn.whenActive(new VacuumToPSI(Vacuum.PsiNeed.PSI_60));
+    SuctionCup60PsiOff.whenActive(new VacuumToPSI(Vacuum.PsiNeed.OFF));
+
+
+    BallGobberUp.whileHeld(new BallGobber(BallPickup.Direction.UP));
+    BallGobberUp.whenReleased(new BallGobber(BallPickup.Direction.OFF));
+    BallGobberDown.whileHeld(new BallGobber(BallPickup.Direction.DOWN));
+    BallGobberDown.whileHeld(new BallGobber(BallPickup.Direction.OFF));
+
+    BallGobberIn.whileHeld(new BallGobberWheels(BallPickup.WheelDirection.FORWARD));
+    BallGobberIn.whenReleased(new BallGobberWheels(BallPickup.WheelDirection.OFF));
+    BallGobberOut.whileHeld(new BallGobberWheels(BallPickup.WheelDirection.REVERSE));
+    BallGobberOut.whileHeld(new BallGobberWheels(BallPickup.WheelDirection.OFF));
   }
 
   //// CREATING BUTTONS

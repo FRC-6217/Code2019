@@ -44,7 +44,7 @@ public class Elevator extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new BallPickupJoystick());
+        //setDefaultCommand(new BallPickupJoystick());
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
