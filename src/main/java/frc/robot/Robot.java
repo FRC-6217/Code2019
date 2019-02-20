@@ -23,6 +23,8 @@ import frc.robot.subsystems.GrabberArm;
 import frc.robot.subsystems.Vacuum;
 import frc.robot.commands.GoToHeightAuto;
 import frc.robot.libraries.XboxController;
+import frc.robot.libraries.Pixy.Pixy2;
+import frc.robot.libraries.Pixy.Pixy2.LinkType;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
@@ -73,7 +75,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
     m_driveTrain = new DriveTrain();
     //m_driveTrain.GetAngle();
     //m_pneumatics = new Pneumatics();
@@ -180,6 +181,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    // Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
+    // pixy.init(1);
+    // pixy.setLED(0, 0, 255);
   }
 
   /**
