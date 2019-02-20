@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   //camera objects
-  //UsbCamera cam1;
+  UsbCamera cam1;
   //UsbCamera cam2;
   // VideoSink server;
   /**
@@ -97,13 +97,13 @@ public class Robot extends TimedRobot {
 
     //camera
 
-  //  cam1 = CameraServer.getInstance().startAutomaticCapture(0);
+    cam1 = CameraServer.getInstance().startAutomaticCapture(0);
     //cam2 = CameraServer.getInstance().startAutomaticCapture(1);
 
-   // cam1.setBrightness(30);
+    cam1.setBrightness(30);
     //cam2.setBrightness(30);
 
-    //cam1.setResolution(320, 240);
+    cam1.setResolution(320, 240);
     //cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
   }
