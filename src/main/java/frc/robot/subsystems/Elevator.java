@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.BallPickupJoystick;
+// import frc.robot.commands.BallPickupJoystick;
 
 /**
  * Add your docs here.
@@ -39,7 +39,7 @@ public class Elevator extends Subsystem {
 
     @Override
     public void initDefaultCommand() {
-        setDefaultCommand(new BallPickupJoystick());
+        // setDefaultCommand(new BallPickupJoystick());
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
