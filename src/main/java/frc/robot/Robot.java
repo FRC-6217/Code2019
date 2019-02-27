@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Pneumatics;
 import frc.robot.libraries.Pixy.*;
+import frc.robot.libraries.Pixy.Pixy2.LinkType;
 import frc.robot.libraries.Pixy.Pixy2CCC.Block;
 
 /**
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot {
   public static Pneumatics m_pneumatics;
   public static OI m_oi;
 
+  Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -43,6 +46,8 @@ public class Robot extends TimedRobot {
     m_driveTrain = new DriveTrain();
 		m_pneumatics = new Pneumatics();
     m_oi = new OI();
+
+    pixy.init();
 
     //Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
     //pixy.init();
@@ -122,6 +127,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.SPI);
+    // pixy.init();
+    pixy.setLED(0, 255, 0);
   }
 
   /**
@@ -130,12 +139,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     
-    Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.I2C);
-    pixy.init();
-   // pixy.getCCC().getBlocks(true, 1, 1);
+    // Pixy2 pixy = Pixy2.createInstance(frc.robot.libraries.Pixy.Pixy2.LinkType.SPI);
+    // pixy.init();
+    // pixy.setLED(0, 0, 255);
+    pixy.getCCC().getBlocks(true, 1, 1);
     
-    SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks(true, 1, 1));
-    
+    if(!pixy.getCCC().getBlocks().isEmpty()){
+    SmartDashboard.putNumber("X1", pixy.getCCC().getBlocks().get(0).getX());
+    }
     //pixy.setLED(0, 255, 0);
 
     Scheduler.getInstance().run();
