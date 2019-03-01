@@ -20,9 +20,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.GrabberArm;
+import frc.robot.subsystems.PixyCam;
 import frc.robot.subsystems.Vacuum;
 import frc.robot.commands.GoToHeightAuto;
 import frc.robot.libraries.XboxController;
+import frc.robot.libraries.Pixy.Pixy2;
+import frc.robot.libraries.Pixy.Pixy2.LinkType;
 import frc.robot.subsystems.BallPickup;
 import frc.robot.subsystems.Elevator;
 
@@ -41,6 +44,7 @@ public class Robot extends TimedRobot {
   public static BallPickup m_ballPickup;
   public static Elevator m_Elevator;
   public static Vacuum m_Vacuum;
+  public static PixyCam m_Pixy;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
   //to-do
@@ -71,6 +75,9 @@ public class Robot extends TimedRobot {
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
+
+   Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
+
   @Override
   public void robotInit() {
 
@@ -107,6 +114,8 @@ public class Robot extends TimedRobot {
     //cam1.setResolution(320, 240);
     //cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
+
+    pixy.init();
   }
 
   /**
@@ -200,6 +209,20 @@ public class Robot extends TimedRobot {
     // else if(m_oi_pilot.joystick.getRawButton(2)) {
     //   server.setSource(cam2);
     // }
+
+      pixy.getCCC().getBlocks(true, 1, 2);
+
+      for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
+          SmartDashboard.putNumber("X"+i, pixy.getCCC().getBlocks().get(i).getX());
+          SmartDashboard.putNumber("Y"+i, pixy.getCCC().getBlocks().get(i).getY());
+          SmartDashboard.putNumber("Height"+i, pixy.getCCC().getBlocks().get(i).getHeight());
+          SmartDashboard.putNumber("Width"+i, pixy.getCCC().getBlocks().get(i).getWidth());
+          SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
+          SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
+      }
+
+
+
     Scheduler.getInstance().run();
   }
 
