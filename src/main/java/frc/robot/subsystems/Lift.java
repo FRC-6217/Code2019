@@ -35,6 +35,10 @@ public class Lift extends PIDSubsystem {
     motor = new Spark(motorChannel);
     encoder = new Encoder(encoderChannelA, encoderChannelB);
 
+    //set input and output ranges for the pid loop
+    setInputRange(MIN_HEIGHT, MAX_HEIGHT);
+    setOutputRange(-1, 1);
+
     //start pid loop
     enable();
   }

@@ -35,6 +35,9 @@ public class VacuumArm extends PIDSubsystem {
     arm = new VictorSPX(motorPort);
     enc = new Encoder(encPortA, encPortB);
 
+    //set input and output ranges for the pid loop
+    setInputRange(MIN_ANGLE, MAX_ANGLE);
+    setOutputRange(-1, 1);
     //start pidloop
     enable();
   }
