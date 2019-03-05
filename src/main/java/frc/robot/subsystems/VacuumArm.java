@@ -8,34 +8,34 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * Add your docs here.
  */
-public class Lift extends PIDSubsystem {
+public class VacuumArm extends PIDSubsystem {
   //Measures in Inches
-  private static final double MIN_HEIGHT = 16.75;
-  private static final double MAX_HEIGHT = 41.5;
-  private double SCALAR = 0.000671;
-  private static final double bOffset = 16.75;
-  private double upSpeed = 1;
-  private double downSpeed = .8;
+  private static final double MIN_ANGLE = 0;
+  private static final double MAX_ANGLE = 180;
+  private double SCALAR = 0.0188481675;
+  private double speed = 0.7;
 
-  private Spark motor;
-  private Encoder encoder;
+  private VictorSPX arm;
+  private Encoder enc;
 
-  public Lift(int motorChannel, int encoderChannelA, int encoderChannelB) {
+  public VacuumArm(int motorPort, int encPortA, int encPortB) {
     // Insert a subsystem name and PID values here
-    super("Lift", .5, .05, 0);
+    super("VacuumArm", 0.5, 0.05, 0);
     
-    //initilize motor and encoder objects
-    motor = new Spark(motorChannel);
-    encoder = new Encoder(encoderChannelA, encoderChannelB);
+    //initilize motor and encoder
+    arm = new VictorSPX(motorPort);
+    enc = new Encoder(encPortA, encPortB);
 
-    //start pid loop
+    //start pidloop
     enable();
   }
 
@@ -47,15 +47,15 @@ public class Lift extends PIDSubsystem {
 
   public void setSetpoint(double setpoint){
     //Set out of range setpoints to be in range
-    if(setpoint > MAX_HEIGHT){
-      setpoint = MAX_HEIGHT;
+    if(setpoint > MAX_ANGLE){
+      setpoint = MAX_ANGLE;
     }
-    else if(setpoint < MIN_HEIGHT){
-      setpoint = MIN_HEIGHT;
+    else if(setpoint < MIN_ANGLE){
+      setpoint = MIN_ANGLE;
     }
 
     //print setpoint
-    SmartDashboard.putNumber("Lift Setpoint", setpoint);
+    SmartDashboard.putNumber("Arm Setpoint", setpoint);
     
     //set
     setSetpoint(setpoint);
@@ -63,39 +63,38 @@ public class Lift extends PIDSubsystem {
 
   @Override
   protected double returnPIDInput() {
-    //calculate position in inches from encoder
-    double pos = encoder.get();
-    double position = ((pos * SCALAR) + bOffset);
+   double pos = enc.get();
+   double position = (pos * SCALAR);
 
-    //Prints encoder values
-    SmartDashboard.putNumber("Lift Raw Encoder", pos);
-    SmartDashboard.putNumber("Lift Encoder Position in.", position);
-    
-    return position;
+   //Prints encoder values
+   SmartDashboard.putNumber("Arm Raw Encoder", pos);
+   SmartDashboard.putNumber("Arm Encoder Position in.", position);
+   
+   return position;
   }
 
   @Override
   protected void usePIDOutput(double output) {
     //print motor speed and direction
-    SmartDashboard.putNumber("Lift Velocity", output);
+    SmartDashboard.putNumber("Arm Velocity", output);
     
     //set
-    motor.set(output);
+    arm.set(ControlMode.PercentOutput, speed);
   }
 
   public void up(){
-    motor.set(upSpeed);
+    arm.set(ControlMode.PercentOutput, speed);
   }
 
   public void down(){
-    motor.set(-downSpeed);
+    arm.set(ControlMode.PercentOutput, -speed);
   }
 
   public void stop(){
-    motor.set(0);
+    arm.set(ControlMode.PercentOutput, 0);
   }
 
   public void resetEnc(){
-    encoder.reset();
+    enc.reset();
   }
 }
