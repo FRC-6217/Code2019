@@ -4,7 +4,11 @@ import frc.robot.commands.JoystickDrive;
 import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.SwerveDriveClass;
 
+import edu.wpi.first.wpilibj.SPI;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,10 +18,12 @@ public class DriveTrain extends Subsystem { //angle, speed
 	private WheelDrive backLeft;
 	private WheelDrive frontRight;
 	private WheelDrive frontLeft;
-	private Gyro gyro;
+	// private Gyro gyro;
+	private AHRS gyro;
 	private double x1;
 	private double y1;
 
+	private Encoder e;
 	private SwerveDriveClass swerveDrive;
 
 	DriveTrain( int brAngle, int brDrive, int brEnc,
@@ -33,6 +39,7 @@ public class DriveTrain extends Subsystem { //angle, speed
 	}
 
 	public DriveTrain(){
+		e = new Encoder(22,23);
 		backRight = new WheelDrive(45, 43, 3);
 		backLeft = new WheelDrive(42, 47, 2);
 		frontRight = new WheelDrive(46, 40, 1);
@@ -40,7 +47,12 @@ public class DriveTrain extends Subsystem { //angle, speed
 
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 
-		gyro = new ADXRS450_Gyro();
+		try{
+			gyro = new AHRS(SPI.Port.kMXP);
+		}
+		catch(Exception e){
+			System.out.print("If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
+		}
 	}
 	
 	public void initDefaultCommand() {
@@ -73,8 +85,9 @@ public class DriveTrain extends Subsystem { //angle, speed
 	}
 
 	public double GetAngle(){
-		SmartDashboard.putNumber("Gyro", -gyro.getAngle());
-		return -gyro.getAngle();
+		SmartDashboard.putNumber("Gyro", -gyro.getRawGyroY());
+		SmartDashboard.putNumber("o", e.getDistance());
+		return -gyro.getRawGyroY();
 	}
 
 	public void Drive(double x, double y, double z, double governer) {

@@ -30,34 +30,35 @@ public class JoystickDrive extends Command {
         Robot.m_driveTrain.ResetGyro();   
     }
 
-    // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        x = Robot.m_oi_pilot.joystick.getRawAxis(0);
-        y = Robot.m_oi_pilot.joystick.getRawAxis(1);
-        z = Robot.m_oi_pilot.joystick.getRawAxis(2);
-        gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(7);
-        gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(8);        
-        governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
+    //     x = Robot.m_oi_pilot.joystick.getRawAxis(0);
+    //     y = Robot.m_oi_pilot.joystick.getRawAxis(1);
+    //     z = Robot.m_oi_pilot.joystick.getRawAxis(2);
+    //     gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(7);
+    //     gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(8);        
+    //     governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
-        if(gyroButtonForward){
-            Robot.m_driveTrain.ResetGyro();
-            isReversed = false;
-        }
-        else if(gyroButtonBackward){
-            Robot.m_driveTrain.ResetGyro();
-            isReversed = true;
-        }
+    //     if(gyroButtonForward){
+    //         Robot.m_driveTrain.ResetGyro();
+    //         isReversed = false;
+    //     }
+    //     else if(gyroButtonBackward){
+    //         Robot.m_driveTrain.ResetGyro();
+    //         isReversed = true;
+    //     }
         
-        x = (Math.abs(x) > .2 ? x : 0.0);
-        y = (Math.abs(y) > .2 ? y : 0.0);
-        z = (Math.abs(z) > .2 ? z : 0.0);
+    //     x = (Math.abs(x) > .2 ? x : 0.0);
+    //     y = (Math.abs(y) > .2 ? y : 0.0);
+    //     z = (Math.abs(z) > .2 ? z : 0.0);
 
-        x1 = Robot.m_driveTrain.TransformX(x, y, isReversed);
-        y1 = Robot.m_driveTrain.TransformY(x, y, isReversed);
+    //     x1 = Robot.m_driveTrain.TransformX(x, y, isReversed);
+    //     y1 = Robot.m_driveTrain.TransformY(x, y, isReversed);
 
-        Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
-        gyroButtonForward = false;
-        gyroButtonBackward = false;
+    //     Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
+    //     gyroButtonForward = false;
+    //     gyroButtonBackward = false;
+    // // Called repeatedly when this Command is scheduled to run
+    Robot.m_driveTrain.GetAngle();
     }
 
     // Make this return true when this Command no longer needs to run execute()

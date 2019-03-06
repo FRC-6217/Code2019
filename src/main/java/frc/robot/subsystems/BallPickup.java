@@ -39,8 +39,8 @@ public class BallPickup extends Subsystem {
     wheel = new VictorSP(wheelChannel);
     rightArm = new VictorSP(rightArmChannel);
     leftArm = new VictorSP(leftArmChannel);
-    limitSwitchDown = new DigitalInput(limitSwitchDownChannel);
-    limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
+    // limitSwitchDown = new DigitalInput(limitSwitchDownChannel);
+    // limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
   }
 
   @Override

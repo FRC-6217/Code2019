@@ -192,7 +192,6 @@ public class Robot extends TimedRobot {
     // if (m_oi_pilot.joystick.getRawButton(10)) {
     //   gtha.run();
     // }
-
     //m_Elevator.updatePosition();
     // if(m_oi_pilot.joystick.getRawButton(1)) {
     //   server.setSource(cam1);
@@ -200,7 +199,7 @@ public class Robot extends TimedRobot {
     // else if(m_oi_pilot.joystick.getRawButton(2)) {
     //   server.setSource(cam2);
     // }
-    Scheduler.getInstance().run();
+   Scheduler.getInstance().run();
   }
 
   /**
