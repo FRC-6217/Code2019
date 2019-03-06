@@ -15,11 +15,11 @@ public class JoystickDrive extends Command {
     private boolean gyroButtonForward;
     private boolean gyroButtonBackward;
     private double governer;
+    
     private boolean isReversed;
-
     private double x1;
     private double y1;
-
+    
     public JoystickDrive() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.m_driveTrain);
@@ -35,8 +35,8 @@ public class JoystickDrive extends Command {
         x = Robot.m_oi_pilot.joystick.getRawAxis(0);
         y = Robot.m_oi_pilot.joystick.getRawAxis(1);
         z = Robot.m_oi_pilot.joystick.getRawAxis(2);
-        gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(7);
-        gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(8);        
+        gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(5);
+        gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(6);        
         governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
         if(gyroButtonForward){
