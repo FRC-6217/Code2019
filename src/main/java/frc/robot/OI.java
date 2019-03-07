@@ -10,6 +10,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commandGroups.Hatch.*;
+import frc.robot.commandGroups.Ball.*;
+import frc.robot.commands.PixyAndGyroAuto;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -17,7 +20,24 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI {
   public Joystick joystick = new Joystick(0);
   private Button button1 = new JoystickButton(joystick, 1);
+  private Button button2 = new JoystickButton(joystick, 2);
+  private Button button7 = new JoystickButton(joystick, 7);
+  private Button button8 = new JoystickButton(joystick, 8);
+  private Button button9 = new JoystickButton(joystick, 9);
+  private Button button10 = new JoystickButton(joystick, 10);
+  private Button button11 = new JoystickButton(joystick, 11);
+  private Button button12 = new JoystickButton(joystick, 12);
+
   public OI(/*int port*/) {
+    button1.whenPressed(new HatchLow());
+    button2.whenPressed(new PixyAndGyroAuto(0, true, true, true));
+    button7.whenPressed(new BallLow());
+    button8.whenPressed(new HatchLow());
+    button9.whenPressed(new BallMiddle());
+    button10.whenPressed(new HatchMiddle());
+    button11.whenPressed(new BallHigh());
+    button12.whenPressed(new HatchHigh());
+
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);
     //button1.whileHeld(new PidAlignJoystick());

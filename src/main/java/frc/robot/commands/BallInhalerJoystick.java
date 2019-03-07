@@ -28,13 +28,10 @@ public class BallInhalerJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    spinButton = Robot.m_oi_copilot.getButtonX();
-    reverseSpinButton = Robot.m_oi_copilot.getButtonY();
+    spinButton = Robot.m_oi_pilot.joystick.getRawButton(3);
 
-    if (spinButton && !reverseSpinButton) {
+    if (spinButton) {
       Robot.m_ballInhaler.grabberOn();
-    } else if (!spinButton && reverseSpinButton) {
-      Robot.m_ballInhaler.reverseGrabber();
     } else {
       Robot.m_ballInhaler.grabberOff();
     }
