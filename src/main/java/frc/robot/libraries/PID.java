@@ -25,6 +25,9 @@ public class PID {
     private double min = 0;
     private double max = 0;
     private double deltaTime = 0.02;
+    private double forward = 0;
+    private double reverse = 0;
+    private boolean continous = false;
 
     public PID(double p, double i, double d){
         this.P = p;
@@ -48,8 +51,34 @@ public class PID {
         this.current = current;
     }
 
+    public void setContinous(boolean setContinous){
+        if(setContinous){
+            continous = true;
+        }
+        else{
+            continous = false;
+        }
+    }
+
+    public void setContinous(){
+        setContinous(true);
+    }
+
     public void run(){
-        error = setpoint - current; // Error = Target - Actual
+        if(!continous){
+            error = setpoint - current; // Error = Target - Actual
+        }
+        else{
+            forward = Math.abs(setpoint - current);
+            reverse = Math.abs(current - setpoint);
+
+            if(forward < reverse){
+                error = setpoint - current;
+            }
+            else{
+                error = current - setpoint;
+            }
+        }
 
         integral += (error*deltaTime); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / deltaTime;
