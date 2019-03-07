@@ -61,8 +61,8 @@ public class DriveTrain extends Subsystem {
     gyro = new ADXRS450_Gyro();
 
     //pid objects
-    pixyPID = new PID(0.25, 0.15, 0.05);
-    gyroPID = new PID(0.25, 0.15, 0.05);
+    pixyPID = new PID(0.05, 0.05, 0.01);
+    gyroPID = new PID(0.05, 0.05, 0.01);
 
     pixyPID.setOutputRange(-1, 1);
     gyroPID.setOutputRange(-1, 1);
