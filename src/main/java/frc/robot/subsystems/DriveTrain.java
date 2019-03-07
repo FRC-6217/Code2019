@@ -67,7 +67,7 @@ public class DriveTrain extends Subsystem {
     pixyPID.setOutputRange(-1, 1);
     gyroPID.setOutputRange(-1, 1);
 
-    gyroPID.setContinous();
+    gyroPID.setContinuous();
   }
 
   @Override

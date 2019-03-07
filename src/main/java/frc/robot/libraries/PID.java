@@ -22,12 +22,14 @@ public class PID {
     private double current = 0;
     private double error = 0;
     private double output = 0;
-    private double min = 0;
-    private double max = 0;
+    private double minIn = 0;
+    private double maxIn = 0;
+    private double minOut = 0;
+    private double maxOut = 0;
     private double deltaTime = 0.02;
     private double forward = 0;
     private double reverse = 0;
-    private boolean continous = false;
+    private boolean continuous = false;
 
     public PID(double p, double i, double d){
         this.P = p;
@@ -38,9 +40,14 @@ public class PID {
         previous_error = 0;
     }
 
+    public void setInputRange(double min, double max){
+        this.minIn = min;
+        this.maxIn = max;
+    }
+
     public void setOutputRange(double min, double max){
-        this.min = min;
-        this.max = max;
+        this.minOut = min;
+        this.maxOut = max;
     }
 
     public void setSetpoint(double setpoint){
@@ -51,26 +58,35 @@ public class PID {
         this.current = current;
     }
 
-    public void setContinous(boolean setContinous){
-        if(setContinous){
-            continous = true;
-        }
-        else{
-            continous = false;
-        }
+    public void setContinuous(boolean setContinuous){
+        continuous = setContinuous;
     }
 
-    public void setContinous(){
-        setContinous(true);
+    public void setContinuous(){
+        setContinuous(true);
     }
 
     public void run(){
-        if(!continous){
+        if(!continuous){
             error = setpoint - current; // Error = Target - Actual
         }
         else{
-            forward = Math.abs(setpoint - current);
-            reverse = Math.abs(current - setpoint);
+            forward = setpoint - current;
+            reverse = current - setpoint;
+
+            if(forward < minIn){
+                forward += maxIn;
+            }
+            if(forward > maxIn){
+                forward -= maxIn;
+            }
+
+            if(reverse < minIn){
+                reverse += maxIn;
+            }
+            if(reverse > maxIn){
+                reverse -= maxIn;
+            }
 
             if(forward < reverse){
                 error = setpoint - current;
@@ -84,21 +100,21 @@ public class PID {
         derivative = (error - previous_error) / deltaTime;
 
         //set integral within bounds
-        if(integral > max){
-            integral = max;
+        if(integral > maxOut){
+            integral = maxOut;
         }
-        if(integral < min){
-            integral = min;
+        if(integral < minOut){
+            integral = minOut;
         }
 
         output = P*error + I*integral + D*derivative;
 
         //set output within bounds
-        if(output > max){
-            output = max;
+        if(output > maxOut){
+            output = maxOut;
         }
-        if(output < min){
-            output = min;
+        if(output < minOut){
+            output = minOut;
         }
 
         //set previous error for next iteration
