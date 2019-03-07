@@ -16,6 +16,7 @@ public class PID {
 
     //variables for calculating
     private double integral, derivative, previous_error, setpoint, current, error, output = 0;
+    private double min, max = 0;
 
     public PID(double p, double i, double d){
         this.P = p;
@@ -26,9 +27,13 @@ public class PID {
         previous_error = 0;
     }
 
+    public void setOutputRange(double min, double max){
+        this.min = min;
+        this.max = max;
+    }
+
     public void setSetpoint(double setpoint){
         this.setpoint = setpoint;
-        integral = 0;
     }
 
     public void setCurrentState(double current){
@@ -41,7 +46,23 @@ public class PID {
         integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
         derivative = (error - previous_error) / .02;
 
+        //set integral within bounds
+        if(integral > max){
+            integral = max;
+        }
+        if(integral < min){
+            integral = min;
+        }
+
         output = P*error + I*integral + D*derivative;
+
+        //set output within bounds
+        if(output > max){
+            output = max;
+        }
+        if(output < min){
+            output = min;
+        }
 
         //set previous error for next iteration
         previous_error = error;
