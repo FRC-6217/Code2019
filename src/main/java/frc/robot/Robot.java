@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
 
   //camera objects
   UsbCamera cam1;
-  //UsbCamera cam2;
+  UsbCamera cam2;
   // VideoSink server;
   /**
    * This function is run when the robot is first started up and should be
@@ -99,13 +99,13 @@ public class Robot extends TimedRobot {
     //camera
 
     cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-    //cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+    cam2 = CameraServer.getInstance().startAutomaticCapture(1);
 
     cam1.setBrightness(30);
-    //cam2.setBrightness(30);
+    cam2.setBrightness(30);
 
     cam1.setResolution(320, 240);
-    //cam2.setResolution(320, 240);
+    cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
 
     // pixy.init();
