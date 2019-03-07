@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.VacuumArmJoystick;
 import frc.robot.libraries.PID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -43,7 +44,7 @@ public class VacuumArm extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new VacuumArmJoystick());
   }
 
   ////////////Sensor Interface

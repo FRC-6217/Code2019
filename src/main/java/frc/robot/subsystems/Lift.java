@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.LiftAuto;
+import frc.robot.commands.LiftJoystick;
 import frc.robot.libraries.PID;
 
 /**
@@ -44,7 +46,7 @@ public class Lift extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new LiftJoystick());
   }
   
   ////////////Sensor Interface

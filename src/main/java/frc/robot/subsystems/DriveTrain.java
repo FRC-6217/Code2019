@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.Pixy.Pixy2;
 import frc.robot.libraries.Pixy.Pixy2.LinkType;
+import frc.robot.commands.JoystickDrive;
 import frc.robot.libraries.PID;
 import frc.robot.libraries.SwerveDriveClass;
 
@@ -81,7 +82,7 @@ public class DriveTrain extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new JoystickDrive());
   }
 
   ////////////Sensor Interfaces
