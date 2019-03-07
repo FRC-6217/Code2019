@@ -14,6 +14,7 @@ public class VacuumJoystick extends Command {
   private boolean forward60 = false;
   private boolean forward20 = false;
   private boolean button = false;
+  private boolean Comp = false;
 
   public VacuumJoystick() {
     requires(Robot.m_Vacuum);
@@ -33,7 +34,9 @@ public class VacuumJoystick extends Command {
     forward60 = (Robot.m_oi_copilot.getRightYAxis()) < (-0.15);
     forward20 = (Robot.m_oi_copilot.getLeftYAxis()) < (-0.15);
     button = (Robot.m_oi_copilot.getButtonR3() || Robot.m_oi_copilot.getButtonL3());
-    
+    Comp = (Robot.m_oi_pilot.joystick.getRawButton(4));
+
+    Robot.m_Vacuum.deOrActivateCompress(Comp);
     if(forward60){
       Robot.m_Vacuum.activateVacuum60PSI();
     }
