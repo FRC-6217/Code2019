@@ -10,13 +10,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class VacuumAuto extends Command {
-  private double goToAngle;
-
-  public VacuumAuto(double goToAngle) {
-    this.goToAngle = goToAngle;
+public class LiftAuto extends Command {
+  private double goToHeight; 
+  public LiftAuto(double goToHeight) {
+    this.goToHeight = goToHeight;
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_VacuumArm);
+    requires(Robot.m_lift);
   }
 
   // Called just before this Command runs the first time
@@ -27,13 +26,13 @@ public class VacuumAuto extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_VacuumArm.setToAngle(goToAngle);
+    Robot.m_lift.setToHeight(goToHeight);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_VacuumArm.returnArmAngle() - goToAngle) < .5;
+    return Math.abs(Robot.m_lift.returnLiftHeight() - goToHeight) < .5;
   }
 
   // Called once after isFinished returns true
