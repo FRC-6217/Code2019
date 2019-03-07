@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.commands.BallInhalerJoystick;
 import edu.wpi.first.wpilibj.VictorSP;
 /**
  * Add your docs here.
@@ -25,7 +25,7 @@ public class BallInhaler extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new BallInhalerJoystick());
   }
 
   public void grabberOn() {
