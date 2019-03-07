@@ -89,10 +89,10 @@ public class PID {
             }
 
             if(forward < reverse){
-                error = setpoint - current;
+                error = forward;
             }
             else{
-                error = current - setpoint;
+                error = reverse;
             }
         }
 

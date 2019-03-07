@@ -8,17 +8,57 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.VictorSP;
 
 /**
  * Add your docs here.
  */
 public class BallGobbler extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+  private VictorSP rightArm;
+  private VictorSP leftArm;
+  private DigitalInput limitSwitchUp;
+  private DigitalInput limitSwitchDown;
+  private double armSpeed = 1;
+ 
+  public BallGobbler(int rightArmChannel, int leftArmChannel, int limitSwitchDownChannel, int limitSwitchUpChannel) {
+
+    rightArm = new VictorSP(rightArmChannel);
+    leftArm = new VictorSP(leftArmChannel);
+    limitSwitchDown = new DigitalInput(limitSwitchDownChannel);
+    limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
+  }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+  }
+
+  public void armUp() {
+    //checkLimits();
+    if(limitSwitchUp.get()) {
+      rightArm.set(armSpeed);
+      leftArm.set(armSpeed);
+    }
+    else {
+      armStop();
+    }
+  }
+
+  public void armStop() {
+    rightArm.set(0);
+    leftArm.set(0);
+  }
+
+  public void armDown() {
+    //checkLimits();
+    if(limitSwitchDown.get()) {
+      rightArm.set(-armSpeed);
+      leftArm.set(-armSpeed);
+    }
+    else {
+      armStop();
+    }
   }
 }

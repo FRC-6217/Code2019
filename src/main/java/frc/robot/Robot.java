@@ -18,17 +18,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.BallGobbler;
+import frc.robot.subsystems.BallInhaler;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.GrabberArm;
-import frc.robot.subsystems.PixyCam;
-import frc.robot.subsystems.SwerveTrain;
+import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Vacuum;
+import frc.robot.subsystems.VacuumArm;
 import frc.robot.commands.GoToHeightAuto;
 import frc.robot.libraries.XboxController;
 import frc.robot.libraries.Pixy.Pixy2;
 import frc.robot.libraries.Pixy.Pixy2.LinkType;
-import frc.robot.subsystems.BallPickup;
-import frc.robot.subsystems.Elevator;
 
 
 /**
@@ -40,12 +39,12 @@ import frc.robot.subsystems.Elevator;
  */
 public class Robot extends TimedRobot {
   
+  public static BallGobbler m_ballGobbler;
+  public static BallInhaler m_ballInhaler;
   public static DriveTrain m_driveTrain;
-  public static GrabberArm m_grabberArm;
-  public static PixyCam m_pixycam;
-  public static BallPickup m_ballPickup;
-  public static Elevator m_Elevator;
+  public static Lift m_lift;
   public static Vacuum m_Vacuum;
+  public static VacuumArm m_VacuumArm;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
   //to-do
@@ -57,8 +56,8 @@ public class Robot extends TimedRobot {
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
   public static final int LEFT_ARM_MOTOR_CHANNEL = 8;
   public static final int BALL_GRABBER_WHEEL_MOTOR = 6;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 11;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 10;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 10;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 11;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 2;
   public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
@@ -82,17 +81,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
+    m_ballGobbler = new BallGobbler(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, LIMIT_SWITCH_BALL_PICKUP_DOWN, LIMIT_SWITCH_BALL_PICKUP_UP);
+    m_ballInhaler = new BallInhaler(BALL_GRABBER_WHEEL_MOTOR);
     m_driveTrain = new DriveTrain();
-    m_pixycam = new PixyCam();
-    //m_driveTrain.GetAngle();
-    //m_pneumatics = new Pneumatics();
-    m_ballPickup = new BallPickup(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, BALL_GRABBER_WHEEL_MOTOR, 
-        LIMIT_SWITCH_BALL_PICKUP_UP, LIMIT_SWITCH_BALL_PICKUP_DOWN);
-    m_Elevator = new Elevator(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
+    m_lift = new Lift(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
-    m_oi_copilot = new XboxController(USB_COPILOT_PORT);
-    m_grabberArm = new GrabberArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
+    m_VacuumArm = new VacuumArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
     m_oi_pilot = new OI();
+    m_oi_copilot = new XboxController(USB_COPILOT_PORT);
 
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
