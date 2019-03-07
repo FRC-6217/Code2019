@@ -153,6 +153,7 @@ public class DriveTrain extends Subsystem {
     if(setpoint > MAX_OFFSET){
       setpoint = MAX_OFFSET;
     }
+    
     else if(setpoint < MIN_OFFSET){
       setpoint = MIN_OFFSET;
     }
