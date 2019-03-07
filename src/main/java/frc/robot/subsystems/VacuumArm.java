@@ -37,7 +37,8 @@ public class VacuumArm extends Subsystem {
     enc = new Encoder(encPortA, encPortB);
 
     //pid object
-    pid = new PID(0.5, 0.05, 0);
+    pid = new PID(0.25, 0.15, 0.05);
+    pid.setOutputRange(-1, 1);
   }
   @Override
   public void initDefaultCommand() {

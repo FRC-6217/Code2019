@@ -15,8 +15,16 @@ public class PID {
     private double P, I, D = 1;
 
     //variables for calculating
-    private double integral, derivative, previous_error, setpoint, current, error, output = 0;
-    private double min, max = 0;
+    private double integral = 0;
+    private double derivative = 0;
+    private double previous_error = 0;
+    private double setpoint = 0;
+    private double current = 0;
+    private double error = 0;
+    private double output = 0;
+    private double min = 0;
+    private double max = 0;
+    private double deltaTime = 0.02;
 
     public PID(double p, double i, double d){
         this.P = p;
@@ -43,8 +51,8 @@ public class PID {
     public void run(){
         error = setpoint - current; // Error = Target - Actual
 
-        integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
-        derivative = (error - previous_error) / .02;
+        integral += (error*deltaTime); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+        derivative = (error - previous_error) / deltaTime;
 
         //set integral within bounds
         if(integral > max){
