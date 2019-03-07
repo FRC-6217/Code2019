@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.PidAlignJoystick;
 import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.SwerveDriveClass;
 
@@ -44,7 +45,8 @@ public class DriveTrain extends Subsystem { //angle, speed
 	}
 	
 	public void initDefaultCommand() {
-		setDefaultCommand(new JoystickDrive());
+		//setDefaultCommand(new JoystickDrive());
+		setDefaultCommand(new PidAlignJoystick());
 
 	}
 

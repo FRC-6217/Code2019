@@ -8,14 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class PidAlignJoystick extends Command {
   public PidAlignJoystick() {
-    requires(Robot.m_Pixy);
     requires(Robot.m_driveTrain);
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(Robot.m_pixycam);
   }
 
   // Called just before this Command runs the first time
@@ -27,6 +26,7 @@ public class PidAlignJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+      SmartDashboard.putNumber("Pixy Direction", ((160 - Robot.m_pixycam.returnAverage())  * 0.5)); 
   }
 
   // Make this return true when this Command no longer needs to run execute()

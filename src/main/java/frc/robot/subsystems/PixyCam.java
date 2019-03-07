@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.PidAlignJoystick;
 import frc.robot.libraries.Pixy.Pixy2;
 import frc.robot.libraries.Pixy.Pixy2.LinkType;
 
@@ -15,11 +17,11 @@ import frc.robot.libraries.Pixy.Pixy2.LinkType;
  * Add your docs here.
  */
 public class PixyCam extends Subsystem {
-  // private Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
+  Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
   private int average;
 
-  PixyCam(){
-    //pixy.init();
+  public PixyCam(){
+    pixy.init();
   }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -27,17 +29,29 @@ public class PixyCam extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new PidAlignJoystick());
   }
 
   public int returnAverage(){
-    // pixy.getCCC().getBlocks(true, 1, 2);
-    // average = 0;
+    pixy.getCCC().getBlocks(true, 1, 2);
+    average = 0;
 
-    // for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
-    //   average += pixy.getCCC().getBlocks().get(i).getX();
-    // }
+    for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
+      average += pixy.getCCC().getBlocks().get(i).getX();
+
+      SmartDashboard.putNumber("X"+i, pixy.getCCC().getBlocks().get(i).getX());
+      SmartDashboard.putNumber("Y"+i, pixy.getCCC().getBlocks().get(i).getY());
+      SmartDashboard.putNumber("Height"+i, pixy.getCCC().getBlocks().get(i).getHeight());
+      SmartDashboard.putNumber("Width"+i, pixy.getCCC().getBlocks().get(i).getWidth());
+      SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
+      SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
+    }
+
+    if(pixy.getCCC().getBlocks().size() != 0){
+      return (average /= pixy.getCCC().getBlocks().size());
+    }
+    else{
       return 0;
-    // return (average /= pixy.getCCC().getBlocks().size());
+    }
   }
 }
