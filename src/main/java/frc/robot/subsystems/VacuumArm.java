@@ -7,8 +7,9 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.libraries.PID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -17,7 +18,7 @@ import edu.wpi.first.wpilibj.Encoder;
 /**
  * Add your docs here.
  */
-public class VacuumArm extends PIDSubsystem {
+public class VacuumArm extends Subsystem {
   //Measures in Inches
   private static final double MIN_ANGLE = 0;
   private static final double MAX_ANGLE = 180;
@@ -27,64 +28,41 @@ public class VacuumArm extends PIDSubsystem {
   private VictorSPX arm;
   private Encoder enc;
 
+  //pid calculating object
+  private PID pid;
+
   public VacuumArm(int motorPort, int encPortA, int encPortB) {
-    // Insert a subsystem name and PID values here
-    super("VacuumArm", 0.5, 0.05, 0);
-    
     //initilize motor and encoder
     arm = new VictorSPX(motorPort);
     enc = new Encoder(encPortA, encPortB);
 
-    //set input and output ranges for the pid loop
-    setInputRange(MIN_ANGLE, MAX_ANGLE);
-    setOutputRange(-1, 1);
-    //start pidloop
-    enable();
+    //pid object
+    pid = new PID(0.5, 0.05, 0);
   }
-
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
 
-  public void setSetpoint(double setpoint){
-    //Set out of range setpoints to be in range
-    if(setpoint > MAX_ANGLE){
-      setpoint = MAX_ANGLE;
-    }
-    else if(setpoint < MIN_ANGLE){
-      setpoint = MIN_ANGLE;
-    }
+  ////////////Sensor Interface
+  public double returnArmAngle(){
+    //scale encoder reading to arm angle
+    double pos = enc.get();
+    double position = (pos * SCALAR);
 
-    //print setpoint
-    SmartDashboard.putNumber("Arm Setpoint", setpoint);
-    
-    //set
-    setSetpoint(setpoint);
-  }
-
-  @Override
-  protected double returnPIDInput() {
-   double pos = enc.get();
-   double position = (pos * SCALAR);
-
-   //Prints encoder values
-   SmartDashboard.putNumber("Arm Raw Encoder", pos);
-   SmartDashboard.putNumber("Arm Encoder Position in.", position);
+    //Prints encoder values
+    SmartDashboard.putNumber("Arm Raw Encoder", pos);
+    SmartDashboard.putNumber("Arm Encoder Position in.", position);
    
-   return position;
+    return position;
   }
 
-  @Override
-  protected void usePIDOutput(double output) {
-    //print motor speed and direction
-    SmartDashboard.putNumber("Arm Velocity", output);
-    
-    //set
-    arm.set(ControlMode.PercentOutput, speed);
+  public void resetEnc(){
+    enc.reset();
   }
 
+  ////////////Non-Pid Control
   public void up(){
     arm.set(ControlMode.PercentOutput, speed);
   }
@@ -97,7 +75,19 @@ public class VacuumArm extends PIDSubsystem {
     arm.set(ControlMode.PercentOutput, 0);
   }
 
-  public void resetEnc(){
-    enc.reset();
+  //////////Pid-Control
+  public void setToAngle(double setpoint){
+    //Set out of range setpoints to be in range
+    if(setpoint > MAX_ANGLE){
+      setpoint = MAX_ANGLE;
+    }
+    else if(setpoint < MIN_ANGLE){
+      setpoint = MIN_ANGLE;
+    }
+
+    pid.setSetpoint(setpoint);
+    pid.setCurrentState(returnArmAngle());
+
+    arm.set(ControlMode.PercentOutput, pid.getOutput());
   }
 }

@@ -7,15 +7,16 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.libraries.PID;
 
 /**
  * Add your docs here.
  */
-public class Lift extends PIDSubsystem {
+public class Lift extends Subsystem {
   //Measures in Inches
   private static final double MIN_HEIGHT = 16.75;
   private static final double MAX_HEIGHT = 41.5;
@@ -27,20 +28,16 @@ public class Lift extends PIDSubsystem {
   private Spark motor;
   private Encoder encoder;
 
-  public Lift(int motorChannel, int encoderChannelA, int encoderChannelB) {
-    // Insert a subsystem name and PID values here
-    super("Lift", .5, .05, 0);
-    
+  //pid calculating object
+  private PID pid;
+
+  public Lift(int motorChannel, int encoderChannelA, int encoderChannelB){
     //initilize motor and encoder objects
     motor = new Spark(motorChannel);
     encoder = new Encoder(encoderChannelA, encoderChannelB);
 
-    //set input and output ranges for the pid loop
-    setInputRange(MIN_HEIGHT, MAX_HEIGHT);
-    setOutputRange(-1, 1);
-
-    //start pid loop
-    enable();
+    //pid object
+    pid = new PID(0.5, 0.05, 0);
   }
 
   @Override
@@ -48,25 +45,9 @@ public class Lift extends PIDSubsystem {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
-
-  public void setSetpoint(double setpoint){
-    //Set out of range setpoints to be in range
-    if(setpoint > MAX_HEIGHT){
-      setpoint = MAX_HEIGHT;
-    }
-    else if(setpoint < MIN_HEIGHT){
-      setpoint = MIN_HEIGHT;
-    }
-
-    //print setpoint
-    SmartDashboard.putNumber("Lift Setpoint", setpoint);
-    
-    //set
-    setSetpoint(setpoint);
-  }
-
-  @Override
-  protected double returnPIDInput() {
+  
+  ////////////Sensor Interface
+  public double returnLiftHeight(){
     //calculate position in inches from encoder
     double pos = encoder.get();
     double position = ((pos * SCALAR) + bOffset);
@@ -78,28 +59,36 @@ public class Lift extends PIDSubsystem {
     return position;
   }
 
-  @Override
-  protected void usePIDOutput(double output) {
-    //print motor speed and direction
-    SmartDashboard.putNumber("Lift Velocity", output);
-    
-    //set
-    motor.set(output);
+  public void resetEnc(){
+    encoder.reset();
   }
 
+  ////////////Non-Pid Control
   public void up(){
     motor.set(upSpeed);
   }
-
+  
   public void down(){
     motor.set(-downSpeed);
   }
-
+  
   public void stop(){
     motor.set(0);
   }
 
-  public void resetEnc(){
-    encoder.reset();
+  //////////Pid-Control
+  public void setToHeight(double setpoint){
+    //Set out of range setpoints to be in range
+    if(setpoint > MAX_HEIGHT){
+      setpoint = MAX_HEIGHT;
+    }
+    else if(setpoint < MIN_HEIGHT){
+      setpoint = MIN_HEIGHT;
+    }
+
+    pid.setSetpoint(setpoint);
+    pid.setCurrentState(returnLiftHeight());
+
+    motor.set(pid.getOutput());
   }
 }

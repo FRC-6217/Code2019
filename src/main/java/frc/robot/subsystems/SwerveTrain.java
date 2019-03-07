@@ -47,15 +47,15 @@ public class SwerveTrain extends PIDSubsystem {
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
     
-    //set input and output ranges for the pid loop
-    setInputRange(MIN_ANGLE, MAX_ANGLE);
-    setOutputRange(-1, 1);
+    // //set input and output ranges for the pid loop
+    // setInputRange(MIN_ANGLE, MAX_ANGLE);
+    // setOutputRange(-1, 1);
 
-    //Allow pid loop to cross 0-360 boundary
-    getPIDController().setContinuous();
+    // //Allow pid loop to cross 0-360 boundary
+    // getPIDController().setContinuous();
 
-    //start pid
-    enable();
+    // //start pid
+    // enable();
   }
 
   @Override

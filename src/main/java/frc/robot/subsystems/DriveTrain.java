@@ -1,60 +1,123 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot.subsystems;
 
-import frc.robot.commands.JoystickDrive;
-import frc.robot.commands.PidAlignJoystick;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.libraries.WheelDrive;
+import frc.robot.libraries.Pixy.Pixy2;
+import frc.robot.libraries.Pixy.Pixy2.LinkType;
+import frc.robot.libraries.PID;
 import frc.robot.libraries.SwerveDriveClass;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveTrain extends Subsystem { //angle, speed
-	private WheelDrive backRight;
+/**
+ * Add your docs here.
+ */
+public class DriveTrain extends Subsystem {
+  private WheelDrive backRight;
 	private WheelDrive backLeft;
 	private WheelDrive frontRight;
-	private WheelDrive frontLeft;
-	private Gyro gyro;
+  private WheelDrive frontLeft;
+  private SwerveDriveClass swerveDrive;
+
+  private ADXRS450_Gyro gyro;
+  private Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
 	private double x1;
-	private double y1;
+  private double y1;
 
-	private SwerveDriveClass swerveDrive;
+  ////PID stuff
 
-	DriveTrain( int brAngle, int brDrive, int brEnc,
-				int blAngle, int blDrive, int blEnc,
-				int frAngle, int frDrive, int frEnc,
-				int flAngle, int flDrive, int flEnc){
-		backRight = new WheelDrive(40, 43, 3);
-		backLeft = new WheelDrive(45, 46, 2);
-		frontRight = new WheelDrive(42, 41, 1);
-		frontLeft = new WheelDrive(47, 44, 0);
-		
-		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
-	}
+  //pid calculating objects
+  private PID pixyPID;
+  private PID gyroPID;
 
-	public DriveTrain(){
-		backRight = new WheelDrive(45, 43, 3);
+  private static final double MIN_ANGLE = 0;
+  private static final double MAX_ANGLE = 360;
+
+  private static final double MIN_OFFSET = -160;
+  private static final double MAX_OFFSET = 160;
+
+  public DriveTrain(){
+    //Initilize Wheels
+    backRight = new WheelDrive(45, 43, 3);
 		backLeft = new WheelDrive(42, 47, 2);
 		frontRight = new WheelDrive(46, 40, 1);
 		frontLeft = new WheelDrive(41, 44, 0);
 
+    //Initilize Drivetrain
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 
-		gyro = new ADXRS450_Gyro();
-	}
-	
-	public void initDefaultCommand() {
-		//setDefaultCommand(new JoystickDrive());
-		setDefaultCommand(new PidAlignJoystick());
+    //Initilize pixycam
+    pixy.init();
 
-	}
+    //Initilize gyro
+    gyro = new ADXRS450_Gyro();
 
-	public void ResetGyro(){ //had to change from ResetGryo to ResetGyro so if that wasn´t something I was supposed to change feel free to change it back
+    //pid objects
+    pixyPID = new PID(0.5, 0.05, 0);
+    gyroPID = new PID(0.5, 0.05, 0);
+  }
+
+  @Override
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
+  }
+
+  ////////////Sensor Interfaces
+
+    //pixycam get current average reading
+  public double returnPixyAverage(boolean debug){
+    pixy.getCCC().getBlocks(true, 1, 2);
+    
+    double average = 0;
+
+    for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
+      average += pixy.getCCC().getBlocks().get(i).getX();
+
+      if(debug){
+        SmartDashboard.putNumber("X"+i, pixy.getCCC().getBlocks().get(i).getX());
+        SmartDashboard.putNumber("Y"+i, pixy.getCCC().getBlocks().get(i).getY());
+        SmartDashboard.putNumber("Height"+i, pixy.getCCC().getBlocks().get(i).getHeight());
+        SmartDashboard.putNumber("Width"+i, pixy.getCCC().getBlocks().get(i).getWidth());
+        SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
+        SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
+      }
+    }
+
+    if(pixy.getCCC().getBlocks().size() != 0){
+      return (average /= pixy.getCCC().getBlocks().size());
+    }
+    else {
+       return 0;
+    }
+  }
+
+  public double returnPixyAverage(){
+    return returnPixyAverage(false);
+  }
+
+  //return FRC gyro angle
+  public double GetAngle(){
+		SmartDashboard.putNumber("Gyro", -gyro.getAngle());
+		return -gyro.getAngle();
+  }
+  
+  //reset FRC gyro
+  public void ResetGyro(){ 
 		gyro.reset();
 	}
 
-	public double TransformX(double x, double y, boolean isReversed){
+  ////////////Non-Pid Control
+
+  public double TransformX(double x, double y, boolean isReversed){
 		if(isReversed){
 			x1 = (x * Math.cos((GetAngle() + 180) * (Math.PI / 180))) - (y * Math.sin((GetAngle() + 180) * (Math.PI / 180)));	
 		}
@@ -73,13 +136,85 @@ public class DriveTrain extends Subsystem { //angle, speed
 		}
 		return y1;
 	}
-
-	public double GetAngle(){
-		SmartDashboard.putNumber("Gyro", -gyro.getAngle());
-		return -gyro.getAngle();
-	}
-
-	public void Drive(double x, double y, double z, double governer) {
+  
+  public void Drive(double x, double y, double z, double governer) {
 		swerveDrive.drive(x*governer, y*governer, z*governer);
-	}
+  }
+  
+  //////////Pid-Control
+
+  public void AlignPixyOnly(double setpoint){
+    //Set out of range setpoints to be in range
+    if(setpoint > MAX_OFFSET){
+      setpoint = MAX_OFFSET;
+    }
+    else if(setpoint < MIN_OFFSET){
+      setpoint = MIN_OFFSET;
+    }
+    
+    pixyPID.setSetpoint(setpoint);
+    pixyPID.setCurrentState(returnPixyAverage());
+
+    Drive(pixyPID.getOutput(), 0, 0, 1);
+  }
+
+  public void AlignGyroOnly(double setpoint){
+    //Set out of range setpoints to be in range
+    if(setpoint > MAX_ANGLE){
+      setpoint = MAX_ANGLE;
+    }
+    else if(setpoint < MIN_ANGLE){
+      setpoint = MIN_ANGLE;
+    }
+
+    gyroPID.setSetpoint(setpoint);
+
+    //wraps gyro value back to 0-360 if out of range
+    double angle = GetAngle();
+    while(angle > 360){
+      angle = (angle - 360);
+    }
+    while(angle < 0){
+      angle = (angle + 360);
+    }
+
+    gyroPID.setCurrentState(angle);
+
+    Drive(0, 0, gyroPID.getOutput(), 1);
+  }
+
+  public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
+    //Set out of range setpoints to be in range
+    if(setpointPixy > MAX_OFFSET){
+      setpointPixy = MAX_OFFSET;
+    }
+    else if(setpointPixy < MIN_OFFSET){
+      setpointPixy = MIN_OFFSET;
+    }
+
+    //Set out of range setpoints to be in range
+    if(setpointGyro > MAX_ANGLE){
+      setpointGyro = MAX_ANGLE;
+    }
+    else if(setpointGyro < MIN_ANGLE){
+      setpointGyro = MIN_ANGLE;
+    }
+
+    pixyPID.setSetpoint(setpointPixy);
+    gyroPID.setSetpoint(setpointGyro);
+
+    //wraps gyro value back to 0-360 if out of range
+    double angle = GetAngle();
+    while(angle > 360){
+      angle = (angle - 360);
+    }
+    while(angle < 0){
+      angle = (angle + 360);
+    }
+
+    pixyPID.setCurrentState(returnPixyAverage());
+    gyroPID.setCurrentState(angle);
+
+    Drive(pixyPID.getOutput(), 0, gyroPID.getOutput(), 1);
+  }
 }
