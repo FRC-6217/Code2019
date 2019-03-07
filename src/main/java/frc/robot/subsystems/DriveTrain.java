@@ -14,7 +14,10 @@ import frc.robot.libraries.Pixy.Pixy2.LinkType;
 import frc.robot.libraries.PID;
 import frc.robot.libraries.SwerveDriveClass;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -28,6 +31,7 @@ public class DriveTrain extends Subsystem {
   private SwerveDriveClass swerveDrive;
 
   private ADXRS450_Gyro gyro;
+  private AHRS gyroX;
   private Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
 	private double x1;
   private double y1;
@@ -59,7 +63,11 @@ public class DriveTrain extends Subsystem {
 
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
-
+    try {
+      gyroX = new AHRS(SPI.Port.kMXP);
+    } catch (Exception e) {
+      System.out.print("If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
+    }
     //pid objects
     pixyPID = new PID(0.05, 0.05, 0.01);
     gyroPID = new PID(0.05, 0.05, 0.01);
@@ -108,17 +116,26 @@ public class DriveTrain extends Subsystem {
   public double returnPixyAverage(){
     return returnPixyAverage(false);
   }
-
+  
   //return FRC gyro angle
-  public double GetAngle(){
-		SmartDashboard.putNumber("Gyro", -gyro.getAngle());
-		return -gyro.getAngle();
+  public double GetAngle() {
+    SmartDashboard.putNumber("Gyro", -gyro.getAngle());
+    return -gyro.getAngle();
+  }
+  
+  public double GetAngleX() {
+    SmartDashboard.putNumber("GyroX", gyroX.getRawGyroY());
+    return gyroX.getRawGyroY();
   }
   
   //reset FRC gyro
   public void ResetGyro(){ 
-		gyro.reset();
-	}
+    gyro.reset();
+  }
+  
+  public void ResetGyroX(){
+    gyroX.reset();
+  }
 
   ////////////Non-Pid Control
 
@@ -176,7 +193,7 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpoint);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngle();
+    double angle = GetAngleX();
     while(angle > 360){
       angle = (angle - 360);
     }
@@ -210,7 +227,7 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpointGyro);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngle();
+    double angle = GetAngleX();
     while(angle > 360){
       angle = (angle - 360);
     }

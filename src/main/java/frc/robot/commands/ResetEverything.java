@@ -23,6 +23,7 @@ public class ResetEverything extends Command {
   @Override
   protected void initialize() {
     Robot.m_driveTrain.ResetGyro();
+    Robot.m_driveTrain.ResetGyroX();
     Robot.m_lift.resetEnc();
     Robot.m_VacuumArm.resetEnc();
   }
