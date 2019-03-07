@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class GoToHeightAuto extends Command {
-  private double height;
-  public GoToHeightAuto(double height) {
-    this.height = height;
-    requires(Robot.m_Elevator);
+public class ResetEverything extends Command {
+  public ResetEverything() {
+    requires(Robot.m_VacuumArm);
+    requires(Robot.m_driveTrain);
+    requires(Robot.m_lift);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -22,18 +22,21 @@ public class GoToHeightAuto extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    Robot.m_driveTrain.ResetGyro();
+    Robot.m_lift.resetEnc();
+    Robot.m_VacuumArm.resetEnc();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //Robot.m_Elevator.goToHeight(height);
-    Robot.m_Elevator.goUp();
+    end();
   }
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;//Robot.m_Elevator.encoder.get() > 3000;
+    return true;
   }
 
   // Called once after isFinished returns true
@@ -45,5 +48,6 @@ public class GoToHeightAuto extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
