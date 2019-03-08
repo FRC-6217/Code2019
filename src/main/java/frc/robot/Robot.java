@@ -42,29 +42,31 @@ public class Robot extends TimedRobot {
   public static VacuumArm m_VacuumArm;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
+  public static CarLift m_carLift;
   //to-do
   public static final int PORT_GRABBER_MOTOR = 48;
-  public static final int PORT_GRABBER_ENC_A = 5;
-  public static final int PORT_GRABBER_ENC_B = 6;
+  public static final int PORT_GRABBER_ENC_A = 3;
+  public static final int PORT_GRABBER_ENC_B = 4;
   public static final int USB_PILOT_PORT = 0;
   public static final int USB_COPILOT_PORT = 1;
   public static final int RIGHT_ARM_MOTOR_CHANNEL = 7;
   public static final int LEFT_ARM_MOTOR_CHANNEL = 8;
   public static final int BALL_GRABBER_WHEEL_MOTOR = 6;
-  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 10;
+  public static final int LIMIT_SWITCH_BALL_PICKUP_UP = 0;
   public static final int LIMIT_SWITCH_BALL_PICKUP_DOWN = 11;
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 2;
   public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
   public static final int VACUUM_CHANNEL_60_PSI = 0;
   public static final int VACUUM_CHANNEL_20_PSI = 1;
+  public static final int PORT_CAR_LIFT = 2;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   //camera objects
   UsbCamera cam1;
-  UsbCamera cam2;
+  //UsbCamera cam2;
   // VideoSink server;
   /**
    * This function is run when the robot is first started up and should be
@@ -82,6 +84,7 @@ public class Robot extends TimedRobot {
     m_lift = new Lift(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
     m_VacuumArm = new VacuumArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
+    m_carLift = new CarLift(PORT_CAR_LIFT);
     m_oi_pilot = new OI();
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
 
@@ -99,13 +102,13 @@ public class Robot extends TimedRobot {
     //camera
 
     cam1 = CameraServer.getInstance().startAutomaticCapture(0);
-    cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+    // cam2 = CameraServer.getInstance().startAutomaticCapture(1);
 
     cam1.setBrightness(30);
-    cam2.setBrightness(30);
+    // cam2.setBrightness(30);
 
     cam1.setResolution(320, 240);
-    cam2.setResolution(320, 240);
+    // cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
 
     // pixy.init();

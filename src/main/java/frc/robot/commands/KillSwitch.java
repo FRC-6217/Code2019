@@ -10,32 +10,18 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PixyAndGyroAuto extends Command {
-  private int goToAngle;
-  private boolean gyro;
-  private boolean pixy;
-  private final double PIXY_SETPOINT = 160.0;
-  // private final double GYRO_SETPOINT = 0.0;
-  private double smallest;
+public class KillSwitch extends Command {
+  public KillSwitch() {
+    // requires(Robot.m_Vacuum);
+    // requires(Robot.m_VacuumArm);
+    // requires(Robot.m_ballGobbler);
+    // requires(Robot.m_ballInhaler);
+    // requires(Robot.m_carLift);
+    // requires(Robot.m_driveTrain);
+    // requires(Robot.m_lift);
 
-  public PixyAndGyroAuto(int goToAngle, boolean gyro, boolean pixy, boolean closeAngle) {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_driveTrain);
-    if(closeAngle){
-      smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 0);
-      goToAngle = 0;
-      for (int i = 1; i<9; i++){
-        if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - (i*45))) {
-          smallest = Math.abs(Robot.m_driveTrain.GetAngle() - (i*45));
-          goToAngle = i*45;
-        } 
-      } 
-    }
-    else{
-      this.goToAngle = goToAngle;
-    }
-    this.gyro = gyro;
-    this.pixy = pixy;
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -46,16 +32,8 @@ public class PixyAndGyroAuto extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (pixy && gyro) {
-      Robot.m_driveTrain.AlignPixyAndGyro(PIXY_SETPOINT, goToAngle);
-    }
-    else if (gyro) {
-      Robot.m_driveTrain.AlignGyroOnly(goToAngle);
-    }
-    else if (pixy){
-      Robot.m_driveTrain.AlignPixyOnly(PIXY_SETPOINT);
-    }
   }
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {

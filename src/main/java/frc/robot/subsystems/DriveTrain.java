@@ -46,8 +46,8 @@ public class DriveTrain extends Subsystem {
   private static final double MIN_ANGLE = 0;
   private static final double MAX_ANGLE = 360;
 
-  private static final double MIN_OFFSET = -160;
-  private static final double MAX_OFFSET = 160;
+  private static final double MIN_OFFSET = 0;
+  private static final double MAX_OFFSET = 320;
 
   public DriveTrain(){
     //Initilize Wheels
@@ -60,7 +60,7 @@ public class DriveTrain extends Subsystem {
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 
     //Initilize pixycam
-    pixy.init();
+    pixy.init(4);
 
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
@@ -70,12 +70,13 @@ public class DriveTrain extends Subsystem {
       System.out.print("If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
     //pid objects
-    pixyPID = new PID(0.05, 0.05, 0.01);
+    pixyPID = new PID(0.01, 0.005, 0);
     gyroPID = new PID(0.05, 0.05, 0.01);
 
-    pixyPID.setOutputRange(-1, 1);
+    pixyPID.setOutputRange(-.3, .3);
     gyroPID.setOutputRange(-1, 1);
 
+    gyroPID.setInputRange(0, 360);
     gyroPID.setContinuous();
   }
 
@@ -177,7 +178,7 @@ public class DriveTrain extends Subsystem {
     }
     
     pixyPID.setSetpoint(setpoint);
-    pixyPID.setCurrentState(returnPixyAverage());
+    pixyPID.setCurrentState(returnPixyAverage(true));
 
     Drive(pixyPID.getOutput(), 0, 0, 1);
   }

@@ -35,7 +35,9 @@ public class BallGobberJoystick extends Command {
     } else if (down) {
       Robot.m_ballGobbler.armDown();
     }
+    else{
     Robot.m_ballGobbler.armStop();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

@@ -37,6 +37,7 @@ public class VacuumArmJoystick extends Command {
     } else {
       Robot.m_VacuumArm.stop();
     }
+    Robot.m_VacuumArm.returnArmAngle();
   }
 
   // Make this return true when this Command no longer needs to run execute()

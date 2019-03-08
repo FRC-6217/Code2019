@@ -10,32 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class PixyAndGyroAuto extends Command {
-  private int goToAngle;
-  private boolean gyro;
-  private boolean pixy;
-  private final double PIXY_SETPOINT = 160.0;
-  // private final double GYRO_SETPOINT = 0.0;
-  private double smallest;
+public class CarLiftJoystick extends Command {
+  private boolean up = false;
+  private boolean down = true;
 
-  public PixyAndGyroAuto(int goToAngle, boolean gyro, boolean pixy, boolean closeAngle) {
+  public CarLiftJoystick() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_driveTrain);
-    if(closeAngle){
-      smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 0);
-      goToAngle = 0;
-      for (int i = 1; i<9; i++){
-        if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - (i*45))) {
-          smallest = Math.abs(Robot.m_driveTrain.GetAngle() - (i*45));
-          goToAngle = i*45;
-        } 
-      } 
-    }
-    else{
-      this.goToAngle = goToAngle;
-    }
-    this.gyro = gyro;
-    this.pixy = pixy;
+    requires(Robot.m_carLift);
   }
 
   // Called just before this Command runs the first time
@@ -46,16 +27,20 @@ public class PixyAndGyroAuto extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (pixy && gyro) {
-      Robot.m_driveTrain.AlignPixyAndGyro(PIXY_SETPOINT, goToAngle);
+    up = Robot.m_oi_copilot.getButtonY();
+    down = Robot.m_oi_copilot.getButtonX();
+
+    if (up && !down) {
+      Robot.m_carLift.up();
     }
-    else if (gyro) {
-      Robot.m_driveTrain.AlignGyroOnly(goToAngle);
+    else if (!up && down) {
+      Robot.m_carLift.down();
     }
-    else if (pixy){
-      Robot.m_driveTrain.AlignPixyOnly(PIXY_SETPOINT);
+    else{
+      Robot.m_carLift.stop();
     }
   }
+
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
@@ -65,11 +50,13 @@ public class PixyAndGyroAuto extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_carLift.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }

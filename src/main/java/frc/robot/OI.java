@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commandGroups.Hatch.*;
 import frc.robot.commandGroups.Ball.*;
+import frc.robot.commands.LiftAuto;
 import frc.robot.commands.PixyAndGyroAuto;
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,14 +30,14 @@ public class OI {
   private Button button12 = new JoystickButton(joystick, 12);
 
   public OI(/*int port*/) {
-    button1.whenPressed(new HatchLow());
-    button2.whenPressed(new PixyAndGyroAuto(0, true, true, true));
-    button7.whenPressed(new BallLow());
-    button8.whenPressed(new HatchLow());
-    button9.whenPressed(new BallMiddle());
+    // button1.whenPressed(new HatchLow());
+    button2.whileHeld(new PixyAndGyroAuto(0, false, true, false));
+    // button7.whenPressed(new LiftAuto(25));
+    // button8.whenPressed(new HatchLow());
+    // button9.whenPressed(new BallMiddle());
     button10.whenPressed(new HatchMiddle());
-    button11.whenPressed(new BallHigh());
-    button12.whenPressed(new HatchHigh());
+    // button11.whenPressed(new BallHigh());
+    // button12.whenPressed(new HatchHigh());
 
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);

@@ -26,6 +26,7 @@ public class PID {
     private double maxIn = 0;
     private double minOut = 0;
     private double maxOut = 0;
+    private double inRange = 0;
     private double deltaTime = 0.02;
     private double forward = 0;
     private double reverse = 0;
@@ -43,6 +44,7 @@ public class PID {
     public void setInputRange(double min, double max){
         this.minIn = min;
         this.maxIn = max;
+        this.inRange = max - min;
     }
 
     public void setOutputRange(double min, double max){
@@ -74,21 +76,17 @@ public class PID {
             forward = setpoint - current;
             reverse = current - setpoint;
 
-            if(forward < minIn){
-                forward += maxIn;
-            }
-            if(forward > maxIn){
-                forward -= maxIn;
+            reverse *= -1;
+
+            if(reverse < 0){
+                reverse += inRange;
             }
 
-            if(reverse < minIn){
-                reverse += maxIn;
-            }
-            if(reverse > maxIn){
-                reverse -= maxIn;
+            if(reverse > 0){
+                reverse -= inRange;
             }
 
-            if(forward < reverse){
+            if(Math.abs(forward) < Math.abs(reverse)){
                 error = forward;
             }
             else{

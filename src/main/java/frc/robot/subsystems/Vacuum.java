@@ -60,5 +60,7 @@ public class Vacuum extends Subsystem {
       comp.setClosedLoopControl(true);
       running = true;
     }
+    comp.setClosedLoopControl(true);
+    running = true;
   }
 }

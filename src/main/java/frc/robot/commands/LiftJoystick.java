@@ -38,6 +38,7 @@ public class LiftJoystick extends Command {
     } else {
       Robot.m_lift.stop();
     }
+    Robot.m_lift.returnLiftHeight();
   }
 
   // Make this return true when this Command no longer needs to run execute()

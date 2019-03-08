@@ -26,6 +26,8 @@ public class BallGobbler extends Subsystem {
 
     rightArm = new VictorSP(rightArmChannel);
     leftArm = new VictorSP(leftArmChannel);
+    // rightArm.setInverted(true);
+    
     limitSwitchDown = new DigitalInput(limitSwitchDownChannel);
     limitSwitchUp = new DigitalInput(limitSwitchUpChannel);
   }

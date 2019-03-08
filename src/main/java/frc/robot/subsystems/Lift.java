@@ -21,8 +21,8 @@ import frc.robot.libraries.PID;
 public class Lift extends Subsystem {
   //Measures in Inches
   private static final double MIN_HEIGHT = 16.75;
-  private static final double MAX_HEIGHT = 41.5;
-  private double SCALAR = 0.000671;
+  private static final double MAX_HEIGHT = 50;
+  private double SCALAR = 0.000983382;
   private static final double bOffset = 16.75;
   private double upSpeed = 1;
   private double downSpeed = .8;
@@ -39,7 +39,7 @@ public class Lift extends Subsystem {
     encoder = new Encoder(encoderChannelA, encoderChannelB);
 
     //pid object
-    pid = new PID(0.15, 0.05, 0.05);
+    pid = new PID(0.5, 0, 0);
     pid.setOutputRange(-1, 1);
   }
 
@@ -68,11 +68,11 @@ public class Lift extends Subsystem {
 
   ////////////Non-Pid Control
   public void up(){
-    motor.set(upSpeed);
+    motor.set(-upSpeed);
   }
   
   public void down(){
-    motor.set(-downSpeed);
+    motor.set(downSpeed);
   }
   
   public void stop(){
@@ -92,6 +92,6 @@ public class Lift extends Subsystem {
     pid.setSetpoint(setpoint);
     pid.setCurrentState(returnLiftHeight());
 
-    motor.set(pid.getOutput());
+    motor.set(-pid.getOutput());
   }
 }
