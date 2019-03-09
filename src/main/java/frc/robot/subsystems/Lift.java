@@ -21,8 +21,8 @@ import frc.robot.libraries.PID;
 public class Lift extends Subsystem {
   //Measures in Inches
   private static final double MIN_HEIGHT = 16.75;
-  private static final double MAX_HEIGHT = 50;
-  private double SCALAR = 0.000983382;
+  private static final double MAX_HEIGHT = 42;
+  private double SCALAR = 0.000674745249;
   private static final double bOffset = 16.75;
   private double upSpeed = 1;
   private double downSpeed = .8;

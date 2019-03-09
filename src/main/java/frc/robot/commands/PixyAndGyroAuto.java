@@ -11,25 +11,51 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class PixyAndGyroAuto extends Command {
-  private int goToAngle;
+  private double goToAngle;
   private boolean gyro;
   private boolean pixy;
-  private final double PIXY_SETPOINT = 160.0;
+  private final double PIXY_SETPOINT = 65.0;
   // private final double GYRO_SETPOINT = 0.0;
   private double smallest;
 
-  public PixyAndGyroAuto(int goToAngle, boolean gyro, boolean pixy, boolean closeAngle) {
+  public PixyAndGyroAuto(double goToAngle, boolean gyro, boolean pixy, boolean closeAngle) {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_driveTrain);
     if(closeAngle){
       smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 0);
       goToAngle = 0;
-      for (int i = 1; i<9; i++){
-        if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - (i*45))) {
-          smallest = Math.abs(Robot.m_driveTrain.GetAngle() - (i*45));
-          goToAngle = i*45;
-        } 
-      } 
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 61.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 61.25);
+        goToAngle = 61.25;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 90)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 90);
+        goToAngle = 90;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 151.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 151.25);
+        goToAngle = 151.25;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 180)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 180);
+        goToAngle = 180;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 241.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 241.25);
+        goToAngle = 241.25;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 270)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 270);
+        goToAngle = 270;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 331.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 331.25);
+        goToAngle = 331.25;
+      }
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 360)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 360);
+        goToAngle = 360;
+      }
     }
     else{
       this.goToAngle = goToAngle;
@@ -49,10 +75,10 @@ public class PixyAndGyroAuto extends Command {
     if (pixy && gyro) {
       Robot.m_driveTrain.AlignPixyAndGyro(PIXY_SETPOINT, goToAngle);
     }
-    else if (gyro) {
+    else if (gyro && !pixy) {
       Robot.m_driveTrain.AlignGyroOnly(goToAngle);
     }
-    else if (pixy){
+    else if (pixy && !gyro){
       Robot.m_driveTrain.AlignPixyOnly(PIXY_SETPOINT);
     }
   }

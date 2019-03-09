@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
 public class VacuumJoystick extends Command {
@@ -39,12 +40,15 @@ public class VacuumJoystick extends Command {
     Robot.m_Vacuum.deOrActivateCompress(Comp);
     if(forward60){
       Robot.m_Vacuum.activateVacuum60PSI();
+      SmartDashboard.putBoolean("Pressure", true);
     }
     else if(forward20){
       Robot.m_Vacuum.activateVacuum20PSI();
+      SmartDashboard.putBoolean("Pressure", true);
     }
     else if(button) {
       Robot.m_Vacuum.deactivateVacuum();
+      SmartDashboard.putBoolean("Pressure", false);
     }
   }
 

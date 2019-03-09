@@ -16,6 +16,8 @@ public class LiftAuto extends Command {
     this.goToHeight = goToHeight;
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_lift);
+
+    setTimeout(10);
   }
 
   // Called just before this Command runs the first time
@@ -32,7 +34,7 @@ public class LiftAuto extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_lift.returnLiftHeight() - goToHeight) < .5;
+    return (Math.abs(Robot.m_lift.returnLiftHeight() - goToHeight) < 1) || (isTimedOut());
   }
 
   // Called once after isFinished returns true

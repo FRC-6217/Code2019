@@ -19,6 +19,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -65,16 +66,16 @@ public class DriveTrain extends Subsystem {
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
     try {
-      gyroX = new AHRS(SPI.Port.kMXP);
+      gyroX = new AHRS(Port.kMXP);
     } catch (Exception e) {
       System.out.print("If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
     //pid objects
-    pixyPID = new PID(0.01, 0.005, 0);
-    gyroPID = new PID(0.05, 0.05, 0.01);
+    pixyPID = new PID(0.01, 0.01, 0);
+    gyroPID = new PID(0.05, 0, 0);
 
     pixyPID.setOutputRange(-.3, .3);
-    gyroPID.setOutputRange(-1, 1);
+    gyroPID.setOutputRange(-0.5, 0.5);
 
     gyroPID.setInputRange(0, 360);
     gyroPID.setContinuous();
@@ -90,7 +91,7 @@ public class DriveTrain extends Subsystem {
 
     //pixycam get current average reading
   public double returnPixyAverage(boolean debug){
-    pixy.getCCC().getBlocks(true, 1, 2);
+    pixy.getCCC().getBlocks(true, 2, 2);
     
     double average = 0;
 
@@ -111,7 +112,7 @@ public class DriveTrain extends Subsystem {
       return (average /= pixy.getCCC().getBlocks().size());
     }
     else {
-       return 0;
+       return 65;
     }
   }
 
@@ -126,8 +127,8 @@ public class DriveTrain extends Subsystem {
   }
   
   public double GetAngleX() {
-    SmartDashboard.putNumber("GyroX", gyroX.getRawGyroY());
-    return gyroX.getRawGyroY();
+    SmartDashboard.putNumber("GyroX", gyroX.getAngle());
+    return gyroX.getAngle();
   }
   
   //reset FRC gyro
@@ -180,7 +181,7 @@ public class DriveTrain extends Subsystem {
     pixyPID.setSetpoint(setpoint);
     pixyPID.setCurrentState(returnPixyAverage(true));
 
-    Drive(pixyPID.getOutput(), 0, 0, 1);
+    Drive(-pixyPID.getOutput(), 0, 0, 1);
   }
 
   public void AlignGyroOnly(double setpoint){
@@ -195,7 +196,7 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpoint);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngleX();
+    double angle = GetAngle();
     while(angle > 360){
       angle = (angle - 360);
     }
@@ -205,7 +206,7 @@ public class DriveTrain extends Subsystem {
 
     gyroPID.setCurrentState(angle);
 
-    Drive(0, 0, gyroPID.getOutput(), 1);
+    Drive(0, 0, -gyroPID.getOutput(), 1);
   }
 
   public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
@@ -229,7 +230,7 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpointGyro);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngleX();
+    double angle = GetAngle();
     while(angle > 360){
       angle = (angle - 360);
     }
@@ -240,6 +241,6 @@ public class DriveTrain extends Subsystem {
     pixyPID.setCurrentState(returnPixyAverage());
     gyroPID.setCurrentState(angle);
 
-    Drive(pixyPID.getOutput(), 0, gyroPID.getOutput(), 1);
+    Drive(-pixyPID.getOutput(), 0, -gyroPID.getOutput(), 1);
   }
 }

@@ -7,35 +7,33 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.CarLiftJoystick;
+import frc.robot.commands.PistonJoystick;
 
 /**
  * Add your docs here.
  */
-public class CarLift extends Subsystem {
-  private Spark motor;
+public class pistons extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  public CarLift(int port){
-    motor = new Spark(port);
+  DoubleSolenoid soli;
+  public pistons(int sol1, int sol2){
+    soli = new DoubleSolenoid(sol1, sol2);
   }
-  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new CarLiftJoystick());
+    setDefaultCommand(new PistonJoystick());
   }
 
-  public void up() {
-    motor.set(.5);
-  }
-  public void down() {
-    motor.set(-.5);
-  }
-
-  public void stop(){
-    motor.set(0);
+  public void run(boolean down){
+    if(down){
+      soli.set(Value.kReverse);
+    }
+    else{
+      soli.set(Value.kForward);
+    }
   }
 }

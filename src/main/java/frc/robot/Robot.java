@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
   public static VacuumArm m_VacuumArm;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
-  public static CarLift m_carLift;
+  public static pistons m_Pistons;
   //to-do
   public static final int PORT_GRABBER_MOTOR = 48;
   public static final int PORT_GRABBER_ENC_A = 3;
@@ -78,13 +78,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
+    m_Pistons = new pistons(2,3);
     m_ballGobbler = new BallGobbler(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, LIMIT_SWITCH_BALL_PICKUP_DOWN, LIMIT_SWITCH_BALL_PICKUP_UP);
     m_ballInhaler = new BallInhaler(BALL_GRABBER_WHEEL_MOTOR);
     m_driveTrain = new DriveTrain();
     m_lift = new Lift(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
     m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
     m_VacuumArm = new VacuumArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
-    m_carLift = new CarLift(PORT_CAR_LIFT);
     m_oi_pilot = new OI();
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
 

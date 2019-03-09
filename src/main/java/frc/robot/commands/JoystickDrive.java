@@ -27,7 +27,7 @@ public class JoystickDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Robot.m_driveTrain.ResetGyro();   
+        //Robot.m_driveTrain.ResetGyro();   
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -35,8 +35,8 @@ public class JoystickDrive extends Command {
         x = Robot.m_oi_pilot.joystick.getRawAxis(0);
         y = Robot.m_oi_pilot.joystick.getRawAxis(1);
         z = Robot.m_oi_pilot.joystick.getRawAxis(2);
-        gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(5);
-        gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(6);        
+        gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(6);
+        gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(5);        
         governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
         if(gyroButtonForward){
@@ -58,6 +58,9 @@ public class JoystickDrive extends Command {
         Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
         gyroButtonForward = false;
         gyroButtonBackward = false;
+
+        Robot.m_driveTrain.GetAngleX();
+        Robot.m_driveTrain.returnPixyAverage(true);
     }
 
     // Make this return true when this Command no longer needs to run execute()

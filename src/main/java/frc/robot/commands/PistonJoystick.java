@@ -10,13 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class CarLiftJoystick extends Command {
-  private boolean up = false;
-  private boolean down = true;
+public class PistonJoystick extends Command {
+  boolean down = false;
+  boolean up = false;
 
-  public CarLiftJoystick() {
+  public PistonJoystick() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_carLift);
+    // eg. requires(chassis);
+    requires(Robot.m_Pistons);
   }
 
   // Called just before this Command runs the first time
@@ -27,17 +28,14 @@ public class CarLiftJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    up = Robot.m_oi_copilot.getButtonY();
     down = Robot.m_oi_copilot.getButtonX();
+    up = Robot.m_oi_copilot.getButtonY();
 
-    if (up && !down) {
-      Robot.m_carLift.up();
+    if (!up && down) {
+      Robot.m_Pistons.run(true);
     }
-    else if (!up && down) {
-      Robot.m_carLift.down();
-    }
-    else{
-      Robot.m_carLift.stop();
+    else if (!down && up) {
+      Robot.m_Pistons.run(false);
     }
   }
 
@@ -50,13 +48,11 @@ public class CarLiftJoystick extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.m_carLift.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

@@ -23,7 +23,7 @@ public class VacuumArm extends Subsystem {
   //Measures in Inches
   private static final double MIN_ANGLE = 0;
   private static final double MAX_ANGLE = 180;
-  private double SCALAR = 0.0188481675;
+  private double SCALAR = 0.02105;
   private double speed = 0.7;
 
   private VictorSPX arm;
@@ -38,7 +38,7 @@ public class VacuumArm extends Subsystem {
     enc = new Encoder(encPortA, encPortB);
 
     //pid object
-    pid = new PID(0.05, 0.05, 0.01);
+    pid = new PID(0.09, 0.05, 0.01);
     pid.setOutputRange(-1, 1);
   }
   @Override
@@ -90,6 +90,6 @@ public class VacuumArm extends Subsystem {
     pid.setSetpoint(setpoint);
     pid.setCurrentState(returnArmAngle());
 
-    arm.set(ControlMode.PercentOutput, pid.getOutput());
+    arm.set(ControlMode.PercentOutput, -pid.getOutput());
   }
 }

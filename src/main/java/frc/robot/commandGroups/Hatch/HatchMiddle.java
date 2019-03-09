@@ -14,10 +14,11 @@ import frc.robot.commands.VacuumAuto;
 public class HatchMiddle extends CommandGroup {
   /**
    * Add your docs here.
+   * 
    */
   public HatchMiddle() {
-    addSequential(new LiftAuto(29.25));
-    addSequential(new VacuumAuto(60));
+    addParallel(new VacuumAuto(65));
+    addSequential(new LiftAuto(31.25));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

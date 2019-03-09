@@ -17,6 +17,8 @@ public class VacuumAuto extends Command {
     this.goToAngle = goToAngle;
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_VacuumArm);
+
+    setTimeout(10);
   }
 
   // Called just before this Command runs the first time
@@ -33,7 +35,7 @@ public class VacuumAuto extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return Math.abs(Robot.m_VacuumArm.returnArmAngle() - goToAngle) < .5;
+    return (Math.abs(Robot.m_VacuumArm.returnArmAngle() - goToAngle) < 1.5) || (isTimedOut());
   }
 
   // Called once after isFinished returns true
