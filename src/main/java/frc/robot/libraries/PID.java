@@ -22,8 +22,6 @@ public class PID {
     private double current = 0;
     private double error = 0;
     private double output = 0;
-    private double minIn = 0;
-    private double maxIn = 0;
     private double minOut = 0;
     private double maxOut = 0;
     private double inRange = 0;
@@ -42,8 +40,6 @@ public class PID {
     }
 
     public void setInputRange(double min, double max){
-        this.minIn = min;
-        this.maxIn = max;
         this.inRange = max - min;
     }
 

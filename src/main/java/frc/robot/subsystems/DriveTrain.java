@@ -127,8 +127,8 @@ public class DriveTrain extends Subsystem {
   }
   
   public double GetAngleX() {
-    SmartDashboard.putNumber("GyroX", gyroX.getAngle());
-    return gyroX.getAngle();
+    SmartDashboard.putNumber("GyroX", -gyroX.getAngle());
+    return -gyroX.getAngle();
   }
   
   //reset FRC gyro
@@ -196,12 +196,12 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpoint);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngle();
+    double angle = GetAngleX();
     while(angle > 360){
-      angle = (angle - 360);
+      angle -= 360;
     }
     while(angle < 0){
-      angle = (angle + 360);
+      angle += 360;
     }
 
     gyroPID.setCurrentState(angle);
@@ -230,15 +230,15 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpointGyro);
 
     //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngle();
+    double angle = GetAngleX();
     while(angle > 360){
-      angle = (angle - 360);
+      angle -= 360;
     }
     while(angle < 0){
-      angle = (angle + 360);
+      angle += 360;
     }
 
-    pixyPID.setCurrentState(returnPixyAverage());
+    pixyPID.setCurrentState(returnPixyAverage(true));
     gyroPID.setCurrentState(angle);
 
     Drive(-pixyPID.getOutput(), 0, -gyroPID.getOutput(), 1);

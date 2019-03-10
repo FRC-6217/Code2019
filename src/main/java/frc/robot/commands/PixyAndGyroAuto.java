@@ -22,39 +22,39 @@ public class PixyAndGyroAuto extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_driveTrain);
     if(closeAngle){
-      smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 0);
-      goToAngle = 0;
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 61.25)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 61.25);
-        goToAngle = 61.25;
+      smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 0);
+      this.goToAngle = 0;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 61.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 61.25);
+        this.goToAngle = 61.25;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 90)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 90);
-        goToAngle = 90;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 90)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 90);
+        this.goToAngle = 90;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 151.25)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 151.25);
-        goToAngle = 151.25;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 151.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 151.25);
+        this.goToAngle = 151.25;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 180)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 180);
-        goToAngle = 180;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 180)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 180);
+        this.goToAngle = 180;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 241.25)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 241.25);
-        goToAngle = 241.25;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 241.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 241.25);
+        this.goToAngle = 241.25;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 270)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 270);
-        goToAngle = 270;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 270)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 270);
+        this.goToAngle = 270;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 331.25)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 331.25);
-        goToAngle = 331.25;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 331.25)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 331.25);
+        this.goToAngle = 331.25;
       }
-      if (smallest > Math.abs(Robot.m_driveTrain.GetAngle() - 360)) {
-        smallest = Math.abs(Robot.m_driveTrain.GetAngle() - 360);
-        goToAngle = 360;
+      if (smallest > Math.abs(Robot.m_driveTrain.GetAngleX() - 360)) {
+        smallest = Math.abs(Robot.m_driveTrain.GetAngleX() - 360);
+        this.goToAngle = 360;
       }
     }
     else{
