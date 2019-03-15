@@ -68,7 +68,7 @@ public class DriveTrain extends Subsystem {
     try {
       gyroX = new AHRS(Port.kMXP);
     } catch (Exception e) {
-      System.out.print("If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
+      SmartDashboard.putString( "NAVX error" ,"If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
     //pid objects
     pixyPID = new PID(0.01, 0.01, 0);
@@ -127,8 +127,17 @@ public class DriveTrain extends Subsystem {
   }
   
   public double GetAngleX() {
-    SmartDashboard.putNumber("GyroX", -gyroX.getAngle());
-    return -gyroX.getAngle();
+    double angle = gyroX.getAngle();
+    while(angle > 360){
+      angle -= 360;
+    }
+    while(angle < 0){
+      angle += 360;
+    }
+
+    SmartDashboard.putNumber("GyroX", angle);
+
+    return angle;
   }
   
   //reset FRC gyro
@@ -182,6 +191,8 @@ public class DriveTrain extends Subsystem {
     pixyPID.setCurrentState(returnPixyAverage(true));
 
     Drive(-pixyPID.getOutput(), 0, 0, 1);
+    
+    SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
   }
 
   public void AlignGyroOnly(double setpoint){
@@ -194,19 +205,11 @@ public class DriveTrain extends Subsystem {
     }
 
     gyroPID.setSetpoint(setpoint);
-
-    //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngleX();
-    while(angle > 360){
-      angle -= 360;
-    }
-    while(angle < 0){
-      angle += 360;
-    }
-
-    gyroPID.setCurrentState(angle);
+    gyroPID.setCurrentState(GetAngleX());
 
     Drive(0, 0, -gyroPID.getOutput(), 1);
+
+    SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
   }
 
   public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
@@ -229,18 +232,12 @@ public class DriveTrain extends Subsystem {
     pixyPID.setSetpoint(setpointPixy);
     gyroPID.setSetpoint(setpointGyro);
 
-    //wraps gyro value back to 0-360 if out of range
-    double angle = GetAngleX();
-    while(angle > 360){
-      angle -= 360;
-    }
-    while(angle < 0){
-      angle += 360;
-    }
-
     pixyPID.setCurrentState(returnPixyAverage(true));
-    gyroPID.setCurrentState(angle);
+    gyroPID.setCurrentState(GetAngleX());
 
     Drive(-pixyPID.getOutput(), 0, -gyroPID.getOutput(), 1);
+
+    // SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
+    // SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
   }
 }

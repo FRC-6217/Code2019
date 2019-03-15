@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.robot.commands.PixyAndGyroAuto;
 import frc.robot.commands.ResetEverything;
 import frc.robot.libraries.XboxController;
 import frc.robot.libraries.Pixy.Pixy2;
@@ -218,7 +219,8 @@ public class Robot extends TimedRobot {
       //     SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
       // }
 
-
+      PixyAndGyroAuto p = new PixyAndGyroAuto(0, true, false, true);
+      p.start();
 
     Scheduler.getInstance().run();
   }

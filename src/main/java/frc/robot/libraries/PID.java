@@ -77,8 +77,7 @@ public class PID {
             if(reverse < 0){
                 reverse += inRange;
             }
-
-            if(reverse > 0){
+            else if(reverse > 0){
                 reverse -= inRange;
             }
 
