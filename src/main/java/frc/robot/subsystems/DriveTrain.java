@@ -149,6 +149,10 @@ public class DriveTrain extends Subsystem {
     gyroX.reset();
   }
 
+  public ADXRS450_Gyro returnGyro() {
+    return gyro;
+  }
+
   ////////////Non-Pid Control
 
   public double TransformX(double x, double y, boolean isReversed){
@@ -175,6 +179,21 @@ public class DriveTrain extends Subsystem {
 		swerveDrive.drive(x*governer, y*governer, z*governer);
   }
   
+  public void UseFL(double speed, double angle) {
+    frontLeft.drive(speed, angle);
+  }
+
+  public void UseFR(double speed, double angle) {
+    frontRight.drive(speed, angle);
+  }
+
+  public void UseBL(double speed, double angle) {
+    backLeft.drive(speed, angle);
+  }
+
+  public void UseBR(double speed, double angle) {
+    backRight.drive(speed, angle);
+  }
   //////////Pid-Control
 
   public void AlignPixyOnly(double setpoint){

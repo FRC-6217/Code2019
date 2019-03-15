@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.commands.PixyAndGyroAuto;
+import frc.robot.commands.AutoWithPathfinder;
 import frc.robot.commands.ResetEverything;
 import frc.robot.libraries.XboxController;
 import frc.robot.libraries.Pixy.Pixy2;
@@ -154,7 +155,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = new AutoWithPathfinder("Test");
     ResetEverything r = new ResetEverything();
     r.start();
     /*
@@ -175,6 +176,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+
     Scheduler.getInstance().run();
   }
 
