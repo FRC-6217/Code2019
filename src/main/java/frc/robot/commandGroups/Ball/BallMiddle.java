@@ -10,7 +10,7 @@ package frc.robot.commandGroups.Ball;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.LiftAuto;
 import frc.robot.commands.VacuumAuto;
-import frc.robot.commands.VacuumSuckAuto;
+// import frc.robot.commands.VacuumSuckAuto;
 
 public class BallMiddle extends CommandGroup {
   /**
@@ -19,7 +19,7 @@ public class BallMiddle extends CommandGroup {
   public BallMiddle() {
     addSequential(new LiftAuto(1));
     addSequential(new VacuumAuto(1));
-    addParallel(new VacuumSuckAuto(60));
+    // addParallel(new VacuumSuckAuto(60));
     addSequential(new LiftAuto(-1));
     addSequential(new LiftAuto(1));
     addParallel(new LiftAuto(1));

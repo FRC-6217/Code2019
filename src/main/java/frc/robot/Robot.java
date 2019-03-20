@@ -40,12 +40,15 @@ public class Robot extends TimedRobot {
   public static BallInhaler m_ballInhaler;
   public static DriveTrain m_driveTrain;
   public static Lift m_lift;
-  public static Vacuum m_Vacuum;
+  // public static Vacuum m_Vacuum;
   public static VacuumArm m_VacuumArm;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
   public static pistons m_Pistons;
+  public static NewPistonGrabber m_pistonGrabber;
   //to-do
+  public static final int PORT_PISTON_GRABBER_1 = 0;
+  public static final int PORT_PISTON_GRABBER_2 = 1;
   public static final int PORT_GRABBER_MOTOR = 48;
   public static final int PORT_GRABBER_ENC_A = 3;
   public static final int PORT_GRABBER_ENC_B = 4;
@@ -59,8 +62,8 @@ public class Robot extends TimedRobot {
   public static final int ELEVATOR_MOTOR_CHANNEL = 9;
   public static final int ELEVATOR_ENCODER_CHANNEL_A = 2;
   public static final int ELEVATOR_ENCODER_CHANNEL_B = 1;
-  public static final int VACUUM_CHANNEL_60_PSI = 0;
-  public static final int VACUUM_CHANNEL_20_PSI = 1;
+  // public static final int VACUUM_CHANNEL_60_PSI = 0;
+  // public static final int VACUUM_CHANNEL_20_PSI = 1;
   public static final int PORT_CAR_LIFT = 2;
 
   Command m_autonomousCommand;
@@ -85,8 +88,9 @@ public class Robot extends TimedRobot {
     m_ballInhaler = new BallInhaler(BALL_GRABBER_WHEEL_MOTOR);
     m_driveTrain = new DriveTrain();
     m_lift = new Lift(ELEVATOR_MOTOR_CHANNEL, ELEVATOR_ENCODER_CHANNEL_A, ELEVATOR_ENCODER_CHANNEL_B);
-    m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
+    // m_Vacuum = new Vacuum(VACUUM_CHANNEL_60_PSI, VACUUM_CHANNEL_20_PSI);
     m_VacuumArm = new VacuumArm(PORT_GRABBER_MOTOR, PORT_GRABBER_ENC_A, PORT_GRABBER_ENC_B);
+    m_pistonGrabber = new NewPistonGrabber(PORT_PISTON_GRABBER_1, PORT_PISTON_GRABBER_2);
     m_oi_pilot = new OI();
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
 
