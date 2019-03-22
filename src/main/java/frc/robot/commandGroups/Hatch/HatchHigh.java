@@ -16,8 +16,8 @@ public class HatchHigh extends CommandGroup {
    * Add your docs here.
    */
   public HatchHigh() {
-    addParallel(new VacuumAuto(40));
     addSequential(new LiftAuto(42));
+    addSequential(new VacuumAuto(32));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

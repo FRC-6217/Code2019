@@ -25,7 +25,7 @@ public class Lift extends Subsystem {
   private double SCALAR = 0.000674745249;
   private static final double bOffset = 16.75;
   private double upSpeed = 1;
-  private double downSpeed = .8;
+  private double downSpeed = .6;
 
   private Spark motor;
   private Encoder encoder;
@@ -40,7 +40,7 @@ public class Lift extends Subsystem {
 
     //pid object
     pid = new PID(0.5, 0, 0);
-    pid.setOutputRange(-1, 1);
+    pid.setOutputRange(-.75, 1);
   }
 
   @Override

@@ -19,11 +19,6 @@ public class BallMiddle extends CommandGroup {
   public BallMiddle() {
     addSequential(new LiftAuto(1));
     addSequential(new VacuumAuto(1));
-    // addParallel(new VacuumSuckAuto(60));
-    addSequential(new LiftAuto(-1));
-    addSequential(new LiftAuto(1));
-    addParallel(new LiftAuto(1));
-    addSequential(new VacuumAuto(1));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

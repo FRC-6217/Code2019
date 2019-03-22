@@ -32,7 +32,7 @@ public class OI {
 
   public OI(/*int port*/) {
     // button1.whenPressed(new HatchLow());
-    button2.whileHeld(new PixyAndGyroAuto(0, true, false, true));
+    button2.whileHeld(new PixyAndGyroAuto(270, true, false, true));
     // button7.whenPressed(new LiftAuto(25));
     button8.whenPressed(new HatchLow());
     // button9.whenPressed(new BallMiddle());

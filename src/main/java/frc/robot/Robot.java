@@ -14,13 +14,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
 import frc.robot.commands.PixyAndGyroAuto;
+import frc.robot.commands.RecalibrateGyro;
+import frc.robot.commandGroups.HatchStart;
 import frc.robot.commands.AutoWithPathfinder;
+import frc.robot.commands.PistonGrabberAuto;
 import frc.robot.commands.ResetEverything;
 import frc.robot.libraries.XboxController;
 import frc.robot.libraries.Pixy.Pixy2;
@@ -67,7 +71,7 @@ public class Robot extends TimedRobot {
   public static final int PORT_CAR_LIFT = 2;
 
   Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  // SendableChooser<Command> m_chooser_startingConfig;
 
   //camera objects
   UsbCamera cam1;
@@ -95,7 +99,7 @@ public class Robot extends TimedRobot {
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
 
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    // SmartDashboard.putData("Auto mode", m_chooser);
 
     // Preferences pref = Preferences.getInstance();
     // m_Elevator.SCALAR = pref.getDouble("Scalar", 1);
@@ -105,15 +109,20 @@ public class Robot extends TimedRobot {
     // Thread visionthread = new Thread(vis);
     // visionthread.start();
 
-    //camera
+    // m_chooser_startingConfig.addOption("Start with Object", new PistonGrabberAuto(true));
+    // m_chooser_startingConfig.addOption("Start with Nothing", null);
+
+    // SmartDashboard.putData("Start config", m_chooser_startingConfig);
+    // camera
 
     cam1 = CameraServer.getInstance().startAutomaticCapture(0);
     // cam2 = CameraServer.getInstance().startAutomaticCapture(1);
 
-    cam1.setBrightness(30);
+    cam1.setBrightness(1);
     // cam2.setBrightness(30);
 
     cam1.setResolution(320, 240);
+    cam1.setFPS(8);
     // cam2.setResolution(320, 240);
     // server = CameraServer.getInstance().getServer();
 
@@ -158,10 +167,23 @@ public class Robot extends TimedRobot {
    * to the switch structure below with additional strings & commands.
    */
   @Override
-  public void autonomousInit() {
-    m_autonomousCommand = new AutoWithPathfinder("Test");
+   public void autonomousInit() {
     ResetEverything r = new ResetEverything();
     r.start();
+    // HatchStart h = new HatchStart();
+    // h.start();
+    // PistonGrabberAuto pga = new PistonGrabberAuto(true);
+    // pga.start();
+   // String startingConfig = m_chooser_startingConfig.getSelected();
+    //if(startingConfig == "y"){
+    //  m_autonomousCommand = new HatchStart();  
+    //}
+    // else {
+    //   m_autonomousCommand = null;
+    // }
+
+    // m_autonomousCommand = m_chooser_startingConfig.getSelected();
+    
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -190,6 +212,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    // RecalibrateGyro cal = new RecalibrateGyro();
+    // cal.start();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -224,9 +249,6 @@ public class Robot extends TimedRobot {
       //     SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
       //     SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
       // }
-
-      PixyAndGyroAuto p = new PixyAndGyroAuto(0, true, false, true);
-      p.start();
 
     Scheduler.getInstance().run();
   }

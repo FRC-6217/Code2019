@@ -10,16 +10,14 @@ package frc.robot.commandGroups.Ball;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.LiftAuto;
 import frc.robot.commands.VacuumAuto;
-// import frc.robot.commands.VacuumSuckAuto;
 
-public class BallLow extends CommandGroup {
+public class BallPick extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public BallLow() {
+  public BallPick() {
+    addParallel(new VacuumAuto(1));
     addSequential(new LiftAuto(1));
-    addSequential(new VacuumAuto(1));
-
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

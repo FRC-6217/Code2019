@@ -7,32 +7,28 @@
 
 package frc.robot.commands;
 
+import java.lang.module.ModuleDescriptor.Requires;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ResetEverything extends Command {
-  public ResetEverything() {
-    requires(Robot.m_VacuumArm);
+public class RecalibrateGyro extends Command {
+  public RecalibrateGyro() {
     requires(Robot.m_driveTrain);
-    requires(Robot.m_lift);
-    setTimeout(.01);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    setTimeout(10);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_driveTrain.ResetGyro();
-    Robot.m_driveTrain.ResetGyroX();
-    Robot.m_lift.resetEnc();
-    Robot.m_VacuumArm.resetEnc();
+    Robot.m_driveTrain.RecalibrateGyro();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    end();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,6 +46,5 @@ public class ResetEverything extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    end();
   }
 }

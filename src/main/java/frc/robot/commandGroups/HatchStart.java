@@ -5,21 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commandGroups.Ball;
+package frc.robot.commandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.LiftAuto;
-import frc.robot.commands.VacuumAuto;
-// import frc.robot.commands.VacuumSuckAuto;
+import frc.robot.commands.*;
 
-public class BallLow extends CommandGroup {
+public class HatchStart extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public BallLow() {
-    addSequential(new LiftAuto(1));
-    addSequential(new VacuumAuto(1));
-
+  public HatchStart() {
+    addSequential(new PistonGrabberAuto(true));
+    addSequential(new VacuumAuto(45));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

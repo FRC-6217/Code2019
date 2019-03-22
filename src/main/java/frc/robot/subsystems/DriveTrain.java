@@ -12,6 +12,7 @@ import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.Pixy.Pixy2;
 import frc.robot.libraries.Pixy.Pixy2.LinkType;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.RecalibrateGyro;
 import frc.robot.libraries.PID;
 import frc.robot.libraries.SwerveDriveClass;
 
@@ -66,13 +67,13 @@ public class DriveTrain extends Subsystem {
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
     try {
-      gyroX = new AHRS(Port.kMXP);
+      gyroX = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
     } catch (Exception e) {
       SmartDashboard.putString( "NAVX error" ,"If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
     //pid objects
     pixyPID = new PID(0.01, 0.01, 0);
-    gyroPID = new PID(0.05, 0, 0);
+    gyroPID = new PID(0.06, .5, .05);
 
     pixyPID.setOutputRange(-.3, .3);
     gyroPID.setOutputRange(-0.5, 0.5);
@@ -143,6 +144,10 @@ public class DriveTrain extends Subsystem {
   //reset FRC gyro
   public void ResetGyro(){ 
     gyro.reset();
+  }
+
+  public void RecalibrateGyro(){
+    gyro.calibrate();
   }
   
   public void ResetGyroX(){
@@ -226,9 +231,9 @@ public class DriveTrain extends Subsystem {
     gyroPID.setSetpoint(setpoint);
     gyroPID.setCurrentState(GetAngleX());
 
-    Drive(0, 0, -gyroPID.getOutput(), 1);
+    Drive(0, 0, gyroPID.getOutput(), 1);
 
-    SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
+    SmartDashboard.putNumber("PID Gyro Velocity", gyroPID.getOutput());
   }
 
   public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
@@ -254,7 +259,7 @@ public class DriveTrain extends Subsystem {
     pixyPID.setCurrentState(returnPixyAverage(true));
     gyroPID.setCurrentState(GetAngleX());
 
-    Drive(-pixyPID.getOutput(), 0, -gyroPID.getOutput(), 1);
+    Drive(-pixyPID.getOutput(), 0, gyroPID.getOutput(), 1);
 
     // SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
     // SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());

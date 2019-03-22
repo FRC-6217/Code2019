@@ -17,8 +17,8 @@ public class HatchMiddle extends CommandGroup {
    * 
    */
   public HatchMiddle() {
-    addParallel(new VacuumAuto(65));
-    addSequential(new LiftAuto(31.25));
+    addSequential(new LiftAuto(33.75));
+    addSequential(new VacuumAuto(64));
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());

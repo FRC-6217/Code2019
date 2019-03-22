@@ -10,29 +10,30 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class ResetEverything extends Command {
-  public ResetEverything() {
-    requires(Robot.m_VacuumArm);
-    requires(Robot.m_driveTrain);
-    requires(Robot.m_lift);
-    setTimeout(.01);
+public class PistonGrabberAuto extends Command {
+  private boolean in;
+  public PistonGrabberAuto(boolean in) {
+    requires(Robot.m_pistonGrabber);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    this.in = in;
+    setTimeout(.1);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    Robot.m_driveTrain.ResetGyro();
-    Robot.m_driveTrain.ResetGyroX();
-    Robot.m_lift.resetEnc();
-    Robot.m_VacuumArm.resetEnc();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    end();
+    if(in){
+      Robot.m_pistonGrabber.pull();
+    }
+    else{
+      Robot.m_pistonGrabber.push();
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -44,6 +45,7 @@ public class ResetEverything extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.m_pistonGrabber.off();
   }
 
   // Called when another command which requires one or more of the same
