@@ -18,6 +18,7 @@ public class PixyAndGyroAuto extends Command {
   private final double PIXY_SETPOINT = 65.0;
   // private final double GYRO_SETPOINT = 0.0;
   private double smallest;
+  private boolean isDone = true;
 
   public PixyAndGyroAuto(double goToAngle, boolean gyro, boolean pixy, boolean closeAngle) {
     // Use requires() here to declare subsystem dependencies
@@ -111,30 +112,35 @@ public class PixyAndGyroAuto extends Command {
         this.goToAngle = 360;
       }
     }
+    isDone = true;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (pixy && gyro) {
-      Robot.m_driveTrain.AlignPixyAndGyro(PIXY_SETPOINT, goToAngle);
-    }
-    else if (gyro && !pixy) {
-      Robot.m_driveTrain.AlignGyroOnly(goToAngle);
-    }
-    else if (pixy && !gyro){
-      Robot.m_driveTrain.AlignPixyOnly(PIXY_SETPOINT);
+    if (isDone) {
+      if (pixy && gyro) {
+        Robot.m_driveTrain.AlignPixyAndGyro(PIXY_SETPOINT, goToAngle);
+      }
+      else if (gyro && !pixy) {
+        Robot.m_driveTrain.AlignGyroOnly(goToAngle);
+      }
+      else if (pixy && !gyro){
+        Robot.m_driveTrain.AlignPixyOnly(PIXY_SETPOINT);
+      }
     }
   }
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+      return (Math.abs(Robot.m_driveTrain.GetAngleX()-goToAngle) < 4);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    isDone = false;
+    Robot.m_driveTrain.Drive(0, 0, 0, 0);
   }
 
   // Called when another command which requires one or more of the same

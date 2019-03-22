@@ -19,6 +19,7 @@ import frc.robot.libraries.SwerveDriveClass;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,6 +39,8 @@ public class DriveTrain extends Subsystem {
   private Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
 	private double x1;
   private double y1;
+
+  private PowerDistributionPanel pdp;
 
   ////PID stuff
 
@@ -67,19 +70,21 @@ public class DriveTrain extends Subsystem {
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
     try {
-      gyroX = new AHRS(edu.wpi.first.wpilibj.I2C.Port.kMXP);
+      gyroX = new AHRS(Port.kMXP);
     } catch (Exception e) {
       SmartDashboard.putString( "NAVX error" ,"If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
     //pid objects
     pixyPID = new PID(0.01, 0.01, 0);
-    gyroPID = new PID(0.06, .5, .05);
+    gyroPID = new PID(0.04, .25, 0.06);
 
     pixyPID.setOutputRange(-.3, .3);
     gyroPID.setOutputRange(-0.5, 0.5);
 
     gyroPID.setInputRange(0, 360);
     gyroPID.setContinuous();
+
+    pdp = new PowerDistributionPanel();
   }
 
   @Override
@@ -156,6 +161,11 @@ public class DriveTrain extends Subsystem {
 
   public ADXRS450_Gyro returnGyro() {
     return gyro;
+  }
+
+  public double GetCurrent(){
+    //return (pdp.getCurrent(0) + pdp.getCurrent(1) +pdp.getCurrent(2) + pdp.getCurrent(3));
+    return pdp.getVoltage();
   }
 
   ////////////Non-Pid Control

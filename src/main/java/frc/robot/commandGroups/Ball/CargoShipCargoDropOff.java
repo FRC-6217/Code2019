@@ -5,21 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commandGroups.Hatch;
+package frc.robot.commandGroups.Ball;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.LiftAuto;
 import frc.robot.commands.VacuumAuto;
 
-public class HatchMiddle extends CommandGroup {
+public class CargoShipCargoDropOff extends CommandGroup {
   /**
    * Add your docs here.
-   * 
    */
-  public HatchMiddle() {
-    addSequential(new LiftAuto(33.75));
-    addSequential(new VacuumAuto(70));
-    // Add Commands here:s
+  public CargoShipCargoDropOff() {
+    addSequential(new LiftAuto(24));
+    addSequential(new VacuumAuto(50));
+    // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
     // these will run in order.

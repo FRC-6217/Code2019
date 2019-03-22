@@ -20,9 +20,15 @@ public class JoystickDrive extends Command {
     private double x1;
     private double y1;
 
+    private boolean isLimited;
+    // private double multiplier;
+
     public JoystickDrive() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.m_driveTrain);
+
+        isLimited = false;
+        // multiplier = 1;
     }
 
     // Called just before this Command runs the first time
@@ -33,12 +39,24 @@ public class JoystickDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         x = Robot.m_oi_pilot.joystick.getRawAxis(0);
-        y = Robot.m_oi_pilot.joystick.getRawAxis(1);
+        y = Robot.m_oi_pilot.joystick.getRawAxis(1
+        );
         z = Robot.m_oi_pilot.joystick.getRawAxis(2);
         gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(6);
         gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(5);        
-        governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
+        governer = Robot.m_oi_pilot.joystick.getRawAxis(3)*.75;
     
+        if(Robot.m_driveTrain.GetCurrent() < 8){
+            isLimited = true;
+        }
+        else if(Robot.m_driveTrain.GetCurrent() > 11){
+            isLimited = false;
+        }
+
+        if(isLimited){
+            governer *= 0.5;
+        }
+
         if(gyroButtonForward){
             Robot.m_driveTrain.ResetGyro();
             isReversed = false;
