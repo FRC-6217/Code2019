@@ -18,7 +18,7 @@ public class VacuumAuto extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_VacuumArm);
 
-    setTimeout(10);
+    setTimeout(2);
   }
 
   // Called just before this Command runs the first time

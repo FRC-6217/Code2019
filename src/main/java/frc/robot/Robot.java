@@ -12,11 +12,13 @@ import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
   public static XboxController m_oi_copilot;
   public static pistons m_Pistons;
   public static NewPistonGrabber m_pistonGrabber;
+  // public static PowerDistributionPanel m_pdp;
   //to-do
   public static final int PORT_PISTON_GRABBER_1 = 0;
   public static final int PORT_PISTON_GRABBER_2 = 1;
@@ -86,6 +89,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    // m_pdp = new PowerDistributionPanel();
+  
+    LiveWindow.disableAllTelemetry();
 
     m_Pistons = new pistons(2,3);
     m_ballGobbler = new BallGobbler(RIGHT_ARM_MOTOR_CHANNEL, LEFT_ARM_MOTOR_CHANNEL, LIMIT_SWITCH_BALL_PICKUP_DOWN, LIMIT_SWITCH_BALL_PICKUP_UP);

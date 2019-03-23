@@ -17,7 +17,7 @@ public class LiftAuto extends Command {
     // Use requires() here to declare subsystem dependencies
     requires(Robot.m_lift);
 
-    setTimeout(10);
+    setTimeout(4);
   }
 
   // Called just before this Command runs the first time

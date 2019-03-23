@@ -76,7 +76,7 @@ public class DriveTrain extends Subsystem {
     }
     //pid objects
     pixyPID = new PID(0.01, 0.01, 0);
-    gyroPID = new PID(0.04, .25, 0.06);
+    gyroPID = new PID(0.04, .15, 0.26);
 
     pixyPID.setOutputRange(-.3, .3);
     gyroPID.setOutputRange(-0.5, 0.5);
@@ -163,10 +163,10 @@ public class DriveTrain extends Subsystem {
     return gyro;
   }
 
-  public double GetCurrent(){
-    //return (pdp.getCurrent(0) + pdp.getCurrent(1) +pdp.getCurrent(2) + pdp.getCurrent(3));
-    return pdp.getVoltage();
-  }
+  // public double GetCurrent(){
+  //   //return (pdp.getCurrent(0) + pdp.getCurrent(1) +pdp.getCurrent(2) + pdp.getCurrent(3));
+  //   return pdp.getVoltage();
+  // }
 
   ////////////Non-Pid Control
 
