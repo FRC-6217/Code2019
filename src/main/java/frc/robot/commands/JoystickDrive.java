@@ -44,7 +44,7 @@ public class JoystickDrive extends Command {
         z = Robot.m_oi_pilot.joystick.getRawAxis(2);
         gyroButtonForward = Robot.m_oi_pilot.joystick.getRawButton(6);
         gyroButtonBackward = Robot.m_oi_pilot.joystick.getRawButton(5);        
-        governer = Robot.m_oi_pilot.joystick.getRawAxis(3)*.75;
+        governer = Robot.m_oi_pilot.joystick.getRawAxis(3);
     
         // if(Robot.m_driveTrain.GetCurrent() < 8){
         //     isLimited = true;
