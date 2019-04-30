@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class VacuumAuto extends Command {
-  private double goToAngle;
+  // private double goToAngle;
 
   public VacuumAuto(double goToAngle) {
-    this.goToAngle = goToAngle;
-    // Use requires() here to declare subsystem dependencies
-    requires(Robot.m_VacuumArm);
+    // this.goToAngle = goToAngle;
+    // // Use requires() here to declare subsystem dependencies
+    // requires(Robot.m_VacuumArm);
 
-    setTimeout(2);
+    // setTimeout(2);
   }
 
   // Called just before this Command runs the first time
@@ -29,13 +29,13 @@ public class VacuumAuto extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.m_VacuumArm.setToAngle(goToAngle);
+    // Robot.m_VacuumArm.setToAngle(goToAngle);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return (Math.abs(Robot.m_VacuumArm.returnArmAngle() - goToAngle) < 1.5) || (isTimedOut());
+    return true;//(Math.abs(Robot.m_VacuumArm.returnArmAngle() - goToAngle) < 1.5) || (isTimedOut());
   }
 
   // Called once after isFinished returns true

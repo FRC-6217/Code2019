@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commandGroups.Hatch.*;
 import frc.robot.commandGroups.Ball.*;
+import frc.robot.commandGroups.*;
 import frc.robot.commands.LiftAuto;
 import frc.robot.commands.PixyAndGyroAuto;
 import frc.robot.commands.VacuumAuto;
@@ -35,6 +36,7 @@ public class OI {
 
     button2.whileHeld(new PixyAndGyroAuto(270, true, false, true));
     // button7.whenPressed(new LiftAuto(25));
+    button9.whenActive(new TestPath());
     button1.whenPressed(new HatchLow());
     // button9.whenPressed(new BallMiddle());
     button10.whenPressed(new HatchMiddle());

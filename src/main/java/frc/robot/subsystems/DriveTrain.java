@@ -19,6 +19,7 @@ import frc.robot.libraries.SwerveDriveClass;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -28,6 +29,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Add your docs here.
  */
 public class DriveTrain extends Subsystem {
+  private Encoder[] enc = {new Encoder(12, 13), new Encoder(10, 11), new Encoder(14, 15), new Encoder(16, 17), new Encoder(18, 19), new Encoder(20, 21), new Encoder(22, 23)};
+
   private WheelDrive backRight;
 	private WheelDrive backLeft;
 	private WheelDrive frontRight;
@@ -65,7 +68,7 @@ public class DriveTrain extends Subsystem {
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 
     //Initilize pixycam
-    pixy.init(4);
+    pixy.init();
 
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
@@ -191,7 +194,14 @@ public class DriveTrain extends Subsystem {
 	}
   
   public void Drive(double x, double y, double z, double governer) {
-		swerveDrive.drive(x*governer, y*governer, z*governer);
+    swerveDrive.drive(x*governer, y*governer, z*governer);
+    SmartDashboard.putNumber("Encoder 1", enc[0].get());
+    SmartDashboard.putNumber("Encoder 2", enc[1].get());
+    SmartDashboard.putNumber("Encoder 3", enc[2].get());
+    SmartDashboard.putNumber("Encoder 4", enc[3].get());
+    SmartDashboard.putNumber("Encoder 5", enc[4].get());
+    SmartDashboard.putNumber("Encoder 6", enc[5].get());
+    SmartDashboard.putNumber("Encoder 7", enc[6].get());
   }
   
   public void UseFL(double speed, double angle) {
