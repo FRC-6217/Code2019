@@ -12,7 +12,7 @@ public class Pathfinder_Follow {
     private double[] output = new double[4];
     private double[] desiredHeading = new double[4];
     private Trajectory[] WheelTraj;
-    private Encoder[] enc = { new Encoder(4, 5), new Encoder(6, 7), new Encoder(2, 3), new Encoder(8, 9) };
+    private Encoder[] enc = {new Encoder(12, 13), new Encoder(20, 21), new Encoder(19, 18), new Encoder(11, 10)};
 
     private double wheel_diameter = 4 * 0.0254;
     private int pulsePerRev = 120;// ratio * pulse per revoletion

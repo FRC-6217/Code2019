@@ -1,9 +1,17 @@
 package frc.robot.commands;
 
 import frc.robot.libraries.Pathfinder_Follow;
+import frc.robot.libraries.SwerveDriveClass;
 import frc.robot.subsystems.DriveTrain;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.PathfinderFRC;
+import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.modifiers.SwerveModifier;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 
@@ -11,8 +19,20 @@ public class AutoWithPathfinder extends Command {
 
   private String PathName;
   private Pathfinder_Follow follow;
-  private double[] speed;
-  private double[] angle;
+  private Trajectory trajectory;
+  private double length = SwerveDriveClass.L * 0.0254;
+  private double width = SwerveDriveClass.W * 0.0254;
+  private Trajectory[] Wheels = new Trajectory[4];
+  private EncoderFollower[] WheelFollower = new EncoderFollower[4];
+  private double[] output = new double[4];
+  private double[] desiredHeading = new double[4];
+  private Trajectory[] WheelTraj;
+  private Encoder[] enc = { new Encoder(12, 13), new Encoder(20, 21), new Encoder(19, 18), new Encoder(11, 10) };
+
+  private double wheel_diameter = 4 * 0.0254;
+  private int pulsePerRev = 120;// ratio * pulse per revoletion
+  private double max_velocity;
+  private Gyro gyro;
 
   public AutoWithPathfinder(String PathName) {
     this.PathName = PathName;
@@ -22,27 +42,43 @@ public class AutoWithPathfinder extends Command {
 
   // Called just before this Command runs the first time
   protected void initialize() {
-    follow = new Pathfinder_Follow(PathName, Robot.m_driveTrain.returnGyro());
+    try {
+    trajectory = PathfinderFRC.getTrajectory(PathName);
+    } catch (Exception e) {
+      SmartDashboard.putString("Error In pathfinder", e.getMessage() + " (Mostly likely wrong file name)");
+
+    }
+    // Wheelbase Width = 0.5m, Wheelbase Depth = 0.6m, Swerve Mode = Default
+    SwerveModifier modifier = new SwerveModifier(trajectory).modify(width, length, SwerveModifier.Mode.SWERVE_DEFAULT);
+
+    // Do something with the new Trajectories...
+    Wheels[0] = modifier.getFrontLeftTrajectory();
+    Wheels[1] = modifier.getFrontRightTrajectory();
+    Wheels[2] = modifier.getBackLeftTrajectory();
+    Wheels[3] = modifier.getBackRightTrajectory();
+    // follow = new Pathfinder_Follow(PathName, Robot.m_driveTrain.returnGyro());
 
     // Called repeatedly when this Command is scheduled to run
   }
 
   protected void execute() {
-    follow.setupFollow();
-    speed = follow.returnOutput();
-    angle = follow.returnHeading();
+    for (int i = 0; i < 4; i++) {
+      WheelFollower[i] = new EncoderFollower(WheelTraj[i]);
+      WheelFollower[i].configureEncoder((int) (enc[i].get()), pulsePerRev, wheel_diameter);
+      WheelFollower[i].configurePIDVA(1.0, 0.0, 0.0, 1 / max_velocity, 0);
 
-    SmartDashboard.putNumberArray("Pathfinder Angle", angle);
-    SmartDashboard.putNumberArray("Pathfinder Speed", speed);
-    Robot.m_driveTrain.UseFL(speed[0], angle[0]);
-    Robot.m_driveTrain.UseFR(speed[1], angle[1]);
-    Robot.m_driveTrain.UseBL(speed[2], angle[2]);
-    Robot.m_driveTrain.UseBR(speed[3], angle[3]);
+      output[i] = WheelFollower[i].calculate((int) (enc[i].get()));
+      desiredHeading[i] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[i].getHeading()) - gyro.getAngle());
+    }
+    Robot.m_driveTrain.UseFL(output[0], desiredHeading[0]);
+    Robot.m_driveTrain.UseFL(output[1], desiredHeading[1]);
+    Robot.m_driveTrain.UseFL(output[2], desiredHeading[2]);
+    Robot.m_driveTrain.UseFL(output[3], desiredHeading[3]);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   protected boolean isFinished() {
-    return speed[0] == 0;
+    return output[0] == 0;
   }
 
   // Called once after isFinished returns true

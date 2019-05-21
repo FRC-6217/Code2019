@@ -10,11 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commandGroups.Hatch.*;
-import frc.robot.commandGroups.Ball.*;
-import frc.robot.commands.LiftAuto;
-import frc.robot.commands.PixyAndGyroAuto;
-import frc.robot.commands.VacuumAuto;
+import frc.robot.commands.*;
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -32,16 +28,7 @@ public class OI {
 
   public OI(/*int port*/) {
     // button1.whenPressed(new HatchLow());
-
-    button2.whileHeld(new PixyAndGyroAuto(270, true, false, true));
-    // button7.whenPressed(new LiftAuto(25));
-    button1.whenPressed(new HatchLow());
-    // button9.whenPressed(new BallMiddle());
-    button10.whenPressed(new HatchMiddle());
-    // button11.whenPressed(new BallHigh());
-    button12.whenPressed(new HatchHigh());
-
-    button7.whenPressed(new CargoShipCargoDropOff());
+    button1.whenPressed(new AutoWithPathfinder("Test"));
 
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);
