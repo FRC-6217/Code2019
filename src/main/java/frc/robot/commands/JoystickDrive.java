@@ -73,7 +73,7 @@ public class JoystickDrive extends Command {
         x1 = Robot.m_driveTrain.TransformX(x, y, isReversed);
         y1 = Robot.m_driveTrain.TransformY(x, y, isReversed);
 
-        Robot.m_driveTrain.Drive (x1, -y1, z, Math.abs(governer-1));
+        Robot.m_driveTrain.Drive (-x, y, z, Math.abs(governer-1));
         gyroButtonForward = false;
         gyroButtonBackward = false;
 

@@ -33,15 +33,15 @@ public class OI {
   public OI(/*int port*/) {
     // button1.whenPressed(new HatchLow());
 
-    button2.whileHeld(new PixyAndGyroAuto(270, true, false, true));
-    // button7.whenPressed(new LiftAuto(25));
-    button1.whenPressed(new HatchLow());
-    // button9.whenPressed(new BallMiddle());
-    button10.whenPressed(new HatchMiddle());
-    // button11.whenPressed(new BallHigh());
-    button12.whenPressed(new HatchHigh());
+    // button2.whileHeld(new PixyAndGyroAuto(270, true, false, true));
+    // // button7.whenPressed(new LiftAuto(25));
+    // button1.whenPressed(new HatchLow());
+    // // button9.whenPressed(new BallMiddle());
+    // button10.whenPressed(new HatchMiddle());
+    // // button11.whenPressed(new BallHigh());
+    // button12.whenPressed(new HatchHigh());
 
-    button7.whenPressed(new CargoShipCargoDropOff());
+    // button7.whenPressed(new CargoShipCargoDropOff());
 
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);
