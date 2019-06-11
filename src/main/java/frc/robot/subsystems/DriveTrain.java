@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.libraries.WheelDrive;
 import frc.robot.libraries.Pixy.Pixy2;
 import frc.robot.libraries.Pixy.Pixy2.LinkType;
+import frc.robot.libraries.SwerveDriveClass.POS;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.libraries.PID;
 import frc.robot.libraries.SwerveDriveClass;
@@ -41,6 +42,7 @@ public class DriveTrain extends Subsystem {
   private double y1;
 
   private PowerDistributionPanel pdp;
+  // private Encoder[] enc = { new Encoder(12, 13), new Encoder(20, 21), new Encoder(19, 18), new Encoder(11, 10) };
 
   ////PID stuff
 
@@ -190,6 +192,10 @@ public class DriveTrain extends Subsystem {
   
   public void Drive(double x, double y, double z, double governer) {
     swerveDrive.drive(x*governer, y*governer, z*governer);
+    // SmartDashboard.putNumber("enc 1", enc[0].get());
+    // SmartDashboard.putNumber("enc 2", enc[1].get());
+    // SmartDashboard.putNumber("enc 3", enc[2].get());
+    // SmartDashboard.putNumber("enc 4", enc[3].get());
   }
   
   public void UseFL(double speed, double angle) {
@@ -272,4 +278,7 @@ public class DriveTrain extends Subsystem {
   //   // SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
   //   // SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
   // }
+  public double returnAngle(SwerveDriveClass.POS pos){
+    return swerveDrive.getAngle(pos);
+  }
 }

@@ -1,8 +1,10 @@
 package frc.robot.libraries;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //defining the class SwerveDrive;
 public class SwerveDriveClass {
-
+	public enum POS {FL, FR, BR, BL}
 	// creating constants for the width and length;
 	public final static double L = 19;
 	public final static double W = 24;
@@ -70,5 +72,21 @@ public class SwerveDriveClass {
 		backLeft.drive(backLeftSpeed , backLeftAngle);
 		frontRight.drive(frontRightSpeed , frontRightAngle);
 		frontLeft.drive(frontLeftSpeed , frontLeftAngle);
+	}
+	public double getAngle(POS position){
+		int posit = position.ordinal();
+		
+		switch(posit){
+		case 0:
+			return frontLeft.returnAngle("F1");
+		case 1:
+			return frontRight.returnAngle("F2");
+		case 2:
+			return backRight.returnAngle("B1");
+		case 3:
+			return backLeft.returnAngle("B2");
+		default:
+			return 3.14;
+		}
 	}
 }

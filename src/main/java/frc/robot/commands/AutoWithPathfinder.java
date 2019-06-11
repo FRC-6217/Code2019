@@ -26,7 +26,6 @@ public class AutoWithPathfinder extends Command {
   private EncoderFollower[] WheelFollower = new EncoderFollower[4];
   private double[] output = new double[4];
   private double[] desiredHeading = new double[4];
-  private Trajectory[] WheelTraj;
   private Encoder[] enc = { new Encoder(12, 13), new Encoder(20, 21), new Encoder(19, 18), new Encoder(11, 10) };
 
   private double wheel_diameter = 4 * 0.0254;
@@ -63,27 +62,28 @@ public class AutoWithPathfinder extends Command {
 
   protected void execute() {
     for (int i = 0; i < 4; i++) {
-      WheelFollower[i] = new EncoderFollower(WheelTraj[i]);
+      WheelFollower[i] = new EncoderFollower(Wheels[i]);
       WheelFollower[i].configureEncoder((int) (enc[i].get()), pulsePerRev, wheel_diameter);
       WheelFollower[i].configurePIDVA(1.0, 0.0, 0.0, 1 / max_velocity, 0);
-
-      output[i] = WheelFollower[i].calculate((int) (enc[i].get()));
-      desiredHeading[i] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[i].getHeading()) - gyro.getAngle());
+    }
+    for (int j = 0; j < 4; j++) {
+      output[j] = WheelFollower[j].calculate((int) (enc[j].get()));
+      desiredHeading[j] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[j].getHeading()) - gyro.getAngle());
     }
     Robot.m_driveTrain.UseFL(output[0], desiredHeading[0]);
-    Robot.m_driveTrain.UseFL(output[1], desiredHeading[1]);
-    Robot.m_driveTrain.UseFL(output[2], desiredHeading[2]);
-    Robot.m_driveTrain.UseFL(output[3], desiredHeading[3]);
+    Robot.m_driveTrain.UseFR(output[1], desiredHeading[1]);
+    Robot.m_driveTrain.UseBL(output[2], desiredHeading[2]);
+    Robot.m_driveTrain.UseBR(output[3], desiredHeading[3]);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   protected boolean isFinished() {
-    return output[0] == 0;
+    return false;
   }
 
   // Called once after isFinished returns true
   protected void end() {
-    isFinished();
+    
   }
 
   // Called when another command which requires one or more of the same

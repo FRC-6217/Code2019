@@ -5,8 +5,10 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WheelDrive {
+	public double angle = 0;
 	private VictorSPX angleMotor;
 	private VictorSPX speedMotor;
 	private VictorSPX_PIDOutput motorPID;
@@ -36,7 +38,12 @@ public class WheelDrive {
 
 	}
 
-	public void drive(double speed, double angle) {
+	public double returnAngle(String s){
+		SmartDashboard.putNumber(s, (enc.getVoltage() * (7200 / 99)));
+		return (enc.getVoltage()*(7200/99));
+	}
+	public void drive(double speed, double angle1) {
+		angle = angle1;
 		angle *= 180;
 		angle += 180;
 		f1 = angle - (enc.getVoltage()*(7200/99));

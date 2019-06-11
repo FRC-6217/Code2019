@@ -28,7 +28,7 @@ public class OI {
 
   public OI(/*int port*/) {
     // button1.whenPressed(new HatchLow());
-    button1.whenPressed(new AutoWithPathfinder("Test"));
+    button1.whileHeld(new AutoWithPathfinder("Test"));
 
     // joystick = new Joystick(port);
     // button10 = new JoystickButton(joystick, 10);
