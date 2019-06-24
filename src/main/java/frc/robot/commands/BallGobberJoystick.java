@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.libraries.XboxController.DPAD_STATE;
 
 public class BallGobberJoystick extends Command {
   private boolean up = false;
@@ -27,8 +28,8 @@ public class BallGobberJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    up = Robot.m_oi_copilot.getButtonB();
-    down = Robot.m_oi_copilot.getButtonA();
+    up = Robot.m_oi_copilot.getDPAD().compareTo(DPAD_STATE.RIGHT) == 1;
+    down = Robot.m_oi_copilot.getDPAD().compareTo(DPAD_STATE.LEFT) == 1;
     
     if (up) {
       Robot.m_ballGobbler.armUp();

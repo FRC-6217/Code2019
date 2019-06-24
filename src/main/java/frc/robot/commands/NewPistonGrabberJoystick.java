@@ -27,8 +27,8 @@ public class NewPistonGrabberJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    pull = (Robot.m_oi_copilot.getButtonSTART());
-    push = (Robot.m_oi_copilot.getButtonBACK());
+    pull = (Robot.m_oi_copilot.getButtonX());
+    push = (Robot.m_oi_copilot.getButtonY());
     if(pull){
       Robot.m_pistonGrabber.pull();
     }

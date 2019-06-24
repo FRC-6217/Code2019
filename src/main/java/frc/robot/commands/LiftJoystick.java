@@ -28,7 +28,7 @@ public class LiftJoystick extends Command {
   @Override
   protected void execute() {
     liftUpButton = Robot.m_oi_copilot.getButtonLB();
-    liftDownButton = Robot.m_oi_copilot.getLeftTrigger() > 0.0;
+    liftDownButton = Robot.m_oi_copilot.getButtonRB();
 
 
     if (liftUpButton && !liftDownButton) {

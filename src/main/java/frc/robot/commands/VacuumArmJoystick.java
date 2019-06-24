@@ -27,8 +27,8 @@ public class VacuumArmJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Up = Robot.m_oi_copilot.getButtonRB();
-    Down = Robot.m_oi_copilot.getRightTrigger() > 0.0;
+    Up = Robot.m_oi_copilot.getButtonA();
+    Down = Robot.m_oi_copilot.getButtonB();
 
     if ((Up) && (!Down)) {
       Robot.m_VacuumArm.up();

@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import frc.robot.libraries.XboxController.DPAD_STATE;
 
 public class PistonJoystick extends Command {
   boolean down = false;
@@ -28,8 +29,8 @@ public class PistonJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    down = Robot.m_oi_copilot.getButtonX();
-    up = Robot.m_oi_copilot.getButtonY();
+    up = Robot.m_oi_copilot.getDPAD().compareTo(DPAD_STATE.UP) == 1;
+    down = Robot.m_oi_copilot.getDPAD().compareTo(DPAD_STATE.DOWN) == 1;
 
     if (!up && down) {
       Robot.m_Pistons.run(true);
