@@ -44,56 +44,6 @@ public class WheelDrive {
 	}
 	public void drive(double speed, double angle1) {
 		angle = angle1;
-		angle *= 180;
-		angle += 180;
-		f1 = angle - (enc.getVoltage()*(7200/99));
-		f2 = (enc.getVoltage()*(7200/99)) - angle;
-		
-		if (f1 < 0){
-			f1 += 360;
-		}
-		if (f2 < 0){
-			f2 += 360;
-		}
-
-		rAngle = angle + 180;
-		rAngle = (rAngle > 360 ) ? rAngle - 360 : rAngle;
-
-		r1 = rAngle - (enc.getVoltage()*(7200/99));
-		r2 = (enc.getVoltage()*(7200/99)) - rAngle;
-		
-		if (r1 < 0){
-			r1 += 360;
-		}
-		
-		if(r2 < 0){
-			r2 += 360;
-		} 
-
-		shortest = f1;
-		isF = true;
-
-		if(shortest > f2){
-			shortest = f2;
-		}
-
-		if(shortest > r1){
-			shortest = r1;
-			isF = false;
-		}
-
-		if (shortest > r2){
-			shortest = r2;
-			isF = false;
-		}
-		
-		if(!isF){
-			angle = rAngle;
-			speed *= -1;
-		}
-
-		angle -= 180;
-		angle /= 180;
 		
 		speedMotor.set(ControlMode.PercentOutput, speed);
 			double setpoint = (angle * (MAX_VOLTS * 0.5)) + (MAX_VOLTS * 0.5); // Optimization offset can be calculated	here.

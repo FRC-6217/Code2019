@@ -48,10 +48,10 @@ public class SwerveDriveClass {
 		 * straight line so we find the hypotenuse using our above variables for all
 		 * direction combos.
 		 */
-		double backRightSpeed = Math.sqrt((a * a) + (d * d));
+		double backRightSpeed = Math.sqrt((a * a) + (d * d));//
 		double backLeftSpeed = Math.sqrt((a * a) + (c * c));
 		double frontRightSpeed = Math.sqrt((b * b) + (d * d));
-		double frontLeftSpeed = Math.sqrt((b * b) + (c * c));
+		double frontLeftSpeed = Math.sqrt((b * b) + (c * c));//
 
 		/*
 		 * In order to find the angles we need to turn based on the inputs of the
@@ -59,10 +59,10 @@ public class SwerveDriveClass {
 		 * (radius,angle) to find the angle that applies to our robot. Then it's divided
 		 * by pi to turn from radians into degrees.
 		 */
-		double backLeftAngle = Math.atan2(a, c) / Math.PI;
+		double backLeftAngle = Math.atan2(a, c) / Math.PI;//
 		double backRightAngle = Math.atan2(a, d) / Math.PI;
 		double frontRightAngle = Math.atan2(b, d) / Math.PI;
-		double frontLeftAngle = Math.atan2(b, c) / Math.PI;
+		double frontLeftAngle = Math.atan2(b, c) / Math.PI;//
 
 		/*
 		 * Lastly the results of the above code are all plugged back in to be used

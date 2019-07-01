@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.libraries.Pathfinder_Follow;
 import frc.robot.libraries.SwerveDriveClass;
+import frc.robot.libraries.SwerveDriveClass.POS;
 import frc.robot.subsystems.DriveTrain;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.PathfinderFRC;
@@ -30,8 +31,9 @@ public class AutoWithPathfinder extends Command {
 
   private double wheel_diameter = 4 * 0.0254;
   private int pulsePerRev = 120;// ratio * pulse per revoletion
-  private double max_velocity;
+  private double max_velocity = .1;
   private Gyro gyro;
+  private int[] encoder;
 
   public AutoWithPathfinder(String PathName) {
     this.PathName = PathName;
@@ -51,10 +53,10 @@ public class AutoWithPathfinder extends Command {
     SwerveModifier modifier = new SwerveModifier(trajectory).modify(width, length, SwerveModifier.Mode.SWERVE_DEFAULT);
 
     // Do something with the new Trajectories...
-    Wheels[0] = modifier.getFrontLeftTrajectory();
+    Wheels[0] = modifier.getFrontLeftTrajectory();//
     Wheels[1] = modifier.getFrontRightTrajectory();
     Wheels[2] = modifier.getBackLeftTrajectory();
-    Wheels[3] = modifier.getBackRightTrajectory();
+    Wheels[3] = modifier.getBackRightTrajectory();//
     // follow = new Pathfinder_Follow(PathName, Robot.m_driveTrain.returnGyro());
 
     // Called repeatedly when this Command is scheduled to run
@@ -65,11 +67,17 @@ public class AutoWithPathfinder extends Command {
       WheelFollower[i] = new EncoderFollower(Wheels[i]);
       WheelFollower[i].configureEncoder((int) (enc[i].get()), pulsePerRev, wheel_diameter);
       WheelFollower[i].configurePIDVA(1.0, 0.0, 0.0, 1 / max_velocity, 0);
+      if((i==2) || (i == 3)){
+        output[i] = WheelFollower[i].calculate((int) (-1 * (enc[i].get())));
+        SmartDashboard.putNumber(Integer.toString(i), -enc[i].get());
+      }
+      else{
+        output[i] = WheelFollower[i].calculate((int) ((enc[i].get())));
+        SmartDashboard.putNumber(Integer.toString(i), enc[i].get());
+      }
+      desiredHeading[i] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[i].getHeading()) - Robot.m_driveTrain.GetAngle());
     }
-    for (int j = 0; j < 4; j++) {
-      output[j] = WheelFollower[j].calculate((int) (enc[j].get()));
-      desiredHeading[j] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[j].getHeading()) - gyro.getAngle());
-    }
+    SmartDashboard.putNumber(key, value)
     Robot.m_driveTrain.UseFL(output[0], desiredHeading[0]);
     Robot.m_driveTrain.UseFR(output[1], desiredHeading[1]);
     Robot.m_driveTrain.UseBL(output[2], desiredHeading[2]);

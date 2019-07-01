@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.libraries.SwerveDriveClass.POS;
 
 /**
  *
@@ -78,6 +79,10 @@ public class JoystickDrive extends Command {
 
         // Robot.m_driveTrain.GetAngleX();
         // Robot.m_driveTrain.returnPixyAverage(true);
+        Robot.m_driveTrain.returnAngle(POS.BL);
+        Robot.m_driveTrain.returnAngle(POS.BR);
+        Robot.m_driveTrain.returnAngle(POS.FR);
+        Robot.m_driveTrain.returnAngle(POS.FL);
     }
 
     // Make this return true when this Command no longer needs to run execute()
