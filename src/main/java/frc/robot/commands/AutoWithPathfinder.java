@@ -19,7 +19,6 @@ import frc.robot.Robot;
 public class AutoWithPathfinder extends Command {
 
   private String PathName;
-  private Pathfinder_Follow follow;
   private Trajectory trajectory;
   private double length = SwerveDriveClass.L * 0.0254;
   private double width = SwerveDriveClass.W * 0.0254;
@@ -31,9 +30,7 @@ public class AutoWithPathfinder extends Command {
 
   private double wheel_diameter = 4 * 0.0254;
   private int pulsePerRev = 120;// ratio * pulse per revoletion
-  private double max_velocity = .1;
-  private Gyro gyro;
-  private int[] encoder;
+  private double max_velocity = 1.7;
 
   public AutoWithPathfinder(String PathName) {
     this.PathName = PathName;
@@ -49,8 +46,10 @@ public class AutoWithPathfinder extends Command {
       SmartDashboard.putString("Error In pathfinder", e.getMessage() + " (Mostly likely wrong file name)");
 
     }
+    SwerveModifier.Mode mode = SwerveModifier.Mode.SWERVE_DEFAULT;
     // Wheelbase Width = 0.5m, Wheelbase Depth = 0.6m, Swerve Mode = Default
-    SwerveModifier modifier = new SwerveModifier(trajectory).modify(width, length, SwerveModifier.Mode.SWERVE_DEFAULT);
+    SwerveModifier modifier = new SwerveModifier(trajectory);
+    modifier.modify(width, length, mode);
 
     // Do something with the new Trajectories...
     Wheels[0] = modifier.getFrontLeftTrajectory();//
@@ -77,7 +76,14 @@ public class AutoWithPathfinder extends Command {
       }
       desiredHeading[i] = Pathfinder.boundHalfDegrees(Pathfinder.r2d(WheelFollower[i].getHeading()) - Robot.m_driveTrain.GetAngle());
     }
-    SmartDashboard.putNumber(key, value)
+    SmartDashboard.putNumber("output 1", output[0]);
+    SmartDashboard.putNumber("desired heading 1", desiredHeading[0]);
+    SmartDashboard.putNumber("output 2", output[1]);
+    SmartDashboard.putNumber("desired heading 2", desiredHeading[1]);
+    SmartDashboard.putNumber("output 3", output[2]);
+    SmartDashboard.putNumber("desired heading 3", desiredHeading[2]);
+    SmartDashboard.putNumber("output 4", output[3]);
+    SmartDashboard.putNumber("desired heading 4", desiredHeading[3]);
     Robot.m_driveTrain.UseFL(output[0], desiredHeading[0]);
     Robot.m_driveTrain.UseFR(output[1], desiredHeading[1]);
     Robot.m_driveTrain.UseBL(output[2], desiredHeading[2]);
