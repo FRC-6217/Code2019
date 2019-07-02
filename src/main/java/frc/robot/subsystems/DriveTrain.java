@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
 
   private ADXRS450_Gyro gyro;
   private AHRS gyroX;
-  private Pixy2 pixy = Pixy2.createInstance(LinkType.SPI);
+  // private Pixy2 pixy = Pixy2.createInstance(LinkType.I2C);
 	private double x1;
   private double y1;
 
@@ -65,7 +65,7 @@ public class DriveTrain extends Subsystem {
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
 
     //Initilize pixycam
-    pixy.init(4);
+    // pixy.init(4);
 
     //Initilize gyro
     gyro = new ADXRS450_Gyro();
@@ -97,29 +97,30 @@ public class DriveTrain extends Subsystem {
 
     //pixycam get current average reading
   public double returnPixyAverage(boolean debug){
-    pixy.getCCC().getBlocks(true, 2, 2);
+    // pixy.getCCC().getBlocks(true, 2, 2);
     
-    double average = 0;
+    // double average = 0;
 
-    for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
-      average += pixy.getCCC().getBlocks().get(i).getX();
+    // for(int i = 0; i < pixy.getCCC().getBlocks().size(); i++){
+    //   average += pixy.getCCC().getBlocks().get(i).getX();
 
-      if(debug){
-        SmartDashboard.putNumber("X"+i, pixy.getCCC().getBlocks().get(i).getX());
-        SmartDashboard.putNumber("Y"+i, pixy.getCCC().getBlocks().get(i).getY());
-        SmartDashboard.putNumber("Height"+i, pixy.getCCC().getBlocks().get(i).getHeight());
-        SmartDashboard.putNumber("Width"+i, pixy.getCCC().getBlocks().get(i).getWidth());
-        SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
-        SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
-      }
-    }
+    //   if(debug){
+    //     SmartDashboard.putNumber("X"+i, pixy.getCCC().getBlocks().get(i).getX());
+    //     SmartDashboard.putNumber("Y"+i, pixy.getCCC().getBlocks().get(i).getY());
+    //     SmartDashboard.putNumber("Height"+i, pixy.getCCC().getBlocks().get(i).getHeight());
+    //     SmartDashboard.putNumber("Width"+i, pixy.getCCC().getBlocks().get(i).getWidth());
+    //     SmartDashboard.putNumber("Angle"+i, pixy.getCCC().getBlocks().get(i).getAngle());
+    //     SmartDashboard.putNumber("Age"+i, pixy.getCCC().getBlocks().get(i).getAge());
+    //   }
+    // }
 
-    if(pixy.getCCC().getBlocks().size() != 0){
-      return (average /= pixy.getCCC().getBlocks().size());
-    }
-    else {
-       return 65;
-    }
+    // if(pixy.getCCC().getBlocks().size() != 0){
+    //   return (average /= pixy.getCCC().getBlocks().size());
+    // }
+    // else {
+    //    return 65;
+    // }
+    return 0;
   }
 
   public double returnPixyAverage(){
