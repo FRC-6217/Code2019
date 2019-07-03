@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem {
   private SwerveDriveClass swerveDrive;
 
   private ADXRS450_Gyro gyro;
-  private AHRS gyroX;
+  // private AHRS gyroX;
   // private Pixy2 pixy = Pixy2.createInstance(LinkType.I2C);
 	private double x1;
   private double y1;
@@ -58,8 +58,8 @@ public class DriveTrain extends Subsystem {
     //Initilize Wheels
     backRight = new WheelDrive(45, 43, 3);
 		backLeft = new WheelDrive(42, 47, 2);
-		frontRight = new WheelDrive(46, 40, 1);
 		frontLeft = new WheelDrive(41, 44, 0);
+		frontRight = new WheelDrive(46, 40, 1);
 
     //Initilize Drivetrain
 		swerveDrive = new SwerveDriveClass(backRight, backLeft, frontRight, frontLeft);
@@ -68,9 +68,9 @@ public class DriveTrain extends Subsystem {
     // pixy.init(4);
 
     //Initilize gyro
-    gyro = new ADXRS450_Gyro();
     try {
-      gyroX = new AHRS(Port.kMXP);
+      gyro = new ADXRS450_Gyro();
+      // gyroX = new AHRS(Port.kMXP);
     } catch (Exception e) {
       SmartDashboard.putString( "NAVX error" ,"If you are seeing this message being enter you are screwed, Basically the Nav x board isn't plugged in. :" + e);
     }
@@ -81,9 +81,9 @@ public class DriveTrain extends Subsystem {
     pixyPID.setOutputRange(-.3, .3);
     gyroPID.setOutputRange(-0.5, 0.5);
 
-    gyroPID.setInputRange(0, 360);
     gyroPID.setContinuous();
-
+    gyroPID.setInputRange(0, 360);
+// 
     pdp = new PowerDistributionPanel();
   }
 
@@ -92,7 +92,7 @@ public class DriveTrain extends Subsystem {
     // Set the default command for a subsystem here.
     setDefaultCommand(new JoystickDrive());
   }
-
+// 
   ////////////Sensor Interfaces
 
     //pixycam get current average reading
@@ -133,19 +133,19 @@ public class DriveTrain extends Subsystem {
     return -gyro.getAngle();
   }
   
-  public double GetAngleX() {
-    double angle = gyroX.getAngle();
-    while(angle > 360){
-      angle -= 360;
-    }
-    while(angle < 0){
-      angle += 360;
-    }
+  // public double GetAngleX() {
+  //   double angle = gyroX.getAngle();
+  //   while(angle > 360){
+  //     angle -= 360;
+  //   }
+  //   while(angle < 0){
+  //     angle += 360;
+  //   }
 
-    SmartDashboard.putNumber("GyroX", angle);
+  //   SmartDashboard.putNumber("GyroX", angle);
 
-    return angle;
-  }
+  //   return angle;
+  // }
   
   //reset FRC gyro
   public void ResetGyro(){ 
@@ -156,9 +156,9 @@ public class DriveTrain extends Subsystem {
     gyro.calibrate();
   }
   
-  public void ResetGyroX(){
-    gyroX.reset();
-  }
+  // public void ResetGyroX(){
+  //   gyroX.reset();
+  // }
 
   public ADXRS450_Gyro returnGyro() {
     return gyro;
@@ -230,49 +230,49 @@ public class DriveTrain extends Subsystem {
     SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
   }
 
-  public void AlignGyroOnly(double setpoint){
-    //Set out of range setpoints to be in range
-    if(setpoint > MAX_ANGLE){
-      setpoint = MAX_ANGLE;
-    }
-    else if(setpoint < MIN_ANGLE){
-      setpoint = MIN_ANGLE;
-    }
+  // public void AlignGyroOnly(double setpoint){
+  //   //Set out of range setpoints to be in range
+  //   if(setpoint > MAX_ANGLE){
+  //     setpoint = MAX_ANGLE;
+  //   }
+  //   else if(setpoint < MIN_ANGLE){
+  //     setpoint = MIN_ANGLE;
+  //   }
 
-    gyroPID.setSetpoint(setpoint);
-    gyroPID.setCurrentState(GetAngleX());
+  //   gyroPID.setSetpoint(setpoint);
+  //   gyroPID.setCurrentState(GetAngleX());
 
-    Drive(0, 0, gyroPID.getOutput(), 1);
+  //   Drive(0, 0, gyroPID.getOutput(), 1);
 
-    SmartDashboard.putNumber("PID Gyro Velocity", gyroPID.getOutput());
-  }
+  //   SmartDashboard.putNumber("PID Gyro Velocity", gyroPID.getOutput());
+  // }
 
-  public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
-    //Set out of range setpoints to be in range
-    if(setpointPixy > MAX_OFFSET){
-      setpointPixy = MAX_OFFSET;
-    }
-    else if(setpointPixy < MIN_OFFSET){
-      setpointPixy = MIN_OFFSET;
-    }
+  // public void AlignPixyAndGyro(double setpointPixy, double setpointGyro){
+  //   //Set out of range setpoints to be in range
+  //   if(setpointPixy > MAX_OFFSET){
+  //     setpointPixy = MAX_OFFSET;
+  //   }
+  //   else if(setpointPixy < MIN_OFFSET){
+  //     setpointPixy = MIN_OFFSET;
+  //   }
 
-    //Set out of range setpoints to be in range
-    if(setpointGyro > MAX_ANGLE){
-      setpointGyro = MAX_ANGLE;
-    }
-    else if(setpointGyro < MIN_ANGLE){
-      setpointGyro = MIN_ANGLE;
-    }
+  //   //Set out of range setpoints to be in range
+  //   if(setpointGyro > MAX_ANGLE){
+  //     setpointGyro = MAX_ANGLE;
+  //   }
+  //   else if(setpointGyro < MIN_ANGLE){
+  //     setpointGyro = MIN_ANGLE;
+  //   }
 
-    pixyPID.setSetpoint(setpointPixy);
-    gyroPID.setSetpoint(setpointGyro);
+  //   pixyPID.setSetpoint(setpointPixy);
+  //   gyroPID.setSetpoint(setpointGyro);
 
-    pixyPID.setCurrentState(returnPixyAverage(true));
-    gyroPID.setCurrentState(GetAngleX());
+  //   pixyPID.setCurrentState(returnPixyAverage(true));
+  //   gyroPID.setCurrentState(GetAngleX());
 
-    Drive(-pixyPID.getOutput(), 0, gyroPID.getOutput(), 1);
+  //   Drive(-pixyPID.getOutput(), 0, gyroPID.getOutput(), 1);
 
-    // SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
-    // SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
-  }
+  //   // SmartDashboard.putNumber("PID Gyro Velocity", -gyroPID.getOutput());
+  //   // SmartDashboard.putNumber("PID Pixy Velocity", -pixyPID.getOutput());
+  // }
 }

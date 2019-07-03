@@ -77,7 +77,7 @@ public class JoystickDrive extends Command {
         gyroButtonForward = false;
         gyroButtonBackward = false;
 
-        Robot.m_driveTrain.GetAngleX();
+        // Robot.m_driveTrain.GetAngleX();
         Robot.m_driveTrain.returnPixyAverage(true);
     }
 

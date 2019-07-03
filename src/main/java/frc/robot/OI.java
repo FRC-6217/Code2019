@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commandGroups.Hatch.*;
 import frc.robot.commandGroups.Ball.*;
 import frc.robot.commands.LiftAuto;
-import frc.robot.commands.PixyAndGyroAuto;
+// import frc.robot.commands.PixyAndGyroAuto;
 import frc.robot.commands.VacuumAuto;
 /**
  * This class is the glue that binds the controls on the physical operator
