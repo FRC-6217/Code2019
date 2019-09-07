@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   public static VacuumArm m_VacuumArm;
   public static OI m_oi_pilot;
   public static XboxController m_oi_copilot;
+  public static XboxController m_oi_aliginer;
   public static pistons m_Pistons;
   public static NewPistonGrabber m_pistonGrabber;
   // public static PowerDistributionPanel m_pdp;
@@ -103,6 +104,7 @@ public class Robot extends TimedRobot {
     m_pistonGrabber = new NewPistonGrabber(PORT_PISTON_GRABBER_1, PORT_PISTON_GRABBER_2);
     m_oi_pilot = new OI();
     m_oi_copilot = new XboxController(USB_COPILOT_PORT);
+    m_oi_aliginer = new XboxController(2);
 
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);

@@ -27,8 +27,8 @@ public class BallGobberJoystick extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    up = Robot.m_oi_copilot.getButtonB();
-    down = Robot.m_oi_copilot.getButtonA();
+    up = Robot.m_oi_aliginer.getButtonB();
+    down = Robot.m_oi_aliginer.getButtonA();
     
     if (up) {
       Robot.m_ballGobbler.armUp();
