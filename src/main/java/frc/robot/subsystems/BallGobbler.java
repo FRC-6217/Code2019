@@ -20,7 +20,7 @@ public class BallGobbler extends Subsystem {
   private VictorSP leftArm;
   private DigitalInput limitSwitchUp;
   private DigitalInput limitSwitchDown;
-  private double armSpeed = 1;
+  private double armSpeed = .75;
  
   public BallGobbler(int rightArmChannel, int leftArmChannel, int limitSwitchDownChannel, int limitSwitchUpChannel) {
 
